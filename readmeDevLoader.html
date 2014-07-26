@@ -1,0 +1,143 @@
+<html><head>
+		<title>Java Webapplication Classloaders</title></head>
+	<body>
+	
+<h2>Java Webapplication Classloaders with Tomcat and the Sysdeo Eclipse Tomcat 
+  Launcher plugin </h2>
+	<p>Author: <a href="case.dhs.org/">Martin Kahr</a></p>	
+	
+	
+<ol>
+  <li>Installation:<br>
+    <p> The classes in the zip "devloader.zip" must be extracted into "TOMCAT_HOME/server/classes".<br>
+    </p>
+  </li>
+  <li>Requirements:<br>
+    <p> "DevLoader" works with Tomcat 4.x and Tomcat 5.x </p>
+  </li>
+  <li>Use :<br>
+	<p>Activate and configure DevLoader for a project in project properties-&gt;Tomcat-&gt;DevLoader 
+      classpath </p>
+  </li>
+  <li>ClassLoaders 
+    <p> Classloaders are primarly responsible for loading Java class files and 
+      for initializing the corresponding java.lang.Class object.<br>
+      <br>
+      Different Classloader implementations already exist in Java2. <br>
+      e.g. The systemclassloader is responsible for searching and loading java 
+      class files from the jar, zip and directories as defined in the CLASSPATH 
+      systemproperty and the RMIClassLoader loads classes through the HTTP protocol.<br>
+      <br>
+      Classloaders may be nested.<br>
+      From the JAVA SDK Documentation: </p>
+    <blockquote> The ClassLoader class uses a delegation model to search for classes 
+      and resources. Each instance of ClassLoader has an associated parent class 
+      loader. When called upon to find a class or resource, a ClassLoader instance 
+      will delegate the search for the class or resource to its parent class loader 
+      before attempting to find the class or resource itself.<br>
+    </blockquote>
+    The parent classloader is unable to access any resources (classes) of it's 
+    child classloaders.<br>
+    <p></p>
+  </li>
+  <li>Webapplication Classloader 
+    <p> Simplified a Java Webapplication in Tomcat uses two different Classloader 
+      instances. The Systemclassloader (SCL) and the Webapplication-Classloader 
+      (WCL). The parent classloader of the WCL is the SCL.<br>
+      <br>
+      Each deployed Webapplication has it's own WCL in Tomat. All WCL share the 
+      same (one and only) SCL.<br>
+      So as defined by the Java SDK Documentation all classes which are loaded 
+      by the Systemclassloader are visible to all Webapplications. <br>
+      Classes which are loaded by one WCL are not visible to other WCLs !<br>
+      The WCL loads classes from the WEB-INF/classes directory and the from JAR 
+      (!) files in the WEB-INF/lib directory only.<br>
+      <br>
+      As defined in the Java SDK Documentation the WCL should work as following:<br>
+      Before a WCL loads a class he must ask the parent classloader (SCL) if he 
+      already knows the class. If the SCL does not know the class the WCL tries 
+      to load it.<br>
+      This feature makes it possible to deploy two web-applications which use 
+      a different version of class A (as long as class A is not loadable through 
+      the SCL).<br>
+      <br>
+      <b>The exception:</b><br>
+      The final servlet 2.3 specification defines the exception to the common 
+      rule.<br>
+      From Servlet 2.3 Specification SRV.9.7.2 - WebApplication Classloader: </p>
+    <blockquote> It is recommended also that the application class loader be implemented 
+      so that classes and resources packaged within the WAR are loaded in preference 
+      to classes and resources residing in container-wide library JARs. </blockquote>
+    Tomcat supports this recommendation through a property which may be set 
+    in the server.xml configuration. Default setting is to act as defined in the 
+    Servlet specification.<br>
+    See also the actual documentation of the <a href="http://jakarta.apache.org/tomcat">Tomcat 
+    project</a>.<br>
+    <p></p>
+  </li>
+  <li>Web-Projects in <a href="http://www.eclipse.org/">Eclipse</a> 
+    <p> With the TomcatPlugin it's easy to define a new webproject and to launch 
+      tomcat within the IDE.<br>
+      Eclipse makes it very easy to divide a big project into some subprojects. 
+      e.g. utility classes which will be used by many projects resist in a project 
+      named "utils" and the concrete projects are referencing the "utils" project.<br>
+      <br>
+      Unfortunatly the classes of the "utils" project are not automatically visible 
+      to Tomcat during runtime.<br>
+      <br>
+      There are two possibilities: </p>
+    <ol>
+      <li>Load the classes of the "utils" project through the Systemclassloader.<br>
+        This can be done by adding the "utils" project to the Systemclasspath 
+        of Tomcat (Window-&gt;Preferences-&gt;Tomcat).<br>
+        Why is this a bad idea ?<br>
+        Typically your webproject class files (including those of the "utils" 
+        project) will resist in WEB-INF/classes or WEB-INF/lib of the WAR file 
+        for production mode. <br>
+        So if you add some classes to the systemclassloader for development you 
+        will have a different classloading mechanism in production mode - this 
+        may lead to strange errors !<br>
+        Additionaly some code does not work if you load the classes in the systemclassloader.<br>
+        e.g. if the following class will resist in the "utils" project and you 
+        want to use this code to load a property file which resists in your webapplication 
+        (WEB-INF/classes) it is unable to load the resource because the systemclassloader 
+        is not allowed to access resources of the webappclassloader. <code> 
+        <pre>public class ResourceLoader {
+	public Properties load(String resourceName) {
+		ClassLoader cl = ResourceLoader.class.getClassLoader();
+		InputStream in = cl.getResourceAsStream(resourceName);
+		...								
+	}
+}
+					</pre>
+        </code> </li>
+      <li>Load the classes of the "utils" project through the Webclassloader.<br>
+        To load the classes through the Webclassloader the classes of the "utils" 
+        project must be put into the WEB-INF/classes or packaged as JAR into WEB-INF/lib 
+        directory.<br>
+        This may be done by hand or through some ANT build scripts - but unfortunatly 
+        each time you change code in the "utils" project :(<br>
+      </li>
+    </ol>
+    <p></p>
+  </li>
+  <li>The Development-Webapp-Classloader<br>
+    <p> There's a simple solution for making things easier. It works the following 
+      way:<br>
+    </p>
+    <ul>
+      <li>A special Tomcat Webappclassloader implementation extends the mechanism 
+        of loading classes not only from WEB-INF/classes and WEB-INF/lib but also 
+        from locations which are specified in a special configuration file. </li>
+      <li>Through the TomcatPlugin you specify for each Tomcat project which classes 
+        shall be loaded through the Webclassloader - yust point and click.<br>
+        The TomcatPlugin writes the configuration file and the correct tomcat 
+        configuration (into server.xml). </li>
+    </ul>
+    <b> NOTE: Use the Development-Webapp-Classloader yust during development - 
+    It's not recommended to use it for production systems !! </b> 
+    <p></p>
+  </li>
+</ol>
+	
+</body></html>

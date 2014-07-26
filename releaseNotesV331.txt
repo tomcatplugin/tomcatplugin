@@ -1,0 +1,398 @@
+-------------------------
+Version 3.3.1
+------------
+Fixed :
+- Eclipse 4.4 (luna) support
+
+-------------------------
+Version 3.3 
+------------
+New features :
+- Tomcat 7.0.x support. DevLoader support using DevloaderTomcat7.jar, put it in <TOMCAT_HOME>/lib)
+- Add shortcut keys (Thanks to Tomek Szpinda) :
+	ALT + T : restart Tomcat
+	CTRL + ALT + T : start or stop depending on previous state
+- Brazilian Portuguese translation (Thanks to Dennys dos Santos Sobrinho)
+
+-------------------------
+Version 3.2.1 
+------------
+Fixed :
+- Problem when using HTTPS and various ClassNotFound exceptions.
+- Tomcat 5 and 6 does not start when context declaration mode is set to 'Server.xml'
+
+-------------------------
+Version 3.2 
+------------
+New features :
+- Tomcat 6.x support.
+  If you want to use DevLoader with Tomcat 6.x. Rename DevLoader.zip file to DevLoader.jar and put it in <%Tomcat6_Home%>/lib
+- Tested with Eclipse 3.1, 3.2 and 3.3M6
+
+Fixed :
+- Problem when using Devloader with Maven2 plugin (Many thanks to Dimitry Voytenko)
+	Explanations : 
+		Maven2 Eclipse plugin expands Eclipse's classpath container to include all the artifacts specified in the Maven's POM file.
+		This fix allows resolution inside the classpath containers : On the Tomcat's Project Properties page, containers are now expanded so that a user can select the whole container (in which case the behavior is exactly the same as before) or select a component resolved via the container
+- Some problems with source code lookup in eclipse debugger (code assist, detail formatter, ...)
+- VCM Tools not notified when .tomcatplugin file is updated from Tomcat projects properties page. (Thanks to Jonathan Ball).
+- UTF-8 problems with context file and .tomcatplugin file (Thanks to Vincent CARON)
+- Fixed in beta2 : Context Declaration Mode mess with version 3.2beta, fixed in 3.2beta2
+- Fixed in beta3 : Source code lookup did not work when source code was in a jar file (Many thanks to Martin Goldhahn)
+- Fixed in final version : 
+	- parameter '-config' should not be set when context declaration mode is not 'Server.xml'
+	- working directory for tomcat process was set to eclipse directory instead of catalina_base.
+	- source code lookup improvments.
+	
+
+Known problems :
+- After installation the plugin is not shown in toolbar and there is no Tomcat Preference page
+  Solution : launch eclipse once using this option : -clean
+
+- ClassNotFound when using DevLoader and launching Tomcat 5.5.12 and above
+  Workaround : set context definition mode (Preferences->Tomcat) to 'Context files'.
+  Explanations :
+  	This problem is due to a change in Tomcat 5.5.12 and above (see http://issues.apache.org/bugzilla/show_bug.cgi?id=37302,
+	A Tomcat fix was introduced in Tomcat 5.5.20, this fix required a change in the plugin. Version 3.2 contains this change so DevLoader works when context is defined in server.xml. This change requires that context definition is updated. 	
+
+   	
+
+
+-------------------------
+Version 3.1 
+------------
+Nothing new since version 3.1 beta
+(Excepted some japanese translations, thank you to Yae Suzuki)
+
+-------------------------
+Version 3.1 beta
+------------
+New features :
+- Projects list in source path could be computed automatically (there is a new checkbox in Source path preference page).
+  Computed source path contains all opened Tomcat projects and their prerequisites.
+
+Fixed :
+- Can't open Tomcat projects properties page on Eclipse 3.1M6
+- Extra information not added to context definition when switching context declaration mode from 'server.xml' to 'context file'.
+- DevLoader problems when webapp root directory was set : .#webclasspath file was always created at project root instead of web app root.
+  Thanks to Ben Turner.
+- Starting and stopping Tomcat was logged in .log file.
+- Preferences pages were sometimes too large and did not have scrollbars (several buttons and fields were hidden).
+
+
+-------------------------
+Version 3.0
+------------
+New features :
+- in main preference page add a way to choose how contexts are declared : 
+	- definition in server.xml (previous version allowed only this)
+	- creation of a context file (recommended way with Tomcat 5)
+- add an 'advanced' preference page to simplify the main preference page.
+- add a field in Tomcat properties page to set extra information to generated context definitions
+- Tomcat projects build path are automatically updated when Tomcat version is changed
+
+Fixed :
+- It is no more possible to add Tomcat projects to Tomcat classpath (they won't be listed in preference page) 
+- TOMCAT_HOME was added to project build path (when Tomcat 4 was selected in Tomcat preferences).
+Before Eclipse 3.0 (final release) this could make Eclipse hangs, see this bug report https://bugs.eclipse.org/bugs/show_bug.cgi?id=64646
+Eclipse 3.0 won't build the project.
+Many thanks to Jerry Lampi
+- Unable to start Tomcat or to open Tomcat project properties when using DevLoader and allowing circular dependencies for Java projects.
+- By default, new Tomcat projects were not added to source path
+- When using Tomcat 5, Eclipse does not stop on breakpoints set in generated java files for JSP. This is fixed only for new Tomcat projects, for existing ones follow those steps :
+	- Edit your Tomcat project Java Build Path
+	- in 'Source' tab, check 'Allow output folders for source folders'
+	- in the list named 'Source folders on build path', select '%Your_project%/work' and 'Output Folder'
+	- select the 'Edit' button, check 'Specific output folder' and enter 'work' in the text field.
+
+
+
+-------------------------
+Version 2.2.1
+------------
+Fixed :
+- starting Tomcat 5.0.15 or 5.0.16 failed
+Version 2.2 works with Tomcat 5.0.14 (and previous 5.0.x), in Tomcat 5.0.15 a change in Tomcat command line was introduced.
+Version 2.2.1 runs Tomcat according to this change so Tomcat 5.0.15, 5.0.16 could be started.
+Trying to run version 5.0.14 will fail if you select 'Tomcat 5.x' in Tomcat preference page, a workaround is to select 'Tomcat 4.1.x' instead of 'Tomcat 5.x' (Tomcat 4.1.x and Tomcat 5.0.14 has the same starting command line) 
+
+-------------------------
+Version 2.2
+------------
+New features :
+- add two buttons on Tomcat JVM preference page :
+	- 'Create a launch Configuration' : add a launch configutation to start Tomcat from menus Run->Run... and Run->Debug... 
+	- 'dump configuration to .log' : write all parameters use by the plug-in to launch Tomcat in /.metadata/.log
+- see below (version 2.2beta and 2.1.1beta) for other new features from version 2.1
+
+Fixed :
+- Starting Tomcat 4.1.29 failed
+
+-------------------------
+Version 2.2beta2
+------------
+Fixed :
+- Starting Tomcat failed if Tomcat directory contains whitespaces
+
+-------------------------
+Version 2.2beta
+------------
+(Jump to version 2.2 because there are several new features)
+This version works on Eclipse 2.1.x and Eclipse 3.0M4.
+
+New features :
+- Tomcat project menu has a new option to ask Tomcat to reload the application.
+This feature uses the Tomcat manager application. This application is enabled by default but for security reasons there no default user.
+The plug-in add a 'Tomcat Manager App' preference page to set which URL and which tomcat user to use (there is a default value for the url and a button to add a user to tomcat-users.xml).
+- Add a 'source path' preference page : with previous versions all Java and Tomcat projects were visible by Eclipse Debugger.
+If a class was defined in two projects Eclipse debugger sometimes show the wrong source code.
+Using this preference page user can set in which projects Eclipse debuger will look up source code if Tomcat JVM reaches a breakpoint.
+- when a new project is created, .cvsignore files are created in the following directories : work and WEB-INF/classes
+- user can activate Tomcat Security Manager in preference page.
+(for more information about Security Manager see : http://jakarta.apache.org/tomcat/tomcat-4.1-doc/security-manager-howto.html)
+
+Fixed :
+- From version 2.1.1 beta :
+	- In preference page Catalina base field is not saved
+	- On Linux, starting Tomcat failed with a NoClassDefFoundError.
+- According to catalina.bat, the plugin will now set java.io.tempdir property
+- Tomcat 5 work dir should not include org.apache.jsp.
+- User should be warned if Tomcat home is not set in preference page
+
+Other :
+- Source code file (tomcatsrc.zip) now contains the eclipse project contents, it's easier to setup in new workspace 
+
+
+-------------------------
+Version 2.1.1 beta
+------------
+New features :
+- add a field in Tomcat preference page to set Catalina_base directory (http://jakarta.apache.org/tomcat/tomcat-4.1-doc/RUNNING.txt, section '(4)')
+- Devloader (thanks to Johan Compagner):
+	- .tomcatplugin file now contains relative path (so it can be shared between developers in a team).
+	- at runtime a file is created with absolute path.
+- add Eclipse 3.0 M2 support
+
+Fixed :
+- JVM parameters should not contain ';'
+- when a subdirectory is set as webapplication root, the 'work' directory is created in this subdirectory. The fix now create the work directory at project root.
+
+
+-------------------------
+Version 2.1
+------------
+
+New features :
+- add "reloadable=true" to context definition in server.xml, projet property page has a check box to set reloadble property to false
+- add a check box in project property page to redirect Tomcat context logger to eclipse Console. (default is not checked)
+- Updating server.xml is set to true when creating a new Tomcat project (with previous version it was set to false)
+- Tomcat 5.x support
+- Tomcat JVM preference page : 
+	- remember last selected directory
+	- add multiple file or directory
+	- update a JVM parameter
+- Devloader Classpath Editor (in Project Properties) is scrollable. JAR removed from compilation build path are removed from DevLoader list
+- Files not exported to WAR files are listed in resources.properties file : project.warExport.exclude.files 
+
+Fixed :
+- changing root directory in project properties page is not reflected in server.xml ... (Thanks to Klaus Dieter Jaeger)
+- Exported WAR contains itself if WAR file location is in the project directory
+- nested comments in server.xml when a context is already commented and use of DevLoader is activated
+- context root is empty after closing project properties page 
+
+Fixed from version 2.1 beta :
+- complete japanese translations
+- add jsp-api.jar to Tomcat projet buildpath, when using Tomcat 5
+
+-------------------------
+Version 2.0.1
+------------
+
+Fixed :
+- JVM parameters problems (separator used was File.pathSeparator when saving parameters and ':' when reading so depending on the OS that works or not. In V2.0.1 separator is ';' everywhere)
+
+
+-------------------------
+Version 2.0
+------------
+
+Jump to version 2.0 to be in synch with Eclipse version.
+
+New features :
+- Tomcat project could use you a special classloader. This classloader named 'DevLoader' is a WebAppClassloader able to load classes from WEB-INF/classes, WEB-INF/lib and a list of directories and jar files. Using this feature a Tomcat project could easily referenced classes in several eclipse Java projects. Without this feature, one should create a jar file for each project or add projects to Tomcat classpath (in this case they will not be loaded by the same classloader). 
+- Tomcat plugin use settings in Preferences->Debug page to select the perspective that will be shown after starting the server.
+
+
+Fixed :
+- In project properties page :
+	- unckecking 'Is a Tomcat project' will remove the context in server.xml
+	- Changing context name will remove old context
+	- if updating server.xml is allowed, server.xml is updated when OK button is pressed
+- Exporting WAR will display an error message if a WAR file is not specified in project properties
+- Updating or removing the context from a Tomcat project popup menu will display an error message if updating server.xml is not allowed in project properties.
+- JVM Parameters don't work (separator is ; instead of :)
+- Starting Tomcat failed if the workspace is empty (contains no project)
+ 
+
+-------------------------
+Version 0.99
+------------
+
+To use V0.99 with build older than F2 rt.jar should be added to Tomcat JVM bootclasspath in Tomcat JVM preference page.
+
+
+New features :
+- Tomcat JVM preference page has a new field to choose JRE (if not set Tomcat plugin still uses default JRE)
+
+Known problem :
+- Tomcat settings in preference page are not saved. This problem was introduced by bug 18644 (http://dev.eclipse.org/bugs/show_bug.cgi?id=18644)
+The workaround is to manualy create the following directory : <workspace>/.metadata/.plugins/com.sysdeo.eclipse.tomcat
+
+Fixed :
+- WAR files not readable by Tomcat
+- V.98 does not work with F2,
+
+
+-------------------------
+Version 0.98
+------------
+
+New features :
+- tomcat project properties are saved in a file named .tomcatplugin in each tomcat project.
+- use a Classpath Variable to initialize tomcat project build path (this variable is named TOMCAT_HOME)
+
+Fixed :
+- WAR files contains leading /
+- V0.96 does not work with builds since 20020515.
+
+
+-------------------------
+Version 0.96
+------------
+Same features than V.095
+V0.96 works with builds since 20020409.
+V0.95 works with previous builds (<20020409)
+
+-------------------------
+Version 0.95
+------------
+
+New features :
+- Set configuration file : see Preferences-> Tomcat-> Configuration file
+- Export to war file : war file location is set in Tomcat project properties, export action on project popupmenu-> Tomcat->Export to war
+- Setting a sudirectory of the project as Web application root : set it in Tomcat Project Wizard
+- Launch Tomcat in run mode (instead of debug mode), see Preferences-> Tomcat-> Don't run in debug mode
+- updating context possible if project moved : project popup menu-> Tomcat->  update context...
+- removing context in server.xml using : project popup menu-> Tomcat->  remove context...
+
+Fixed :
+- Impossible to start Tomcat if some projects are closed
+- Could not create context in server.xml if URI is empty
+
+
+
+
+-------------------------
+Version 0.91
+------------
+
+Fixed :
+- Tomcat 3.3 : JSP work directory should not be set to work/org/apache/jsp (this is for V4)
+- Using Tomcat project popup menu from Resource view
+
+Added :
+- Japanese local (Thanks to Syunsuke Masuda)
+
+
+Known problems :
+- Tomcat 4 and JSP in project subdirectories :
+	generated servlets for JSP couldn't be compile by Eclipse.
+	Subdirectories do not appear in Tomcat 4 generated servlets. Package definition is always package org.apache.jsp,
+	with Tomcat 3, package definition is compliant with file location.
+	
+	Workaround (from Gabriel Krupa) :
+	if your jsp is /myjspdir/myjsp.jsp, generated servlet will be in work/org/apache/jsp/myjspdir,
+	change package definition from org.apache.jsp to org.apache.jsp.myjspdir,
+	to debug your jsp access it from your browser with the following URL :
+	http://myhost:8080/myapplication/servlets/org.apache.jsp.myjspdir.myjsp$jsp
+
+	Second workaround : use Tomcat 3.3 (servlet 2.2 and JSP 1.1)
+	
+	
+-------------------------
+Version 0.9
+-----------
+
+New features :
+
+- Restore restart button.
+
+- support of Tomcat 3.3 (see Tomcat preference Window)
+
+- Set java projects to be added in Tomcat classpath (see Tomcat preference Window)
+
+- Set Tomcat JVM parameters, classpath and bootclasspath (see Tomcat preference Window)
+	Eclipse seems to have a bug regarding bootclasspath (http://dev.eclipse.org/bugs/show_bug.cgi?id=8576)
+	If you want to set bootclasspath you should include rt.jar, unfortunately eclipse will remove it before launching a JVM.
+	The workaround is to copy and rename rt.jar. Add the renamed file to Tomcat bootclasspath
+
+- Add a new type of Project : Tomcat Project
+   - new wizard to create a Tomcat Project. (In packages view, open popup menu, select new Project, Tomcat project) 
+   - It can be used to import an existing WAR structure or creating a new one.
+   This wizard will :
+	- Import or create WEB-INF/src and set it as a source folder
+	- Import or create WEB-INF/classes and set it as output folder
+	- Import or Create WEB-INF/lib and add all jar files in this folder to project build path.
+	- Create work folder for JSP and set is as a source folder
+	- Add Tomcat jar files to project build path (servlet.jar and jasper)
+	- If you allowed it on the second panel of this wizard, Tomcat server.xml file will be updated.
+	(Server.xml is backuped twice : server.xml.backup is created first time you use the plugin,
+	 server.xml.old is updated each time plugin will write in server.xml)
+   Known bug : Wizard progress bar can disapeared during import 
+   WARNING :  Even if I add no problem importing several Struts projects you should make a backup of your WAR structure before importing it
+
+   - You can add Tomcat nature to any Java project : open project properties, select Tomcat, check is Tomcat project
+	 Popup menu on Tomcat Project has a new section 'Tomcat project'
+
+
+-------------------------
+Version 0.7
+-----------
+
+Problem Fixed :
+- Plugin can't registered tomcat process to eclipse debugger
+when workspace contains closed projects
+
+ 
+New features :
+- Error messages sent to Eclipse .log file
+- Tomcat icons in toolbar (Java and Debug perspectives)
+- Removal of information dialogs ("Starting Tomcat", "Stopping Tomcat") 
+- Internationalization (English, German and French included) 
+
+
+-------------------------
+
+Sysdeo Eclipse Tomcat Launcher Plugin
+(c) EclipseTotale - http://www.eclipsetotale.com/tomcatPlugin.html
+
+Thanks to the following people for their contribution :
+- Werner Keil
+- Jim Franklin
+- Michael Kilgore
+- Aleksandar Dimitrov
+- Syunsuke Masuda
+- Gabriel Krupa
+- Johan Compagner
+- Craig Setera
+- Harald Niesche
+- Dimitry Voytenko
+- Jonathan Ball
+- Martin Goldhahn
+- Vincent CARON
+- Jerry Lampi
+- Ben Turner
+- Yae Suzuki
+
+
+
