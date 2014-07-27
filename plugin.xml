@@ -18,7 +18,7 @@
                label="%menu.restart.label"
                icon="icons/restart.gif"
                tooltip="%menu.restart.label"
-               class="com.sysdeo.eclipse.tomcat.actions.RestartActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.RestartActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.menu/group"
                toolbarPath="Normal/additions"
                id="com.sysdeo.eclipse.tomcat.restart">
@@ -27,7 +27,7 @@
                label="%menu.stop.label"
                icon="icons/stop.gif"
                tooltip="%menu.stop.label"
-               class="com.sysdeo.eclipse.tomcat.actions.StopActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.StopActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.menu/group"
                toolbarPath="Normal/additions"
                id="com.sysdeo.eclipse.tomcat.stop">
@@ -36,7 +36,7 @@
                label="%menu.start.label"
                icon="icons/start.gif"
                tooltip="%menu.start.label"
-               class="com.sysdeo.eclipse.tomcat.actions.StartActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.StartActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.menu/group"
                toolbarPath="Normal/additions"
                id="com.sysdeo.eclipse.tomcat.start">
@@ -47,7 +47,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             name="Tomcat"
-            class="com.sysdeo.eclipse.tomcat.TomcatPreferencePage"
+            class="net.sf.eclipse.tomcat.TomcatPreferencePage"
             id="com.sysdeo.eclipse.tomcat.Page1">
       </page>
    </extension>
@@ -56,7 +56,7 @@
       <page
             name="%pref.menu.jvmSettings.label"
             category="com.sysdeo.eclipse.tomcat.Page1"
-            class="com.sysdeo.eclipse.tomcat.TomcatJVMPreferencePage"
+            class="net.sf.eclipse.tomcat.TomcatJVMPreferencePage"
             id="com.sysdeo.eclipse.tomcat.Page2">
       </page>
    </extension>
@@ -65,7 +65,7 @@
       <page
             name="%pref.menu.sourcepath.label"
             category="com.sysdeo.eclipse.tomcat.Page1"
-            class="com.sysdeo.eclipse.tomcat.TomcatSourcePathPreferencePage"
+            class="net.sf.eclipse.tomcat.TomcatSourcePathPreferencePage"
             id="com.sysdeo.eclipse.tomcat.Page3">
       </page>
    </extension>
@@ -74,7 +74,7 @@
       <page
             name="%pref.menu.managerapp.label"
             category="com.sysdeo.eclipse.tomcat.Page1"
-            class="com.sysdeo.eclipse.tomcat.TomcatManagerAppPreferencePage"
+            class="net.sf.eclipse.tomcat.TomcatManagerAppPreferencePage"
             id="com.sysdeo.eclipse.tomcat.Page4">
       </page>
    </extension>
@@ -83,7 +83,7 @@
       <page
             name="%pref.menu.advanced.label"
             category="com.sysdeo.eclipse.tomcat.Page1"
-            class="com.sysdeo.eclipse.tomcat.AdvancedPreferencePage"
+            class="net.sf.eclipse.tomcat.AdvancedPreferencePage"
             id="com.sysdeo.eclipse.tomcat.Page5">
       </page>
    </extension>
@@ -93,7 +93,7 @@
             name="%wizard.newTomcatProject.label"
             icon="icons/newwar_wiz.gif"
             category="org.eclipse.jdt.ui.java"
-            class="com.sysdeo.eclipse.tomcat.TomcatProjectCreationWizard"
+            class="net.sf.eclipse.tomcat.TomcatProjectCreationWizard"
             project="true"
             finalPerspective="org.eclipse.jdt.ui.JavaPerspective"
             id="com.sysdeo.eclipse.tomcat.TomcatProjectCreationWizard">
@@ -108,7 +108,7 @@
             objectClass="org.eclipse.core.resources.IProject"
             adaptable="true"
             name="Tomcat"
-            class="com.sysdeo.eclipse.tomcat.TomcatProjectPropertyPage"
+            class="net.sf.eclipse.tomcat.TomcatProjectPropertyPage"
             id="com.sysdeo.eclipse.tomcat.TomcatProjectPropertyPage">
          <filter
                name="nature"
@@ -136,37 +136,37 @@
          </menu>
          <action
                label="%menu.nature.createWork.label"
-               class="com.sysdeo.eclipse.tomcat.actions.CreateJSPWorkDirectoryActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.CreateJSPWorkDirectoryActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.action.popup.javaProject.menu/group"
                id="com.sysdeo.eclipse.tomcat.actions.createJspWorkDirectory">
          </action>
          <action
                label="%menu.nature.addTomcatJar.label"
-               class="com.sysdeo.eclipse.tomcat.actions.AddTomcatJarActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.AddTomcatJarActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.action.popup.javaProject.menu/group"
                id="com.sysdeo.eclipse.tomcat.addTomcatJarToProject">
          </action>
          <action
                label="%menu.nature.updateContext.label"
-               class="com.sysdeo.eclipse.tomcat.actions.UpdateTomcatContextActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.UpdateTomcatContextActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.action.popup.javaProject.menu/group"
                id="com.sysdeo.eclipse.tomcat.updateContextToServerXml">
          </action>
          <action
                label="%menu.nature.removeContext.label"
-               class="com.sysdeo.eclipse.tomcat.actions.RemoveTomcatContextActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.RemoveTomcatContextActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.action.popup.javaProject.menu/group"
                id="com.sysdeo.eclipse.tomcat.removeContextToServerXml">
          </action>
          <action
                label="%menu.nature.exportToWar.label"
-               class="com.sysdeo.eclipse.tomcat.actions.ExportToWarActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.ExportToWarActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.action.popup.javaProject.menu/group"
                id="com.sysdeo.eclipse.tomcat.exportToWar">
          </action>
          <action
                label="%menu.nature.restartContext.label"
-               class="com.sysdeo.eclipse.tomcat.actions.RestartContextActionDelegate"
+               class="net.sf.eclipse.tomcat.actions.RestartContextActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.action.popup.javaProject.menu/group"
                id="com.sysdeo.eclipse.tomcat.actions.restartContext">
          </action>
@@ -181,13 +181,13 @@
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
-               class="com.sysdeo.eclipse.tomcat.TomcatProject">
+               class="net.sf.eclipse.tomcat.TomcatProject">
          </run>
       </runtime>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
-      <initializer class="com.sysdeo.eclipse.tomcat.PreferenceInitializer"/>
+      <initializer class="net.sf.eclipse.tomcat.PreferenceInitializer"/>
    </extension>
 
 <!-- shortcut keys -->
@@ -212,11 +212,11 @@
    <extension point="org.eclipse.ui.handlers">
       <handler
             commandId="pl.szpinda.plugin.tomcat.commands.tomcatQuickRestart"
-            class="com.sysdeo.eclipse.tomcat.actions.TomcatKeyHandler">
+            class="net.sf.eclipse.tomcat.actions.TomcatKeyHandler">
       </handler>
       <handler
             commandId="pl.szpinda.plugin.tomcat.commands.tomcatStartStop"
-            class="com.sysdeo.eclipse.tomcat.actions.TomcatKeyHandler">
+            class="net.sf.eclipse.tomcat.actions.TomcatKeyHandler">
       </handler>
    </extension>
    <extension point="org.eclipse.ui.bindings">
