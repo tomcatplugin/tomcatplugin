@@ -1,4 +1,10 @@
 -------------------------
+Version 3.3.2
+------------
+New Features:
+- Added variable support in preferences
+
+-------------------------
 Version 3.3.1
 ------------
 Fixed :
