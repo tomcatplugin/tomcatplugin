@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/net.sf.eclipse.tomcat.feature_3.3.2.jar" id="net.sf.eclipse.tomcat.feature" version="3.3.2">
+      <category name="net.sf.eclipse.tomcat"/>
+   </feature>
+   <category-def name="net.sf.eclipse.tomcat" label="Tomcat Plugin"/>
+</site>
