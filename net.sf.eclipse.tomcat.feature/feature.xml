@@ -25,7 +25,7 @@ limitations under the License.
    </license>
 
    <url>
-      <update label="ECL1 Update Site" url="http://ecl1.sf.net/update"/>
+      <update label="Tomcat Plugin Update Site" url="http://tomcatplugin.sf.net/update"/>
       <discovery label="Original Plugin Version" url="http://www.eclipsetotale.com/tomcatPlugin.html"/>
    </url>
 
