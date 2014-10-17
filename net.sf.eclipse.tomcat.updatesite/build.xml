@@ -1,0 +1,59 @@
+<?xml version='1.0'?>
+<project name="tomcatplugin" default="sign" basedir=".">
+	
+	<property file="build.ant-private.properties"/>
+	
+	<property name="templates" value="../h1modules.utilities/src/de/his/cs/sys/extensions/wizards/utils/templates"/>
+
+	
+	<path id="plugins">
+		<fileset dir="plugins">
+			<include name="*.jar"/>
+			<exclude name="com.google*.jar" />
+		</fileset>
+	</path>
+	
+	<path id="features">
+		<fileset dir="features">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="sign">
+		<!--<signjar alias="${keystore.alias}" keystore="${keystore}" 
+			storepass="${keystore.password}" lazy="true">
+			<path>
+				<path refid="plugins"/>
+				<path refid="features"/>
+			</path>
+		</signjar>-->
+	</target>
+	
+	<target name="zip">
+		<tstamp>
+			<format property="timestamp"
+					pattern="yyyy-MM-dd"/>
+		</tstamp>
+		<property name="zip-file-name" value="updatesite-${timestamp}.zip"/>
+		<zip destfile="${zip-file-name}">
+			<fileset dir=".">
+				<include name="**/*.jar"/>
+				<include name="**/*.xml" />
+				<include name="**/*.html" />
+				<include name="**/*.css" />
+				<include name="**/*.xsl" />
+			</fileset>
+		</zip>
+	</target>
+	
+	<!-- Attention: To use this target you need a copy of http://www.jcraft.com/jsch/ in your ant lib search path -->
+	<target name="upload" depends="sign, zip">
+		<scp todir="${sourceforge.user}@frs.sourceforge.net:/home/frs/project/${ant.project.name}/" 
+			 file="${zip-file-name}" keyfile="${publickeyfile}">
+		</scp>
+		<exec executable="rsync" dir=".">
+			<arg line="-a --delete -e ssh features plugins web artifacts.jar content.jar index.html site.xml ${sourceforge.user}@frs.sourceforge.net:/home/frs/project/${ant.project.name}/updatesite/" />
+		</exec>
+	</target>
+	
+</project>
