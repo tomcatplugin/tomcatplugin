@@ -80,10 +80,10 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
 
 
         Group homeGroup = new Group(composite,SWT.NONE);
-        home = new DirectoryFieldEditor(
-                                        TomcatLauncherPlugin.TOMCAT_PREF_HOME_KEY,
-                                        PREF_PAGE_HOME_LABEL,
-                                        homeGroup);
+        home = new VariableAwareDirectoryFieldEditor(
+                                                     TomcatLauncherPlugin.TOMCAT_PREF_HOME_KEY,
+                                                     PREF_PAGE_HOME_LABEL,
+                                                     homeGroup);
 
 
         IStringVariableManager variableManager = VariablesPlugin.getDefault().getStringVariableManager();
