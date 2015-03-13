@@ -50,6 +50,10 @@
 	<target name="upload" depends="sign, zip">
 		<scp todir="${sourceforge.user}@frs.sourceforge.net:/home/frs/project/${ant.project.name}/" 
 			 file="${zip-file-name}" keyfile="${publickeyfile}">
+			<fileset dir="." id="id">
+    			<include name="${zip-file-name}"/>
+				<include name="README.md"/>
+			</fileset>
 		</scp>
 		<exec executable="rsync" dir=".">
 			<arg line="-a --delete -e ssh features plugins web artifacts.jar content.jar index.html site.xml ${sourceforge.user}@frs.sourceforge.net:/home/frs/project/${ant.project.name}/updatesite/" />
