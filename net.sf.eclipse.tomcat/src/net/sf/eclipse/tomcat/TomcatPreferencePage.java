@@ -60,8 +60,6 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
     @Override
     protected Control createContents(Composite parent) {
         final Composite composite = parent;
-        //		final Composite composite = new Composite(parent, SWT.NONE);
-        //		composite.setLayout(new GridLayout(2, false));
 
         oldVersion = TomcatLauncherPlugin.getDefault().getTomcatVersion();
         version = new RadioGroupFieldEditor(
@@ -74,7 +72,8 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
                                                             {PREF_PAGE_VERSION4_1_LABEL, TomcatLauncherPlugin.TOMCAT_VERSION41},
                                                             {PREF_PAGE_VERSION5_LABEL, TomcatLauncherPlugin.TOMCAT_VERSION5},
                                                             {PREF_PAGE_VERSION6_LABEL, TomcatLauncherPlugin.TOMCAT_VERSION6},
-                                                            {PREF_PAGE_VERSION7_LABEL, TomcatLauncherPlugin.TOMCAT_VERSION7}
+                                                            { PREF_PAGE_VERSION7_LABEL, TomcatLauncherPlugin.TOMCAT_VERSION7 },
+                                                            { PREF_PAGE_VERSION8_LABEL, TomcatLauncherPlugin.TOMCAT_VERSION8 }
                                             },
                                             composite,
                                             true);
