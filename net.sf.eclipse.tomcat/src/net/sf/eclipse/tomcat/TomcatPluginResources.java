@@ -65,7 +65,7 @@ public interface TomcatPluginResources {
                     TomcatLauncherPlugin.getResourceString("pref.page.version6.label");
 
     static final String PREF_PAGE_VERSION7_LABEL =
- TomcatLauncherPlugin.getResourceString("pref.page.version7.label");
+                    TomcatLauncherPlugin.getResourceString("pref.page.version7.label");
 
     static final String PREF_PAGE_VERSION8_LABEL = TomcatLauncherPlugin.getResourceString("pref.page.version8.label");
 
@@ -107,6 +107,8 @@ public interface TomcatPluginResources {
 
     static final String WIZARD_PROJECT_ROOTDIR_LABEL =
                     TomcatLauncherPlugin.getResourceString("wizard.project.rootdir.label");
+
+    static final String WIZARD_PROJECT_WORKDIR_LABEL = TomcatLauncherPlugin.getResourceString("wizard.project.workdir.label");
 
     static final String WIZARD_PROJECT_WARLOCATION_LABEL =
                     TomcatLauncherPlugin.getResourceString("wizard.project.warLocation.label");
