@@ -124,7 +124,7 @@
             id="com.sysdeo.eclipse.tomcat.action.popup.javaProject">
          <filter
                name="projectNature"
-               value="com.sysdeo.eclipse.tomcat.tomcatnature">
+               value="net.sf.eclipse.tomcat.tomcatnature">
          </filter>
          <menu
                label="%menu.nature.label"
