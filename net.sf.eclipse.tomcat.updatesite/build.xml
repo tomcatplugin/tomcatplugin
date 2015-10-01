@@ -34,7 +34,7 @@
 			<format property="timestamp"
 					pattern="yyyy-MM-dd"/>
 		</tstamp>
-		<property name="zip-file-name" value="updatesite-${timestamp}.zip"/>
+		<property name="zip-file-name" value="net.sf.eclipse.tomcat.updatesite-${timestamp}.zip"/>
 		<zip destfile="${zip-file-name}">
 			<fileset dir=".">
 				<include name="**/*.jar"/>
@@ -56,7 +56,7 @@
 			</fileset>
 		</scp>
 		<exec executable="rsync" dir=".">
-			<arg line="-a --delete -e ssh features plugins web artifacts.jar content.jar index.html site.xml ${sourceforge.user}@frs.sourceforge.net:/home/frs/project/${ant.project.name}/updatesite/" />
+			<arg line="-a --delete -e ssh features plugins artifacts.jar content.jar site.xml ${sourceforge.user}@frs.sourceforge.net:/home/frs/project/${ant.project.name}/updatesite/" />
 		</exec>
 	</target>
 	

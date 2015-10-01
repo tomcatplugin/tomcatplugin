@@ -15,5 +15,8 @@
    <feature url="features/net.sf.eclipse.tomcat.feature_3.3.4.1.jar" id="net.sf.eclipse.tomcat.feature" version="3.3.4.1">
       <category name="net.sf.eclipse.tomcat"/>
    </feature>
+   <feature url="features/net.sf.eclipse.tomcat.feature_3.3.5.jar" id="net.sf.eclipse.tomcat.feature" version="3.3.5">
+      <category name="net.sf.eclipse.tomcat"/>
+   </feature>
    <category-def name="net.sf.eclipse.tomcat" label="Tomcat Plugin"/>
 </site>

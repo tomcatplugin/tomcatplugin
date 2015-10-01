@@ -3,6 +3,12 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 3.3.5##
+* Bugfix: Tomcat Context menu was gone missing due to nature renaming
+** Ticket: https://sourceforge.net/p/tomcatplugin/tickets/2/
+* Implement configuration parameter for work dir of tomcat projects
+** Ticket: https://sourceforge.net/p/tomcatplugin/tickets/4/
+
 ##Version 3.3.4##
 
 * Added visible Tomcat 8 support
