@@ -14,10 +14,8 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
-import org.apache.catalina.Context;
 import org.apache.catalina.Globals;
 import org.apache.catalina.LifecycleException;
-import org.apache.catalina.LifecycleState;
 import org.apache.catalina.util.ServerInfo;
 
 /**
@@ -25,8 +23,8 @@ import org.apache.catalina.util.ServerInfo;
  *
  */
 public class DevLoader extends WebappLoader {
-	private static final String info =
-        "org.apache.catalina.loader.DevLoader/1.0"; 
+	
+	private static final String info =  "org.apache.catalina.loader.DevLoader/1.0"; 
 
 	private String webClassPathFile = ".#webclasspath";
 	private String tomcatPluginFile = ".tomcatplugin";
@@ -42,12 +40,9 @@ public class DevLoader extends WebappLoader {
 	 * @see org.apache.catalina.Lifecycle#start()
 	 */
 	public void startInternal() throws LifecycleException {
-	// e.siffert: start() is final in LifecycleBase
-	//public void start() throws LifecycleException {
+		// e.siffert: start() is final in LifecycleBase
 		log("Starting DevLoader modified by e.siffert (August 04 2014) for Tomcat 8: " + ServerInfo.getServerInfo());
 		//setLoaderClass(DevWebappClassLoader.class.getName());
-		
-//		super.start();
 		super.startInternal();
 		
 		ClassLoader cl = super.getClassLoader();
