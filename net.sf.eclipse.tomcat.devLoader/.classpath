@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/annotations-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/catalina.jar" sourcepath="/home/bruno/Disks/Produits/Tomcat/apache-tomcat-7.0.6-src/java"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/catalina-ant.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/catalina-ha.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/catalina-tribes.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/el-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/jasper-el.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/jsp-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/servlet-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/tomcat-api.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/tomcat-coyote.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/tomcat-dbcp.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/tomcat-i18n-es.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/tomcat-i18n-fr.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/tomcat-i18n-ja.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME/lib/tomcat-util.jar"/>
+	<classpathentry kind="var" path="TOMCAT_HOME"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
