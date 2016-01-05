@@ -17,6 +17,8 @@ import javax.servlet.ServletContext;
 import org.apache.catalina.Context;
 import org.apache.catalina.Globals;
 import org.apache.catalina.LifecycleException;
+import org.apache.catalina.LifecycleState;
+import org.apache.catalina.util.ServerInfo;
 
 /**
  * @author Martin Kahr
@@ -39,21 +41,24 @@ public class DevLoader extends WebappLoader {
 	/**
 	 * @see org.apache.catalina.Lifecycle#start()
 	 */
-	public void start() throws LifecycleException {
-		log("Starting DevLoader");
+	public void startInternal() throws LifecycleException {
+	// e.siffert: start() is final in LifecycleBase
+	//public void start() throws LifecycleException {
+		log("Starting DevLoader modified by e.siffert (August 04 2014) for Tomcat 8: " + ServerInfo.getServerInfo());
 		//setLoaderClass(DevWebappClassLoader.class.getName());
 		
-		super.start();
+//		super.start();
+		super.startInternal();
 		
 		ClassLoader cl = super.getClassLoader();
 		if (cl instanceof WebappClassLoader == false) {
-			logError("Unable to install WebappClassLoader !");
+			logError("Unable to install WebappClassLoader, received ClassLoader was null !");
 			return;
 		}
 		WebappClassLoader devCl = (WebappClassLoader) cl;
 		
 		List webClassPathEntries = readWebClassPathEntries();
-		StringBuffer classpath   = new StringBuffer();
+		StringBuilder classpath   = new StringBuilder();
 		for (Iterator it = webClassPathEntries.iterator(); it.hasNext();) {
 			String entry = (String) it.next();
 			File f = new File(entry);
@@ -62,9 +67,11 @@ public class DevLoader extends WebappLoader {
 				try {
 					URL url = f.toURL();
 					//devCl.addUrl(url);
-					devCl.addRepository(url.toString());
-					classpath.append(f.toString() + File.pathSeparatorChar);
-					log("added " + url.toString());
+					// removed in Tomcat8
+					//	devCl.addRepository(url.toString());
+					devCl.addURL(url);
+					classpath.append(f.toString()).append(File.pathSeparatorChar);
+					log("added to classpath: " + url.toString());
 				} catch (MalformedURLException e) {
 					logError(entry + " invalid (MalformedURL)");
 				}
@@ -72,28 +79,20 @@ public class DevLoader extends WebappLoader {
 				logError(entry + " does not exist !");
 			}
 		}
-		/*
-		try {
-			devCl.loadClass("at.kase.webfaces.WebApplication");
-			devCl.loadClass("at.kase.taglib.BaseTag");
-			devCl.loadClass("at.kase.taglib.xhtml.XHTMLTag");
-			devCl.loadClass("at.kase.common.reflect.ClassHelper");
-			devCl.loadClass("javax.servlet.jsp.jstl.core.Config");
-			log("ALL OKAY !");
-		} catch(Exception e) {
-			logError(e.toString());
-		}*/
+
 		String cp = (String)getServletContext().getAttribute(Globals.CLASS_PATH_ATTR);
-		StringTokenizer tokenizer = new StringTokenizer(cp, File.pathSeparatorChar+"");
+		StringTokenizer tokenizer = new StringTokenizer(cp, File.pathSeparatorChar + "");
 		while(tokenizer.hasMoreTokens()) {
 			String token = tokenizer.nextToken();
 			// only on windows 
-			if (token.charAt(0)=='/' && token.charAt(2)==':') token = token.substring(1);
-			classpath.append(token + File.pathSeparatorChar);
+			if (token.charAt(0)=='/' && token.charAt(2)==':') {
+				token = token.substring(1);
+			}
+			classpath.append(token).append(File.pathSeparatorChar);
 		}
 		//cp = classpath + cp;
 		getServletContext().setAttribute(Globals.CLASS_PATH_ATTR, classpath.toString());
-		log("JSPCompiler Classpath = " + classpath);
+		log("class path for our application class loader = " + classpath);
 	}
 	
 	protected void log(String msg) {
@@ -113,7 +112,7 @@ public class DevLoader extends WebappLoader {
 		log("projectdir=" + prjDir.getAbsolutePath());
 		
 		// try loading tomcat plugin file
-		// DON"T LOAD TOMCAT PLUGIN FILE (DOESN't HAVE FULL PATHS ANYMORE)
+		// DON'T LOAD TOMCAT PLUGIN FILE (DOESN't HAVE FULL PATHS ANYMORE)
 		//rc = loadTomcatPluginFile(prjDir);
 		
 		if (rc ==null) {
@@ -196,7 +195,8 @@ public class DevLoader extends WebappLoader {
 	}
 */	
 	protected ServletContext getServletContext() {
-		return ((Context) getContainer()).getServletContext();
+		//return ((Context) getContainer()).getServletContext();
+		return getContext().getServletContext();
 	}
 	
 	protected File getWebappDir() {		
