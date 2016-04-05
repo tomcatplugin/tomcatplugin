@@ -1,1 +1,6 @@
 /build.ant-private.properties
+/ca.pem
+/cert.cert
+/csr.csr
+/keystore_org.ks
+/keystore.ks
