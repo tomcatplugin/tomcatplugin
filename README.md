@@ -1,4 +1,4 @@
-Eclipse Tomcat Plugin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Codacy Badge](https://img.shields.io/codacy/ec554ba8d3eb4e7e8ce9533a8e84ed70.svg)](https://www.codacy.com/app/arianne/marauroa) &nbsp;[![SourceForge](https://img.shields.io/sourceforge/dt/tomcatplugin.svg)](https://sourceforge.net/projects/tomcatplugin/files/updatesite/) &nbsp;[![Apache License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/his-eg/tomcatplugin/blob/master/LICENSE.txt)
+Eclipse Tomcat Plugin &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Codacy Badge](https://img.shields.io/codacy/ec554ba8d3eb4e7e8ce9533a8e84ed70.svg)](https://www.codacy.com/app/arianne/tomcatplugin/dashboard) &nbsp;[![SourceForge](https://img.shields.io/sourceforge/dt/tomcatplugin.svg)](https://sourceforge.net/projects/tomcatplugin/files/updatesite/) &nbsp;[![Apache License](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/his-eg/tomcatplugin/blob/master/LICENSE.txt)
 --------
 
 The Eclipse Tomcat Plugin provides simple integration of a Tomcat servlet container for the development of Java web applications.
