@@ -20,13 +20,13 @@
 	</path>
 	
 	<target name="sign">
-		<!--<signjar alias="${keystore.alias}" keystore="${keystore}" 
+		<signjar alias="${keystore.alias}" keystore="${keystore}" 
 			storepass="${keystore.password}" lazy="true">
 			<path>
 				<path refid="plugins"/>
 				<path refid="features"/>
 			</path>
-		</signjar>-->
+		</signjar>
 	</target>
 	
 	<target name="zip">
