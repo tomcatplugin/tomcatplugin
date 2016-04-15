@@ -20,6 +20,7 @@
 	</path>
 	
 	<target name="sign">
+		<!--
 		<signjar alias="${keystore.alias}" keystore="${keystore}" 
 			storepass="${keystore.password}" lazy="true" tsaurl="http://time.certum.pl/">
 			<path>
@@ -27,6 +28,7 @@
 				<path refid="features"/>
 			</path>
 		</signjar>
+		-->
 	</target>
 	
 	<target name="zip">
