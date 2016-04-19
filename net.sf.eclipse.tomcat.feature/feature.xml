@@ -2,7 +2,7 @@
 <feature
       id="net.sf.eclipse.tomcat.feature"
       label="Eclipse Tomcat Management Feature"
-      version="3.3.6">
+      version="3.3.6.1">
 
    <description url="https://sourceforge.net/projects/tomcatplugin/">
       This Feature enables for simple management of a tomcat server within the Eclipse IDE without the need for the full Web Tools Platform installed.
