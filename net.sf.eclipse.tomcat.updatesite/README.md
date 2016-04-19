@@ -3,6 +3,9 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 3.3.6.1##
+* Bugfix: Signing artifacts responsible for [#8] fixed
+
 ##Version 3.3.6##
 * Bugfix: Buttons were gone missing [#8]
 * Bugfix: Dependencies for Neon updated [#7]
