@@ -3,6 +3,9 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 9.0.0##
+* Feature: Add support for Tomcat 9 [#9]
+
 ##Version 3.3.6.1##
 * Bugfix: Signing artifacts responsible for [#8] fixed
 
