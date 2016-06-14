@@ -84,8 +84,8 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
     static final String TOMCAT_VERSION5 = "tomcatV5";
     static final String TOMCAT_VERSION6 = "tomcatV6";
     static final String TOMCAT_VERSION7 = "tomcatV7";
-
     static final String TOMCAT_VERSION8 = "tomcatV8";
+    static final String TOMCAT_VERSION9 = "tomcatV9";
 
     static final String TOMCAT_PREF_CONFMODE_KEY = "configMode";
     static final String SERVERXML_MODE = "serverFile";
@@ -278,31 +278,34 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
     }
 
     public TomcatBootstrap getTomcatBootstrap() {
-        TomcatBootstrap tomcatBootsrap = null;
+        TomcatBootstrap tomcatBootstrap = null;
 
         if(getTomcatVersion().equals(TOMCAT_VERSION3)) {
-            tomcatBootsrap = new Tomcat3Bootstrap();
+            tomcatBootstrap = new Tomcat3Bootstrap();
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION4)) {
-            tomcatBootsrap = new Tomcat4Bootstrap();
+            tomcatBootstrap = new Tomcat4Bootstrap();
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION41)) {
-            tomcatBootsrap = new Tomcat41Bootstrap();
+            tomcatBootstrap = new Tomcat41Bootstrap();
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION5)) {
-            tomcatBootsrap = new Tomcat5Bootstrap();
+            tomcatBootstrap = new Tomcat5Bootstrap();
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION6)) {
-            tomcatBootsrap = new Tomcat6Bootstrap();
+            tomcatBootstrap = new Tomcat6Bootstrap();
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION7)) {
-            tomcatBootsrap = new Tomcat7Bootstrap();
+            tomcatBootstrap = new Tomcat7Bootstrap();
         }
         if (getTomcatVersion().equals(TOMCAT_VERSION8)) {
-            tomcatBootsrap = new Tomcat7Bootstrap();
+            tomcatBootstrap = new Tomcat7Bootstrap();
+        }
+        if (getTomcatVersion().equals(TOMCAT_VERSION9)) {
+        	tomcatBootstrap = new Tomcat7Bootstrap();
         }
 
-        return tomcatBootsrap;
+        return tomcatBootstrap;
     }
 
 
