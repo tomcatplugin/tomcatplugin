@@ -3,6 +3,9 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 9.0.1##
+* Bugfix: fix compatibility issue with Neo [#11]
+
 ##Version 9.0.0##
 * Feature: Add support for Tomcat 9 [#9]
 
