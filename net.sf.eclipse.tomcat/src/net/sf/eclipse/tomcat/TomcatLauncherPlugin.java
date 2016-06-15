@@ -93,7 +93,7 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
     static final String TOMCAT_PREF_CONTEXTSDIR_KEY = "contextsDir";
 
     private static final String TOMCAT_HOME_CLASSPATH_VARIABLE = "TOMCAT_HOME";
-
+    
 
     //The shared instance.
     private static TomcatLauncherPlugin plugin;
@@ -326,7 +326,7 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
 
     static public void log(String msg) {
         ILog log = TomcatLauncherPlugin.getDefault().getLog();
-        Status status = new Status(IStatus.ERROR, TomcatLauncherPlugin.getDefault().getDescriptor().getUniqueIdentifier(), IStatus.ERROR, msg + "\n", null);
+        Status status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, msg + "\n", null);
         log.log(status);
     }
 
@@ -336,7 +336,7 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
         ex.printStackTrace(new PrintWriter(stringWriter));
         String msg = stringWriter.getBuffer().toString();
 
-        Status status = new Status(IStatus.ERROR, TomcatLauncherPlugin.getDefault().getDescriptor().getUniqueIdentifier(), IStatus.ERROR, msg, null);
+        Status status = new Status(IStatus.ERROR, PLUGIN_ID, IStatus.ERROR, msg, null);
         log.log(status);
     }
 
