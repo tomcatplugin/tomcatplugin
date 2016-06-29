@@ -25,5 +25,4 @@ public class TomcatActionException extends Exception {
 		super(message);
 	}
 
-
 }

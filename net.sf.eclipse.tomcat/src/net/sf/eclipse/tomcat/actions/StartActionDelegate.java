@@ -13,12 +13,15 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 public class StartActionDelegate implements IWorkbenchWindowActionDelegate {
+	
+	@SuppressWarnings("unused")
 	private IWorkbenchWindow window;
 
 	/*
 	 * @see IWorkbenchWindowActionDelegate#dispose()
 	 */
 	public void dispose() {
+		// empty default implementation
 	}
 
 	/*
@@ -44,12 +47,11 @@ public class StartActionDelegate implements IWorkbenchWindowActionDelegate {
 		}
 	}
 
-
 	/*
 	 * @see IActionDelegate#selectionChanged(IAction, ISelection)
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
-
+		// empty default implementation
 	}
 
 }
