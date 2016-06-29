@@ -203,7 +203,7 @@ public abstract class TomcatBootstrap {
     }
 
     private void add(ArrayList data, IPath entry) {
-        if (entry.isAbsolute() == false) {
+        if (!entry.isAbsolute()) {
             entry = entry.makeAbsolute();
         }
         String tmp = entry.toFile().toString();

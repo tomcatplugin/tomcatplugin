@@ -46,7 +46,7 @@ public class DevLoader extends WebappLoader {
 		super.startInternal();
 		
 		ClassLoader cl = super.getClassLoader();
-		if (cl instanceof WebappClassLoader == false) {
+		if (!(cl instanceof WebappClassLoader)) {
 			logError("Unable to install WebappClassLoader, received ClassLoader was null !");
 			return;
 		}
@@ -58,7 +58,9 @@ public class DevLoader extends WebappLoader {
 			String entry = (String) it.next();
 			File f = new File(entry);
 			if (f.exists()) {
-				if (f.isDirectory() && entry.endsWith("/")==false) f = new File(entry + "/");
+				if (f.isDirectory() && !entry.endsWith("/")) {
+					f = new File(entry + "/");
+				}
 				try {
 					URL url = f.toURL();
 					//devCl.addUrl(url);

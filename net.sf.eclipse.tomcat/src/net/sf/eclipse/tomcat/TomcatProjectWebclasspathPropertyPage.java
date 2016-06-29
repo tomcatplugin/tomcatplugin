@@ -75,7 +75,7 @@ public class TomcatProjectWebclasspathPropertyPage {
 		java.util.List newSelection = cpList.getCheckedElements();
 		
 		try {
-			if (webClassPathCheck.getSelection()==true) {
+			if (webClassPathCheck.getSelection()) {
 				page.getTomcatProject().setWebClassPathEntries(new WebClassPathEntries(newSelection));
 			} else {
 				page.getTomcatProject().setWebClassPathEntries(null);
@@ -127,7 +127,7 @@ public class TomcatProjectWebclasspathPropertyPage {
 			// check for entries which are still in the list but no more in classpath entries list and remove them
 			for (Iterator it = selected.iterator(); it.hasNext();) {
 				String sel = (String) it.next();
-				if (classPathEntries.contains(sel) == false)
+				if (!classPathEntries.contains(sel))
 				{ 
 					it.remove();
 				}
