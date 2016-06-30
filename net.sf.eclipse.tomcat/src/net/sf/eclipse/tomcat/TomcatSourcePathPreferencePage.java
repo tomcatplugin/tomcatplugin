@@ -1,12 +1,5 @@
 package net.sf.eclipse.tomcat;
 
-/*
- * (c) Copyright Sysdeo SA 2001, 2002.
- * All Rights Reserved.
- */
-
-import net.sf.eclipse.tomcat.editors.ProjectListEditor;
-
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
@@ -21,12 +14,19 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/*
+ * (c) Copyright Sysdeo SA 2001, 2002.
+ * All Rights Reserved.
+ */
+
+import net.sf.eclipse.tomcat.editors.ProjectListEditor;
+
 
 public class TomcatSourcePathPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, TomcatPluginResources {
 
 	private ProjectListEditor projectListEditor;
 	private BooleanFieldEditor automaticEditor;
-		
+
 	public TomcatSourcePathPreferencePage() {
 		super();
 		setPreferenceStore(TomcatLauncherPlugin.getDefault().getPreferenceStore());
@@ -35,7 +35,8 @@ public class TomcatSourcePathPreferencePage extends PreferencePage implements IW
 	/*
 	 * @see PreferencePage#createContents(Composite)
 	 */
-	protected Control createContents(Composite parent) {
+	@Override
+    protected Control createContents(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout());
 
@@ -51,10 +52,10 @@ public class TomcatSourcePathPreferencePage extends PreferencePage implements IW
 		projectListEditor = new ProjectListEditor();
 		projectListEditor.setLabel(PREF_PAGE_PROJECTINSOURCEPATH_LABEL);
 		final Control projectList = projectListEditor.getControl(projectListGroup);
-		projectListGroup.setLayoutData(new GridData(GridData.FILL_BOTH));		
+		projectListGroup.setLayoutData(new GridData(GridData.FILL_BOTH));
 		projectList.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
-		projectListEditor.setCheckedElements(TomcatLauncherPlugin.getDefault().readProjectsInSourcePathFromPref());		 
+
+		projectListEditor.setCheckedElements(TomcatLauncherPlugin.getDefault().readProjectsInSourcePathFromPref());
 
 		projectListEditor.setEnabled(!automaticEditor.getBooleanValue());
 		//projectListEditor.setEnabled(false);
@@ -63,7 +64,7 @@ public class TomcatSourcePathPreferencePage extends PreferencePage implements IW
 				projectListEditor.setEnabled(!automaticEditor.getBooleanValue());
 			}
 		});
-		
+
 		return composite;
 	}
 
@@ -71,20 +72,22 @@ public class TomcatSourcePathPreferencePage extends PreferencePage implements IW
 	 * @see IWorkbenchPreferencePage#init(IWorkbench)
 	 */
 	public void init(IWorkbench workbench) {
+	    // empty implementation
 	}
 
 
-	public boolean performOk() {
+	@Override
+    public boolean performOk() {
 		automaticEditor.store();
 		TomcatLauncherPlugin.getDefault().setProjectsInSourcePath(projectListEditor.getCheckedElements());
 //		TomcatLauncherPlugin.getDefault().savePluginPreferences();
-		return true;	
+		return true;
 	}
 
 	private void initField(FieldEditor field) {
 		field.setPreferenceStore(getPreferenceStore());
 		field.setPreferencePage(this);
-		field.load();		
-	}	
+		field.load();
+	}
 }
 

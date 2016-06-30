@@ -22,15 +22,14 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.dialogs.PropertyPage;
 
 /**
- * provides a tab control with property pages for the 
+ * provides a tab control with property pages for the
  * settings of a tomcat project.
- * 
+ *
  * @version 	1.0
  * @author		Martin Kahr
  */
 public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenchPreferencePage, TomcatPluginResources {
 
-	private TabFolder folder;
 	private TomcatProjectGeneralPropertyPage generalPropertyPage;
 	private TomcatProjectWebclasspathPropertyPage webClassPathPropertyPage;
 	private TomcatProjectWARPropertyPage warPropertyPage;
@@ -38,8 +37,9 @@ public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenc
 	/**
 	 * @see PreferencePage#createContents(Composite)
 	 */
-	protected Control createContents(Composite parent) {
-		folder = new TabFolder(parent, SWT.NONE);
+	@Override
+    protected Control createContents(Composite parent) {
+	    TabFolder folder = new TabFolder(parent, SWT.NONE);
 
 //		folder.setLayout(new TabFolderLayout());
 		folder.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -71,10 +71,11 @@ public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenc
 	/**
 	 * @see IPreferencePage#performOk()
 	 */
-	public boolean performOk() {
+	@Override
+    public boolean performOk() {
 		// delegate to property pages
 		if (generalPropertyPage.performOk()) {
-			// check if it's a tomcat project any more 
+			// check if it's a tomcat project any more
 			if (generalPropertyPage.isTomcatProjectChecked()) {
 				if (webClassPathPropertyPage.performOk()) {
 					try {
@@ -93,11 +94,12 @@ public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenc
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(IWorkbench)
 	 */
 	public void init(IWorkbench workbench) {
+	    // empty default implementation
 	}
 
 	/* helper methods */
 	protected IJavaProject getJavaProject() throws CoreException {
-		IProject project = (IProject) (this.getElement().getAdapter(IProject.class));
+		IProject project = (this.getElement().getAdapter(IProject.class));
 		return (IJavaProject) (project.getNature(JavaCore.NATURE_ID));
 	}
 	protected TomcatProject getTomcatProject() throws CoreException {

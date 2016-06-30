@@ -1,5 +1,10 @@
 package net.sf.eclipse.tomcat.actions;
 
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+
 /*
  * (c) Copyright Sysdeo SA 2001, 2002.
  * All Rights Reserved.
@@ -7,15 +12,7 @@ package net.sf.eclipse.tomcat.actions;
 
 import net.sf.eclipse.tomcat.TomcatLauncherPlugin;
 
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-
 public class StartActionDelegate implements IWorkbenchWindowActionDelegate {
-	
-	@SuppressWarnings("unused")
-	private IWorkbenchWindow window;
 
 	/*
 	 * @see IWorkbenchWindowActionDelegate#dispose()
@@ -28,21 +25,21 @@ public class StartActionDelegate implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#init(IWorkbenchWindow)
 	 */
 	public void init(IWorkbenchWindow window) {
-		this.window = window;
+        // empty default implementation
 	}
 
 	/*
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		if(TomcatLauncherPlugin.checkTomcatSettingsAndWarn()) {				
+		if(TomcatLauncherPlugin.checkTomcatSettingsAndWarn()) {
 			//TomcatLauncherPlugin.log(TomcatLauncherPlugin.getResourceString("msg.start"));
-			try {	
+			try {
 				TomcatLauncherPlugin.getDefault().getTomcatBootstrap().start();
 			} catch (Exception ex) {
 				String msg = TomcatLauncherPlugin.getResourceString("msg.start.failed");
 				TomcatLauncherPlugin.log(msg + "/n");
-				TomcatLauncherPlugin.log(ex);			
+				TomcatLauncherPlugin.log(ex);
 			}
 		}
 	}

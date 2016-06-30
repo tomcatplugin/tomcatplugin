@@ -24,8 +24,7 @@ public class TomcatProjectWARPropertyPage implements TomcatPluginResources {
 
 	private Button exportSourceCheck;
 	private Text warLocationText;
-	private Text rootDirText;
-	private TomcatProjectPropertyPage page;
+	private final TomcatProjectPropertyPage page;
 
 	private static final int TEXT_FIELD_WIDTH = 200;
 
@@ -68,7 +67,8 @@ public class TomcatProjectWARPropertyPage implements TomcatPluginResources {
 		Button browseButton = new Button(warLocationGroup, SWT.PUSH);
 		browseButton.setText(BROWSE_BUTTON_LABEL);
 		browseButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent evt) {
+			@Override
+            public void widgetSelected(SelectionEvent evt) {
 				String newValue = warFieldChange();
 				if (newValue != null) {
 					warLocationText.setText(newValue);
@@ -91,8 +91,9 @@ public class TomcatProjectWARPropertyPage implements TomcatPluginResources {
 		String result = "";
 		try {
 			TomcatProject prj = page.getTomcatProject();
-			if (prj != null)
-				result = prj.getWarLocation();
+			if (prj != null) {
+                result = prj.getWarLocation();
+            }
 		} catch (CoreException ex) {
 			// result = "";
 		}
@@ -103,8 +104,9 @@ public class TomcatProjectWARPropertyPage implements TomcatPluginResources {
 		boolean result = false;
 		try {
 			TomcatProject prj = page.getTomcatProject();
-			if (prj != null)
-				result = prj.getExportSource();
+			if (prj != null) {
+                result = prj.getExportSource();
+            }
 		} catch (CoreException ex) {
 			// result = false;
 		}
@@ -129,11 +131,13 @@ public class TomcatProjectWARPropertyPage implements TomcatPluginResources {
 
 	protected String warFieldChange() {
 		File f = new File(warLocationText.getText());
-		if (!f.exists())
-			f = null;
+		if (!f.exists()) {
+            f = null;
+        }
 		File d = getFile(f);
-		if (d == null)
-			return null;
+		if (d == null) {
+            return null;
+        }
 
 		return d.getAbsolutePath();
 	}
@@ -145,15 +149,17 @@ public class TomcatProjectWARPropertyPage implements TomcatPluginResources {
 	private File getFile(File startingDirectory) {
 
 		FileDialog dialog = new FileDialog(page.getShell(), SWT.OPEN);
-		if (startingDirectory != null)
-			dialog.setFileName(startingDirectory.getPath());
+		if (startingDirectory != null) {
+            dialog.setFileName(startingDirectory.getPath());
+        }
 		//	if (extensions != null)
 		//		dialog.setFilterExtensions(extensions);
 		String file = dialog.open();
 		if (file != null) {
 			file = file.trim();
-			if (file.length() > 0)
-				return new File(file);
+			if (file.length() > 0) {
+                return new File(file);
+            }
 		}
 
 		return null;

@@ -15,8 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import net.sf.eclipse.tomcat.editors.ProjectListElement;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -34,6 +32,8 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 
+import net.sf.eclipse.tomcat.editors.ProjectListElement;
+
 
 
 
@@ -50,7 +50,6 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     private static final String KEY_ROOTDIR = "rootDir";
     private static final String KEY_WORKDIR = "workDir";
     private static final String KEY_EXTRAINFO = "extraInfo";
-    private static final String KEY_WEBCLASSPATH = WebClassPathEntries.TAG_NAME;
     private static final String extraBeginTag = "<!-- Extra info begin -->";
     private static final String extraEndTag = "<!-- Extra info end -->";
 
@@ -103,12 +102,14 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
      * @see IProjectNature#configure()
      */
     public void configure() throws CoreException {
+        // empty implementation
     }
 
     /*
      * @see IProjectNature#deconfigure()
      */
     public void deconfigure() throws CoreException {
+        // empty implementation
     }
 
     /*

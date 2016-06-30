@@ -9,9 +9,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.sf.eclipse.tomcat.editors.TomcatDirectoryFieldEditor;
-import net.sf.eclipse.tomcat.editors.TomcatFileFieldEditor;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -36,6 +33,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.google.common.base.Joiner;
+
+import net.sf.eclipse.tomcat.editors.TomcatDirectoryFieldEditor;
+import net.sf.eclipse.tomcat.editors.TomcatFileFieldEditor;
 
 
 public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, TomcatPluginResources {
@@ -188,6 +188,7 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
      * @see IWorkbenchPreferencePage#init(IWorkbench)
      */
     public void init(IWorkbench workbench) {
+        // empty implementation
     }
 
 

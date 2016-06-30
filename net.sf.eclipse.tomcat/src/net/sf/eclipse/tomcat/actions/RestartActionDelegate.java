@@ -1,22 +1,19 @@
 package net.sf.eclipse.tomcat.actions;
 
-/*
- * (c) Copyright Sysdeo SA 2001, 2002.
- * All Rights Reserved.
- */
- 
-
-import net.sf.eclipse.tomcat.TomcatLauncherPlugin;
-
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-public class RestartActionDelegate implements IWorkbenchWindowActionDelegate {
+/*
+ * (c) Copyright Sysdeo SA 2001, 2002.
+ * All Rights Reserved.
+ */
 
-	@SuppressWarnings("unused")
-	private IWorkbenchWindow window;
+
+import net.sf.eclipse.tomcat.TomcatLauncherPlugin;
+
+public class RestartActionDelegate implements IWorkbenchWindowActionDelegate {
 
 	/*
 	 * @see IWorkbenchWindowActionDelegate#dispose()
@@ -29,21 +26,21 @@ public class RestartActionDelegate implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#init(IWorkbenchWindow)
 	 */
 	public void init(IWorkbenchWindow window) {
-		this.window = window;
+        // empty default implementation
 	}
 
 	/*
 	 * @see IActionDelegate#run(IAction)
 	 */
 	public void run(IAction action) {
-		if(TomcatLauncherPlugin.checkTomcatSettingsAndWarn()) {		
+		if(TomcatLauncherPlugin.checkTomcatSettingsAndWarn()) {
 			//TomcatLauncherPlugin.log(TomcatLauncherPlugin.getResourceString("msg.restart"));
-			try {	
+			try {
 				TomcatLauncherPlugin.getDefault().getTomcatBootstrap().restart();
 			} catch (Exception ex) {
 				String msg = TomcatLauncherPlugin.getResourceString("msg.restart.failed");
 				TomcatLauncherPlugin.log(msg + "/n");
-				TomcatLauncherPlugin.log(ex);	
+				TomcatLauncherPlugin.log(ex);
 			}
 		}
 	}
