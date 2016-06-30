@@ -128,7 +128,7 @@ public class VMLauncherUtility {
 
 		try {
 			ILaunchConfigurationWorkingCopy config = createConfig(label, classToLaunch, classpath, bootClasspath, vmArgs, prgArgs, debug, showInDebugger, false);
-			getSourceLocator(config, true);
+			getSourceLocator(true);
 		} catch (CoreException e) {
 			TomcatLauncherPlugin.log("getSourceLocator failed");
 		}
@@ -145,7 +145,7 @@ public class VMLauncherUtility {
 		config.setAttribute(IDebugUIConstants.ATTR_PRIVATE, !saveConfig);
 		config.setAttribute(ILaunchConfiguration.ATTR_SOURCE_LOCATOR_ID, "org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector");
 		
-		ISourceLookupDirector locator = (ISourceLookupDirector) getSourceLocator(config, false);
+		ISourceLookupDirector locator = (ISourceLookupDirector) getSourceLocator(false);
 		config.setAttribute(ILaunchConfiguration.ATTR_SOURCE_LOCATOR_MEMENTO, locator.getMemento());
 		
 		ArrayList classpathMementos = new ArrayList();
@@ -208,14 +208,14 @@ public class VMLauncherUtility {
 		config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, catalinaBase);
 
 		if(saveConfig) {
-			getSourceLocator(config, false);
+			getSourceLocator(false);
 			config.doSave();
 		} 
 
 		return config;
 	}
 
-	private static ISourceLocator getSourceLocator(ILaunchConfiguration configuration, boolean trace) throws CoreException {
+	private static ISourceLocator getSourceLocator(boolean trace) throws CoreException {
 		ArrayList tempList = new ArrayList();
 		StringBuffer traceBuffer = new StringBuffer();
 

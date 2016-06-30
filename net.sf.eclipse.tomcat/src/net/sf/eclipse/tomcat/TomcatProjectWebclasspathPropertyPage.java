@@ -149,18 +149,18 @@ public class TomcatProjectWebclasspathPropertyPage {
 	
 	public void getClassPathEntries(IJavaProject prj, ArrayList data) {
 		
-		IClasspathEntry[] entries = null;
+		IClasspathEntry[] myEntries = null;
 		IPath outputPath = null;
 		try {
 			outputPath = prj.getOutputLocation();
 			add(data, prj.getOutputLocation());
-			entries = prj.getRawClasspath();
+			myEntries = prj.getRawClasspath();
 //			entries = prj.getResolvedClasspath(false);
 		} catch(JavaModelException e) {
 			TomcatLauncherPlugin.log(e);
 		}
-		if (entries != null) {
-			getClassPathEntries(entries, prj, data, outputPath);
+		if (myEntries != null) {
+			getClassPathEntries(myEntries, prj, data, outputPath);
 		}		
 	}
 	
@@ -230,6 +230,7 @@ public class TomcatProjectWebclasspathPropertyPage {
 			if (project == null) return false;
 			entries = project.getWebClassPathEntries();
 		} catch(CoreException coreEx) {
+        	// ignore exception
 		}
 		return (entries != null);
 	}

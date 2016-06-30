@@ -154,7 +154,7 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
             public void propertyChange(PropertyChangeEvent event) {
                 if(event.getProperty().equals(FieldEditor.VALUE)) {
                     String value = (String)event.getNewValue();
-                    versionChanged(composite, value);
+                    versionChanged(value);
                 }
             }
         });
@@ -282,7 +282,7 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
         contextsDir.valueChanged();
     }
 
-    private void versionChanged(final Composite composite, String value) {
+    private void versionChanged(String value) {
         selectedVersion = value;
         computeContextsDir();
     }

@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
@@ -35,7 +34,6 @@ public class Zipper {
 	    FileOutputStream fos = new FileOutputStream(outputFile);
 		zos = new ZipOutputStream(fos);
 		zipDir(directory);
-		ArrayList a ;
 		zos.flush();
 		zos.close();
 		fos.close();
@@ -47,7 +45,7 @@ public class Zipper {
 			String entryName = dir.getPath().substring(currentDirName.length()+1);
 			entryName = entryName.replace('\\', '/');
 	       	ZipEntry ze = new ZipEntry (entryName + "/");
-	        if (dir != null && dir.exists()) {
+	        if (dir.exists()) {
 	            ze.setTime(dir.lastModified());
 	        } else {
 	            ze.setTime(System.currentTimeMillis());

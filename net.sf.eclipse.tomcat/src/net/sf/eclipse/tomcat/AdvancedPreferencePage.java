@@ -103,16 +103,6 @@ public class AdvancedPreferencePage extends PreferencePage implements IWorkbench
         field.load();
     }
 
-
-    private void initLayoutAndData(Group aGroup, int spanH, int spanV, int numColumns) {
-        GridLayout gl = new GridLayout(numColumns, false);
-        aGroup.setLayout(gl);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = spanH;
-        gd.verticalSpan = spanV;
-        aGroup.setLayoutData(gd);
-    }
-
     private void initLayoutAndData(Group aGroup, int numColumns) {
         GridLayout gl = new GridLayout(numColumns, false);
         aGroup.setLayout(gl);
@@ -121,6 +111,5 @@ public class AdvancedPreferencePage extends PreferencePage implements IWorkbench
         gd.widthHint = 400;
         aGroup.setLayoutData(gd);
     }
-
 }
 

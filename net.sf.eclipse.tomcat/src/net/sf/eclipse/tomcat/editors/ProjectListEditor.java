@@ -126,7 +126,7 @@ public class ProjectListEditor implements TomcatPluginResources {
 	}
 		
 	public List getCheckedElements() {
-		return (List)fProjectsList.getCheckedElements();
+		return fProjectsList.getCheckedElements();
 	}
 	
 	public void setCheckedElements(List projects) {

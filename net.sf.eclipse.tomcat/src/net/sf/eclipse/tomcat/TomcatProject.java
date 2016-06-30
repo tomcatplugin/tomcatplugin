@@ -682,7 +682,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     /*
      * create or update a Context file
      */
-    private void updateContextFile() throws CoreException, IOException {
+    private void updateContextFile() throws IOException {
 
         if(getUpdateXml()) {
             File contextFile = this.getContextFile();
@@ -787,11 +787,11 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     /**
      * Quick and dirty implementations : using an XML Parser would be better
      */
-    private boolean contextExistsInXML(String xml) throws IOException {
+    private boolean contextExistsInXML(String xml) {
         return (getContextTagIndex(xml) != -1);
     }
 
-    private int getContextTagIndex(String xml) throws IOException {
+    private int getContextTagIndex(String xml) {
         int pathIndex = xml.indexOf(getContextPath());
 
         if(pathIndex == -1) {

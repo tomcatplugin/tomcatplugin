@@ -102,6 +102,7 @@ public abstract class TomcatBootstrap {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException ex) {
+        	// ignore exception
         }
 
         this.start();
@@ -203,10 +204,11 @@ public abstract class TomcatBootstrap {
     }
 
     private void add(ArrayList data, IPath entry) {
-        if (!entry.isAbsolute()) {
-            entry = entry.makeAbsolute();
+    	IPath myEntry = entry;
+        if (!myEntry.isAbsolute()) {
+            myEntry = myEntry.makeAbsolute();
         }
-        String tmp = entry.toFile().toString();
+        String tmp = myEntry.toFile().toString();
         if (!data.contains(tmp)) {
             data.add(tmp);
         }

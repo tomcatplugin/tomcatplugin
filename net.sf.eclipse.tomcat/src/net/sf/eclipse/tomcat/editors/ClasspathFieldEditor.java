@@ -55,7 +55,7 @@ public class ClasspathFieldEditor extends ListFieldEditor implements TomcatPlugi
 			if (new File(lastPath).exists())
 				dialog.setFilterPath(lastPath);
 		}
-		String file = dialog.open();
+		dialog.open();
 	
 		if (dialog.getFileNames().length != 0) {
 			lastPath = dialog.getFilterPath();
@@ -127,14 +127,12 @@ public class ClasspathFieldEditor extends ListFieldEditor implements TomcatPlugi
 		String[] input = getNewJarZip();
 	
 		for(int i=0; i<input.length; i++) {
-			if (input != null) {
-				int index = list.getSelectionIndex();
-				if (index >= 0)
-					list.add(input[i], index + 1);
-				else
-					list.add(input[i], 0);
-				selectionChanged();
-			}
+			int index = list.getSelectionIndex();
+			if (index >= 0)
+				list.add(input[i], index + 1);
+			else
+				list.add(input[i], 0);
+			selectionChanged();
 		}
 	}
 	
