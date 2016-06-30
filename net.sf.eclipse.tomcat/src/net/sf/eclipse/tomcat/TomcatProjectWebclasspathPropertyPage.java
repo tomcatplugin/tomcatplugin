@@ -1,14 +1,5 @@
 package net.sf.eclipse.tomcat;
 
-/*
- * (c) Copyright Martin Kahr, Sysdeo SA 2001, 2002.
- * All Rights Reserved.
- */
- 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.LineNumberReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,10 +7,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -72,7 +61,7 @@ public class TomcatProjectWebclasspathPropertyPage {
 	
 	/** okay has been pressed */
 	public boolean performOk() {
-		java.util.List newSelection = cpList.getCheckedElements();
+		List newSelection = cpList.getCheckedElements();
 		
 		try {
 			if (webClassPathCheck.getSelection()) {
@@ -120,7 +109,7 @@ public class TomcatProjectWebclasspathPropertyPage {
 		ArrayList classPathEntries = new ArrayList();
 		getClassPathEntries(getJavaProject(), classPathEntries);
 		
-		java.util.List selected = null;
+		List selected = null;
 		if (entries != null) 
 		{
 			selected = entries.getList();
@@ -234,33 +223,6 @@ public class TomcatProjectWebclasspathPropertyPage {
 		}
 	}
 
-	/** reads the selected entries from persistent storage */
-	private java.util.List readSelectedEntries() {
-		ArrayList selected = new ArrayList();
-		
-		IFile file = getJavaProject().getProject().getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
-		if (file == null) return selected;
-		
-		File cpFile = file.getLocation().makeAbsolute().toFile();
-		if (cpFile.exists()) {
-			FileReader reader = null;
-			try {
-				reader = new FileReader(cpFile);
-				LineNumberReader lr = new LineNumberReader(reader);
-				String line = null;
-				while((line = lr.readLine()) != null) {
-					selected.add(line);
-				}
-			} catch(IOException ioEx) {
-				TomcatLauncherPlugin.log(ioEx);
-			} finally {
-				if (reader != null) try { reader.close(); } catch(Exception ignored) {}
-			}
-		}
-		
-		return selected;
-	}
-	
 	private boolean isActive() {
 		entries = null;		
 		try {
@@ -274,7 +236,7 @@ public class TomcatProjectWebclasspathPropertyPage {
 
 	/* Quick hack :
 	 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9
-	 */			
+	 */
 	private void invokeForCompatibility(String methodName, List projects) {
 		Class clazz = cpList.getClass();
 		Class[] collectionParameter = {Collection.class};

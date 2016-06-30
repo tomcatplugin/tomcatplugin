@@ -287,15 +287,6 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
         computeContextsDir();
     }
 
-    private void initLayoutAndData(Composite aGroup, int spanH, int spanV, int numColumns) {
-        GridLayout gl = new GridLayout(numColumns, false);
-        aGroup.setLayout(gl);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = spanH;
-        gd.verticalSpan = spanV;
-        aGroup.setLayoutData(gd);
-    }
-
     private void initLayoutAndData(Composite aGroup, int numColumns) {
         GridLayout gl = new GridLayout(numColumns, false);
         aGroup.setLayout(gl);

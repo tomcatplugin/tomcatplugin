@@ -278,7 +278,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
      * @return Returns a boolean
      */
     public boolean getUpdateXml() {
-        return new Boolean(this.readProperty(KEY_UPDATEXML)).booleanValue();
+        return Boolean.parseBoolean(this.readProperty(KEY_UPDATEXML));
     }
 
     /**
@@ -315,7 +315,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         if(reloadableProperty.equals("")) {
             reloadableProperty = "true";
         }
-        return new Boolean(reloadableProperty).booleanValue();
+        return Boolean.parseBoolean(reloadableProperty);
     }
 
     /**
@@ -336,7 +336,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         if(redirectLoggerProperty.equals("")) {
             redirectLoggerProperty = "false";
         }
-        return new Boolean(redirectLoggerProperty).booleanValue();
+        return Boolean.parseBoolean(redirectLoggerProperty);
     }
 
     /**
@@ -735,24 +735,17 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         if(contextExistsInXML(xml)) {
             int contextTagIdx = this.getContextTagIndex(xml);
             int endTagIndex = xml.indexOf("</Context>", contextTagIdx);
-            boolean hasNoBody = false;
             if (endTagIndex < 0) {
                 endTagIndex = xml.indexOf('>', contextTagIdx);
-                hasNoBody = true;
             } else {
                 endTagIndex+= "</Context>".length();
             }
-
 
             StringBuffer out = null;
 
             out = new StringBuffer(xml.substring(0, contextTagIdx));
             out.append(xml.substring(endTagIndex+1, xml.length()));
-
-            if (out != null) {
-                FileUtil.toTextFile(getServerXML(), out.toString());
-            }
-
+            FileUtil.toTextFile(getServerXML(), out.toString());
         }
     }
 
@@ -857,68 +850,69 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     }
 
     private String updateContextDefinition(String context) {
+    	String ctx = context;
 
         // if reloadable param not set
-        int reloadableIndex = context.indexOf("reloadable");
+        int reloadableIndex = ctx.indexOf("reloadable");
         if(reloadableIndex == -1) {
-            context = this.addReloadableToContext(context);
+            ctx = this.addReloadableToContext(ctx);
         } else {
-            context = this.updateReloadableInContext(context);
+            ctx = this.updateReloadableInContext(ctx);
         }
 
         // update docBase if set
-        int docBaseIndex = context.indexOf("docBase");
+        int docBaseIndex = ctx.indexOf("docBase");
         if(docBaseIndex == -1) {
-            context = this.addDocBaseToContext(context);
+            ctx = this.addDocBaseToContext(ctx);
         } else {
-            context = this.updateDocBaseInContext(context);
+            ctx = this.updateDocBaseInContext(ctx);
         }
 
         // if work param not set
-        int workIndex = context.indexOf("workDir");
+        int workIndex = ctx.indexOf("workDir");
         if(workIndex == -1) {
-            context = this.addWorkToContext(context);
+            ctx = this.addWorkToContext(ctx);
         } else {
-            context = this.updateWorkInContext(context);
+            ctx = this.updateWorkInContext(ctx);
         }
 
         // if loader not set
-        int loaderIndex = context.indexOf("<Loader");
+        int loaderIndex = ctx.indexOf("<Loader");
         if((loaderIndex == -1) && (getWebClassPathEntries() != null)) {
-            context = this.addLoaderToContext(context);
+            ctx = this.addLoaderToContext(ctx);
         }
         if((loaderIndex != -1) && (getWebClassPathEntries() == null)) {
-            context = this.removeLoaderInContext(context);
+            ctx = this.removeLoaderInContext(ctx);
         }
         if((loaderIndex != -1) && (getWebClassPathEntries() != null)) {
-            context = this.updateLoaderInContext(context);
+            ctx = this.updateLoaderInContext(ctx);
         }
 
 
         // if logger not set
-        int loggerIndex = context.indexOf("<Logger");
+        int loggerIndex = ctx.indexOf("<Logger");
         if((loggerIndex == -1) && getRedirectLogger()) {
-            context = this.addLoggerToContext(context);
+            ctx = this.addLoggerToContext(ctx);
         }
         if((loggerIndex != -1) && !getRedirectLogger()) {
-            context = this.removeLoggerInContext(context);
+            ctx = this.removeLoggerInContext(ctx);
         }
         if((loggerIndex != -1) && getRedirectLogger()) {
-            context = this.updateLoggerInContext(context);
+            ctx = this.updateLoggerInContext(ctx);
         }
 
         // Extra info
-        int extraInfoIndex = context.indexOf(extraBeginTag);
+        int extraInfoIndex = ctx.indexOf(extraBeginTag);
         if((extraInfoIndex == -1) && !(getExtraInfo().equals(""))) {
-            context = this.addExtraInfoToContext(context);
+            ctx = this.addExtraInfoToContext(ctx);
         }
         if((extraInfoIndex != -1) && getExtraInfo().equals("")) {
-            context = this.removeExtraInfoInContext(context);
+            ctx = this.removeExtraInfoInContext(ctx);
         }
         if((extraInfoIndex != -1) && !(getExtraInfo().equals(""))) {
-            context = this.updateExtraInfoInContext(context);
+            ctx = this.updateExtraInfoInContext(ctx);
         }
-        return context;
+        return ctx;
     }
 
     private void updateContextDefinitionInFile(File xmlFile) throws IOException {
@@ -1023,24 +1017,25 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     // Add </Context> instead of  />, and \n if needed
     private String formatContextEndTag(String context) {
-        int endContextStartTagIndex = context.indexOf(">");
+    	String ctx = context;
+        int endContextStartTagIndex = ctx.indexOf(">");
         StringBuffer newContext = new StringBuffer();
-        if(context.charAt(endContextStartTagIndex-1) == '/') {
-            newContext.append(context.substring(0, endContextStartTagIndex-1));
+        if(ctx.charAt(endContextStartTagIndex-1) == '/') {
+            newContext.append(ctx.substring(0, endContextStartTagIndex-1));
             newContext.append(">");
             newContext.append("\n");
             newContext.append(getContextEndTag());
             newContext.append("\n");
-            context = newContext.toString();
+            ctx = newContext.toString();
             endContextStartTagIndex--;
         } else {
-            int endContextTagIndex = context.indexOf(getContextEndTag());
-            if(context.charAt(endContextTagIndex-1) != '\n') {
-                newContext.append(context.substring(0,endContextTagIndex));
+            int endContextTagIndex = ctx.indexOf(getContextEndTag());
+            if(ctx.charAt(endContextTagIndex-1) != '\n') {
+                newContext.append(ctx.substring(0,endContextTagIndex));
                 newContext.append("\n");
-                newContext.append(context.substring(endContextTagIndex));
+                newContext.append(ctx.substring(endContextTagIndex));
             } else {
-                return context;
+                return ctx;
             }
         }
 
@@ -1048,30 +1043,30 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     }
 
     private String addLoaderToContext(String context) {
-        context = this.formatContextEndTag(context);
-        int endContextStartTagIndex = context.indexOf(">");
+        String ctx = this.formatContextEndTag(context);
+        int endContextStartTagIndex = ctx.indexOf(">");
         int loaderIndex = endContextStartTagIndex + 1;
-        StringBuffer out = new StringBuffer(context.substring(0, loaderIndex));
+        StringBuffer out = new StringBuffer(ctx.substring(0, loaderIndex));
         out.append(getContextWebAppClassLoader());
-        out.append(context.substring(loaderIndex, context.length()));
+        out.append(ctx.substring(loaderIndex, ctx.length()));
 
         return out.toString();
     }
 
     private String updateLoaderInContext(String context) {
-        context = this.formatContextEndTag(context);
-        int endContextStartTagIndex = context.indexOf(">");
-        int startIndex = context.indexOf("<Loader", endContextStartTagIndex);
-        if(context.charAt(startIndex-1) == '\t') {
+        String ctx = this.formatContextEndTag(context);
+        int endContextStartTagIndex = ctx.indexOf(">");
+        int startIndex = ctx.indexOf("<Loader", endContextStartTagIndex);
+        if(ctx.charAt(startIndex-1) == '\t') {
             startIndex--;
         }
-        if(context.charAt(startIndex-1) == '\n') {
+        if(ctx.charAt(startIndex-1) == '\n') {
             startIndex--;
         }
-        int endIndex = context.indexOf("/>",startIndex+1)+1;
-        StringBuffer out = new StringBuffer(context.substring(0, startIndex));
+        int endIndex = ctx.indexOf("/>",startIndex+1)+1;
+        StringBuffer out = new StringBuffer(ctx.substring(0, startIndex));
         out.append(getContextWebAppClassLoader());
-        out.append(context.substring(endIndex+1, context.length()));
+        out.append(ctx.substring(endIndex+1, ctx.length()));
 
         return out.toString();
     }
@@ -1093,12 +1088,12 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     }
 
     private String addLoggerToContext(String context) {
-        context = this.formatContextEndTag(context);
-        int endContextStartTagIndex = context.indexOf(">");
+        String ctx = this.formatContextEndTag(context);
+        int endContextStartTagIndex = ctx.indexOf(">");
         int loggerIndex = endContextStartTagIndex + 1;
-        StringBuffer out = new StringBuffer(context.substring(0, loggerIndex));
+        StringBuffer out = new StringBuffer(ctx.substring(0, loggerIndex));
         out.append(getContextLogger());
-        out.append(context.substring(loggerIndex, context.length()));
+        out.append(ctx.substring(loggerIndex, ctx.length()));
 
         return out.toString();
     }
@@ -1138,17 +1133,17 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
 
     private String addExtraInfoToContext(String context) {
-        context = this.formatContextEndTag(context);
-        int endContextStartTagIndex = context.indexOf(">");
+        String ctx = this.formatContextEndTag(context);
+        int endContextStartTagIndex = ctx.indexOf(">");
         int extraInfoIndex = endContextStartTagIndex + 1;
-        StringBuffer out = new StringBuffer(context.substring(0, extraInfoIndex));
+        StringBuffer out = new StringBuffer(ctx.substring(0, extraInfoIndex));
         out.append('\n');
         out.append(extraBeginTag);
         out.append('\n');
         out.append(getExtraInfo());
         out.append('\n');
         out.append(extraEndTag);
-        out.append(context.substring(extraInfoIndex, context.length()));
+        out.append(ctx.substring(extraInfoIndex, ctx.length()));
 
         return out.toString();
     }
