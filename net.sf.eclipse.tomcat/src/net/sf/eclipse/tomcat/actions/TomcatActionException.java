@@ -1,26 +1,26 @@
-/**
- * Created on 18 juil. 2002
+/* The MIT License
+ * (c) Copyright Sysdeo SA 2001-2002
+ * (c) Copyright Eclipse Tomcat Plugin 2014-2016
  *
- * To change this generated comment edit the template variable "filecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of file comments go to
- * Window>Preferences>Java>Code Generation.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or 
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 package net.sf.eclipse.tomcat.actions;
 
-/**
- * @author Administrateur
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
- */
 public class TomcatActionException extends Exception {
-	/**
-	 * Constructor TomcatActionException.
-	 * @param string
-	 */
+
 	public TomcatActionException(String message) {
 		super(message);
 	}

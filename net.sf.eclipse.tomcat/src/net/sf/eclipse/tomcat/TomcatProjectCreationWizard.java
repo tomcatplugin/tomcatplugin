@@ -1,9 +1,23 @@
-package net.sf.eclipse.tomcat;
-
-/*
- * (c) Copyright Sysdeo SA 2001, 2002.
- * All Rights Reserved.
+/* The MIT License
+ * (c) Copyright Sysdeo SA 2001-2002
+ * (c) Copyright Eclipse Tomcat Plugin 2014-2016
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or 
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package net.sf.eclipse.tomcat;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -64,9 +78,6 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
         }
     }
 
-    /*
-     * @see Wizard#addPages
-     */
     @Override
     public void addPages() {
         super.addPages();
@@ -82,13 +93,9 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
 
         IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
         fJavaPage = new NewJavaProjectWizardPage(root, fMainPage);
-        //		addPage(fJavaPage);
 
     }
 
-    /*
-     * @see Wizard#performFinish
-     */
     @Override
     public boolean performFinish() {
         IRunnableWithProgress op = new WorkspaceModifyDelegatingOperation(fJavaPage.getRunnable());
@@ -120,7 +127,7 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
         return true;
     }
 
-    /*
+    /**
      * Stores the configuration element for the wizard.  The config element will be used
      * in <code>performFinish</code> to set the result perspective.
      */
@@ -128,9 +135,6 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
         fConfigElement = cfig;
     }
 
-    /*
-     * @see IWizard#getNextPage(IWizardPage)
-     */
     @Override
     public IWizardPage getNextPage(IWizardPage page) {
         // initialize Tomcat Wizard page webpath field
@@ -144,9 +148,6 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
         return super.getNextPage(page);
     }
 
-    /* (non-Javadoc)
-     * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
-     */
     @Override
     protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
         // for Eclipse 3.0 compatibility
@@ -173,7 +174,6 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
 
     @Override
     public IJavaElement getCreatedElement() {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -1,9 +1,23 @@
-package net.sf.eclipse.tomcat;
-
-/*
- * (c) Copyright Sysdeo SA 2001, 2002.
- * All Rights Reserved.
+/* The MIT License
+ * (c) Copyright Sysdeo SA 2001-2002
+ * (c) Copyright Eclipse Tomcat Plugin 2014-2016
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or 
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package net.sf.eclipse.tomcat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,7 +61,6 @@ import net.sf.eclipse.tomcat.editors.ProjectListElement;
  * It might exist better way to implements those operations,
  * or they might already exist in other form JDT
  */
-
 public class VMLauncherUtility {
 
 	static public ILaunch ILAUNCH = null;
@@ -69,43 +82,14 @@ public class VMLauncherUtility {
 	static public void runVM(String label, String classToLaunch, String[] classpath, String[] bootClasspath, String vmArgs, String prgArgs, boolean debug, boolean showInDebugger, boolean saveConfig)
 		throws CoreException {
 
-//		IVMInstall vmInstall = getVMInstall();
 		String mode = "";
 		if (debug)
 			mode = ILaunchManager.DEBUG_MODE;
 		else
 			mode = ILaunchManager.RUN_MODE;
 
-//		IVMRunner vmRunner = vmInstall.getVMRunner(mode);
 		ILaunchConfigurationWorkingCopy config = createConfig(label, classToLaunch, classpath, bootClasspath, vmArgs, prgArgs, debug, showInDebugger, saveConfig);
 		ILAUNCH = config.launch(mode, null);
-
-//		ISourceLocator sourceLocator = getSourceLocator(config, false);
-//		
-//		//		Launch launch = createLaunch(label, classToLaunch, classpath, bootClasspath, vmArgs, prgArgs, sourceLocator, debug, showInDebugger, false);
-//		Launch launch = new Launch(config, mode, sourceLocator);
-//
-//		
-//		if (vmRunner != null) {
-//			VMRunnerConfiguration vmConfig = new VMRunnerConfiguration(classToLaunch, classpath);
-//			ExecutionArguments executionArguments = new ExecutionArguments(vmArgs, prgArgs);
-//			vmConfig.setVMArguments(executionArguments.getVMArgumentsArray());
-//			vmConfig.setProgramArguments(executionArguments.getProgramArgumentsArray());
-//
-//			if (bootClasspath.length == 0) {
-//				vmConfig.setBootClassPath(null); // use default bootclasspath	
-//			} else {
-//				vmConfig.setBootClassPath(bootClasspath);
-//			}
-//
-//			vmRunner.run(vmConfig, launch, null);
-//		}
-//
-//		// Show in debugger
-//		if (showInDebugger) {
-//			DebugPlugin.getDefault().getLaunchManager().addLaunch(launch);
-//		}
-
 	}
 
 	static public void log(String label, String classToLaunch, String[] classpath, String[] bootClasspath, String vmArgs, String prgArgs, boolean debug, boolean showInDebugger) {
@@ -157,14 +141,6 @@ public class VMLauncherUtility {
 		
 		if (bootClasspath.length == 0) {
 			IPath path = new Path(JavaRuntime.JRE_CONTAINER);
-			// Not needed
-//			if (!fJREBlock.isDefaultJRE()) {
-//				IVMInstall vm = fJREBlock.getJRE();
-//				if (vm != null) {
-//					path = path.append(vm.getVMInstallType().getId());
-//					path = path.append(vm.getName());
-//				}
-//			}
 
 			try {
 				IClasspathEntry cpEntry = JavaCore.newContainerEntry(path);
@@ -175,15 +151,6 @@ public class VMLauncherUtility {
 				TomcatLauncherPlugin.log(ex);
 			}
 
-	
-
-// old			
-//			LibraryLocation[] librairies = vmInstall.getVMInstallType().getDefaultLibraryLocations(vmInstall.getInstallLocation());
-//			for (int i = 0; i < librairies.length; i++) {
-//				IRuntimeClasspathEntry cpEntry = JavaRuntime.newArchiveRuntimeClasspathEntry(librairies[i].getSystemLibraryPath());
-//				cpEntry.setClasspathProperty(IRuntimeClasspathEntry.BOOTSTRAP_CLASSES);
-//				classpathMementos.add(cpEntry.getMemento());
-//			}
 		} else {
 			for (int i = 0; i < bootClasspath.length; i++) {
 				IRuntimeClasspathEntry cpEntry = JavaRuntime.newArchiveRuntimeClasspathEntry(new Path(bootClasspath[i]));
@@ -240,7 +207,6 @@ public class VMLauncherUtility {
 
 		if (!tempList.isEmpty()) {
 			IJavaProject[] javaProjects = (IJavaProject[]) tempList.toArray(new IJavaProject[1]);
-				//		sourceLocator = new JavaSourceLocator(javaProjects, true);
 
 			
 			// Eclipse stops looking for source if it finds a jar containing the source code

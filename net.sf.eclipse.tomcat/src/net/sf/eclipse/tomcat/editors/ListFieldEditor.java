@@ -201,9 +201,6 @@ public class ListFieldEditor extends ListEditor implements TomcatPluginResources
 		buttonBox.setLayoutData(gd);
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on FieldEditor.
-	 */
 	protected void doLoad() {
 		if (list != null) {
 			String s = getPreferenceStore().getString(getPreferenceName());
@@ -214,9 +211,6 @@ public class ListFieldEditor extends ListEditor implements TomcatPluginResources
 		}
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on FieldEditor.
-	 */
 	protected void doLoadDefault() {
 		if (list != null) {
 			list.removeAll();
@@ -228,9 +222,6 @@ public class ListFieldEditor extends ListEditor implements TomcatPluginResources
 		}
 	}
 
-	/*
-	 * (non-Javadoc) Method declared on FieldEditor.
-	 */
 	protected void doStore() {
 		String s = createList(list.getItems());
 		if (s != null)

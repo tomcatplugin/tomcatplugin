@@ -1,9 +1,23 @@
-package net.sf.eclipse.tomcat;
-
-/*
- * (c) Copyright Sysdeo SA 2001, 2002.
- * All Rights Reserved.
+/* The MIT License
+ * (c) Copyright Sysdeo SA 2001-2002
+ * (c) Copyright Eclipse Tomcat Plugin 2014-2016
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or 
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package net.sf.eclipse.tomcat;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -53,14 +67,6 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     private static final String extraBeginTag = "<!-- Extra info begin -->";
     private static final String extraEndTag = "<!-- Extra info end -->";
 
-    //	private static final QualifiedName QN_WEBPATH = new QualifiedName("TomcatProject", KEY_WEBPATH);
-    //	private static final QualifiedName QN_UPDATEXML = new QualifiedName("TomcatProject", KEY_UPDATEXML);
-    //	private static final QualifiedName QN_EXPORTSOURCE = new QualifiedName("TomcatProject", KEY_EXPORTSOURCE);
-    //	private static final QualifiedName QN_RELOADABLE = new QualifiedName("TomcatProject", KEY_RELOADABLE);
-    //	private static final QualifiedName QN_REDIRECTLOGGER = new QualifiedName("TomcatProject", KEY_REDIRECTLOGGER);
-    //	private static final QualifiedName QN_WARLOCATION = new QualifiedName("TomcatProject", KEY_WARLOCATION);
-    //	private static final QualifiedName QN_ROOTDIR = new QualifiedName("TomcatProject", KEY_ROOTDIR);
-
 
     /**
      * The platform project this <code>TomcatProject</code> is based on
@@ -84,6 +90,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the project.
+     *
      * @return Returns a IProject
      */
     public IProject getProject() {
@@ -92,36 +99,25 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the project.
+     *
      * @param project The project to set
      */
     public void setProject(IProject project) {
         this.project = project;
     }
 
-    /*
-     * @see IProjectNature#configure()
-     */
     public void configure() throws CoreException {
         // empty implementation
     }
 
-    /*
-     * @see IProjectNature#deconfigure()
-     */
     public void deconfigure() throws CoreException {
         // empty implementation
     }
 
-    /*
-     * @see IProjectNature#getProject()
-     */
     public IJavaProject getJavaProject() {
         return javaProject;
     }
 
-    /*
-     * @see IProjectNature#setProject(IProject)
-     */
     public void setJavaProject(IJavaProject javaProject) {
         this.javaProject = javaProject;
         this.setProject(javaProject.getProject());
@@ -200,6 +196,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the rootDir.
+     *
      * @return Returns a String
      */
     public String getRootDir() {
@@ -208,6 +205,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the rootDir.
+     *
      * @param rootDir The rootDir to set
      */
     public void setRootDir(String rd) {
@@ -217,6 +215,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the rootDir.
+     *
      * @return Returns a String
      */
     public String getWorkDir() {
@@ -225,6 +224,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the rootDir.
+     *
      * @param rootDir The rootDir to set
      */
     public void setWorkDir(String wd) {
@@ -234,6 +234,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the webpath.
+     *
      * @return Returns a String
      */
     public String getWebPath() {
@@ -242,6 +243,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the webpath.
+     *
      * @param webpath The webpath to set
      */
     public void setWebPath(String wp) {
@@ -259,6 +261,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the warfile.
+     *
      * @return Returns a String
      */
     public String getWarLocation() {
@@ -267,6 +270,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the warfile
+     *
      * @param warfile The warfile to set
      */
     public void setWarLocation(String wl) {
@@ -275,6 +279,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the updateXml.
+     *
      * @return Returns a boolean
      */
     public boolean getUpdateXml() {
@@ -283,6 +288,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the updateXml.
+     *
      * @param updateXml The updateXml to set
      */
     public void setUpdateXml(boolean updateXml) {
@@ -291,6 +297,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the updateXml.
+     *
      * @return Returns a boolean
      */
     public boolean getExportSource() {
@@ -299,6 +306,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the exportSource.
+     *
      * @param exportSource The exportSource to set
      */
     public void setExportSource(boolean exportSource) {
@@ -307,6 +315,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the reloadable
+     *
      * @return Returns a boolean
      */
     public boolean getReloadable(){
@@ -320,6 +329,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the reloadable
+     *
      * @param reloadable The reloadable to set
      */
     public void setReloadable(boolean reloadable){
@@ -328,6 +338,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the reloadable
+     *
      * @return Returns a boolean
      */
     public boolean getRedirectLogger(){
@@ -341,6 +352,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the reloadable
+     *
      * @param reloadable The reloadable to set
      */
     public void setRedirectLogger(boolean redirectLogger){
@@ -349,6 +361,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Gets the warfile.
+     *
      * @return Returns a String
      */
     public String getExtraInfo() {
@@ -357,6 +370,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * Sets the warfile
+     *
      * @param warfile The warfile to set
      */
     public void setExtraInfo(String extra) {
@@ -365,6 +379,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     /**
      * set the classpath entries which shall be loaded by the webclassloader
+     *
      * @param entries List of WebClasspathEntry objects
      */
     public void setWebClassPathEntries(WebClassPathEntries entries) {
@@ -382,7 +397,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         }
     }
 
-    /*
+    /**
      * Store exportSource in project persistent properties
      */
     public void saveProperties() {
@@ -457,7 +472,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         javaProject.setRawClasspath((IClasspathEntry[])cp.toArray(new IClasspathEntry[cp.size()]), null);
     }
 
-    /*
+    /**
      * Add servlet.jar and jasper.jar to project classpath
      */
     public void addTomcatJarToProjectClasspath()  throws CoreException {
@@ -480,7 +495,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     }
 
 
-    /*
+    /**
      * Add all jar in WEB-INF/lib to project classpath
      */
     public void addWEBINFLibJarFilesToProjectClasspath()  throws CoreException {
@@ -632,7 +647,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     }
 
 
-    /*
+    /**
      * ouput could be null (project default output will be used)
      */
     private void setFolderAsSourceEntry(IFolder folderHandle, IFolder output) throws CoreException {
@@ -662,7 +677,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         }
     }
 
-    /*
+    /**
      * Add or update a Context entry on Tomcat server.xml file
      */
     private void updateServerXML() throws CoreException, IOException {
@@ -679,7 +694,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         }
     }
 
-    /*
+    /**
      * create or update a Context file
      */
     private void updateContextFile() throws IOException {
@@ -1238,7 +1253,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         zipper.zip();
     }
 
-    /*
+    /**
      * if WEB-INF classes contains Java files add it to source folders
      * Otherwise Eclipse will delete all those files
      */
@@ -1258,7 +1273,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     }
 
 
-    /*
+    /**
      * A new Tomcat project should be checked by default in source path preference page
      */
     private void addProjectToSourcePathPref() {
