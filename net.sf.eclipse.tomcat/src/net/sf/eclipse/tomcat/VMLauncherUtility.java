@@ -6,15 +6,11 @@ package net.sf.eclipse.tomcat;
  */
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sf.eclipse.tomcat.editors.ProjectListElement;
-
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -24,36 +20,26 @@ import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
-import org.eclipse.debug.core.Launch;
 import org.eclipse.debug.core.model.ISourceLocator;
 import org.eclipse.debug.core.sourcelookup.ISourceContainer;
 import org.eclipse.debug.core.sourcelookup.ISourceLookupDirector;
 import org.eclipse.debug.core.sourcelookup.ISourcePathComputer;
 import org.eclipse.debug.core.sourcelookup.containers.DefaultSourceContainer;
 import org.eclipse.debug.ui.IDebugUIConstants;
-import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.debug.ui.JDIDebugUIPlugin;
-import org.eclipse.jdt.internal.debug.ui.classpath.ClasspathEntry;
-import org.eclipse.jdt.internal.debug.ui.launcher.LauncherMessages;
 import org.eclipse.jdt.internal.launching.JavaSourceLookupDirector;
-import org.eclipse.jdt.internal.launching.RuntimeClasspathEntry;
-import org.eclipse.jdt.launching.ExecutionArguments;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMInstallType;
-import org.eclipse.jdt.launching.IVMRunner;
 import org.eclipse.jdt.launching.JavaRuntime;
-import org.eclipse.jdt.launching.LibraryLocation;
-import org.eclipse.jdt.launching.VMRunnerConfiguration;
-import org.eclipse.jdt.launching.sourcelookup.containers.ClasspathContainerSourceContainer;
-import org.eclipse.jdt.launching.sourcelookup.containers.ClasspathVariableSourceContainer;
 import org.eclipse.jdt.launching.sourcelookup.containers.JavaProjectSourceContainer;
 import org.eclipse.jdt.launching.sourcelookup.containers.PackageFragmentRootSourceContainer;
+
+import net.sf.eclipse.tomcat.editors.ProjectListElement;
 
 /**
  * Utility class for launching a JVM in Eclipse and registering it to debugger
@@ -142,7 +128,7 @@ public class VMLauncherUtility {
 
 		try {
 			ILaunchConfigurationWorkingCopy config = createConfig(label, classToLaunch, classpath, bootClasspath, vmArgs, prgArgs, debug, showInDebugger, false);
-			getSourceLocator(config, true);
+			getSourceLocator(true);
 		} catch (CoreException e) {
 			TomcatLauncherPlugin.log("getSourceLocator failed");
 		}
@@ -159,7 +145,7 @@ public class VMLauncherUtility {
 		config.setAttribute(IDebugUIConstants.ATTR_PRIVATE, !saveConfig);
 		config.setAttribute(ILaunchConfiguration.ATTR_SOURCE_LOCATOR_ID, "org.eclipse.jdt.launching.sourceLocator.JavaSourceLookupDirector");
 		
-		ISourceLookupDirector locator = (ISourceLookupDirector) getSourceLocator(config, false);
+		ISourceLookupDirector locator = (ISourceLookupDirector) getSourceLocator(false);
 		config.setAttribute(ILaunchConfiguration.ATTR_SOURCE_LOCATOR_MEMENTO, locator.getMemento());
 		
 		ArrayList classpathMementos = new ArrayList();
@@ -222,14 +208,14 @@ public class VMLauncherUtility {
 		config.setAttribute(IJavaLaunchConfigurationConstants.ATTR_WORKING_DIRECTORY, catalinaBase);
 
 		if(saveConfig) {
-			getSourceLocator(config, false);
+			getSourceLocator(false);
 			config.doSave();
 		} 
 
 		return config;
 	}
 
-	private static ISourceLocator getSourceLocator(ILaunchConfiguration configuration, boolean trace) throws CoreException {
+	private static ISourceLocator getSourceLocator(boolean trace) throws CoreException {
 		ArrayList tempList = new ArrayList();
 		StringBuffer traceBuffer = new StringBuffer();
 

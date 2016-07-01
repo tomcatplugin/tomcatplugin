@@ -104,7 +104,7 @@ public class Tomcat3Bootstrap extends TomcatBootstrap {
         if((dir != null) && (dir.isDirectory())) {
             // Filter for .jar files
             FilenameFilter filter = new FilenameFilter() {
-                public boolean accept(File dir, String filename) {
+                public boolean accept(File directory, String filename) {
                     return filename.endsWith(".jar");
                 }
             };

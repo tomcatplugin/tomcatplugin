@@ -1,12 +1,5 @@
 package net.sf.eclipse.tomcat;
 
-/*
- * (c) Copyright Sysdeo SA 2001, 2002.
- * All Rights Reserved.
- */
-
-import net.sf.eclipse.tomcat.editors.ProjectListEditor;
-
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.DirectoryFieldEditor;
 import org.eclipse.jface.preference.FieldEditor;
@@ -21,6 +14,13 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+/*
+ * (c) Copyright Sysdeo SA 2001, 2002.
+ * All Rights Reserved.
+ */
+
+import net.sf.eclipse.tomcat.editors.ProjectListEditor;
+
 /**
  *
  * @author keunecke
@@ -28,7 +28,6 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class AdvancedPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, TomcatPluginResources {
 
     private BooleanFieldEditor securityEditor;
-    private DirectoryFieldEditor home;
     private DirectoryFieldEditor base;
     private ProjectListEditor projectListEditor;
 
@@ -84,6 +83,7 @@ public class AdvancedPreferencePage extends PreferencePage implements IWorkbench
      * @see IWorkbenchPreferencePage#init(IWorkbench)
      */
     public void init(IWorkbench workbench) {
+        // empty default implementation
     }
 
 
@@ -103,16 +103,6 @@ public class AdvancedPreferencePage extends PreferencePage implements IWorkbench
         field.load();
     }
 
-
-    private void initLayoutAndData(Group aGroup, int spanH, int spanV, int numColumns) {
-        GridLayout gl = new GridLayout(numColumns, false);
-        aGroup.setLayout(gl);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = spanH;
-        gd.verticalSpan = spanV;
-        aGroup.setLayoutData(gd);
-    }
-
     private void initLayoutAndData(Group aGroup, int numColumns) {
         GridLayout gl = new GridLayout(numColumns, false);
         aGroup.setLayout(gl);
@@ -121,6 +111,5 @@ public class AdvancedPreferencePage extends PreferencePage implements IWorkbench
         gd.widthHint = 400;
         aGroup.setLayoutData(gd);
     }
-
 }
 

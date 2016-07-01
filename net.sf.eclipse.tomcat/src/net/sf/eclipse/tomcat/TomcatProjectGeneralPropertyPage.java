@@ -261,6 +261,7 @@ public class TomcatProjectGeneralPropertyPage implements TomcatPluginResources {
                 result = prj.getReloadable();
             }
         }catch(CoreException ex){
+        	// ignore exception
         }
         return result;
     }
@@ -273,6 +274,7 @@ public class TomcatProjectGeneralPropertyPage implements TomcatPluginResources {
                 result = prj.getRedirectLogger();
             }
         }catch(CoreException ex){
+        	// ignore exception
         }
         return result;
     }

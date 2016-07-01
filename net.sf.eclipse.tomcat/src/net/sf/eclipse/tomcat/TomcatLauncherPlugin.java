@@ -385,10 +385,6 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
     }
 
     public List getProjectsInSourcePath() {
-        IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-        IProject[] allProjects = root.getProjects();
-        ArrayList tempList = new ArrayList(allProjects.length);
-
         IPreferenceStore pref =	TomcatLauncherPlugin.getDefault().getPreferenceStore();
         boolean automaticallyComputed =  pref.getBoolean(TOMCAT_PREF_COMPUTESOURCEPATH_KEY);
 

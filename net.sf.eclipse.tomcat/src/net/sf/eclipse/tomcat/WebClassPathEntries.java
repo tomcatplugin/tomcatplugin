@@ -181,7 +181,7 @@ public class WebClassPathEntries {
 		
 		xml = "<webClassPathEntries>\n<webClassPathEntry>abc</webClassPathEntry>\n<webClassPathEntry>def</webClassPathEntry>\n<webClassPathEntry>123</webClassPathEntry>\n</webClassPathEntries>\n";
 		String gen = entries.xmlMarshal();
-		if (gen.equals(xml) == false) {
+		if (!gen.equals(xml)) {
 			System.err.println("generated xml is incorrect:\n!" + gen + "!");
 			System.err.println("expected xml is :\n!" + xml + "!");			
 			System.exit(1);									

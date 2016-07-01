@@ -7,10 +7,6 @@ package net.sf.eclipse.tomcat;
 
 import java.util.ArrayList;
 
-import net.sf.eclipse.tomcat.editors.ClasspathFieldEditor;
-import net.sf.eclipse.tomcat.editors.ComboFieldEditor;
-import net.sf.eclipse.tomcat.editors.ListFieldEditor;
-
 import org.eclipse.jdt.launching.IVMInstall;
 import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
@@ -30,9 +26,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
+import net.sf.eclipse.tomcat.editors.ClasspathFieldEditor;
+import net.sf.eclipse.tomcat.editors.ComboFieldEditor;
+import net.sf.eclipse.tomcat.editors.ListFieldEditor;
+
 public class TomcatJVMPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, TomcatPluginResources {
 
-	static final private int FIELD_WIDTH = 50;
 	private ComboFieldEditor jvmChoice;
 	private ListFieldEditor jvmParamaters;
 	private ClasspathFieldEditor jvmClasspath;
@@ -48,7 +47,8 @@ public class TomcatJVMPreferencePage extends PreferencePage implements IWorkbenc
 	/*
 	 * @see PreferencePage#createContents(Composite)
 	 */
-	protected Control createContents(Composite parent) {
+	@Override
+    protected Control createContents(Composite parent) {
 		final ScrolledComposite scrolledComposite = new ScrolledComposite(parent, SWT.V_SCROLL);
 		Composite composite = new Composite(scrolledComposite, SWT.NULL);
 		scrolledComposite.setContent(composite);
@@ -84,7 +84,8 @@ public class TomcatJVMPreferencePage extends PreferencePage implements IWorkbenc
 		Button btAddLaunch = new Button(group, SWT.PUSH);
 		btAddLaunch.setText(PREF_PAGE_CREATE_LAUNCH_LABEL);
 		btAddLaunch.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
+			@Override
+            public void widgetSelected(SelectionEvent e) {
 				try {
 					TomcatLauncherPlugin.getDefault().getTomcatBootstrap().addLaunch();
 				} catch (Exception ex) {
@@ -96,7 +97,8 @@ public class TomcatJVMPreferencePage extends PreferencePage implements IWorkbenc
 		Button btLog = new Button(group, SWT.PUSH);
 		btLog.setText(PREF_PAGE_DUMP_CONFIG_LABEL);
 		btLog.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
+			@Override
+            public void widgetSelected(SelectionEvent e) {
 				try {
 					TomcatLauncherPlugin.getDefault().getTomcatBootstrap().logConfig();
 				} catch (Exception ex) {
@@ -124,9 +126,11 @@ public class TomcatJVMPreferencePage extends PreferencePage implements IWorkbenc
 	 * @see IWorkbenchPreferencePage#init(IWorkbench)
 	 */
 	public void init(IWorkbench workbench) {
+	    // empty implementation
 	}
 
-	public boolean performOk() {
+	@Override
+    public boolean performOk() {
 		jvmChoice.store();
 		jvmBootClasspath.store();
 		jvmClasspath.store();
@@ -142,6 +146,5 @@ public class TomcatJVMPreferencePage extends PreferencePage implements IWorkbenc
 		field.setPreferencePage(this);
 		field.load();
 	}
-	
 
 }

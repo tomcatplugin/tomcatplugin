@@ -21,28 +21,32 @@ import org.eclipse.jface.viewers.Viewer;
  * the case where the input is an unchanging array or collection of elements.
  */
 public class ArrayContentProvider implements IStructuredContentProvider {
-	
+
 	/**
 	 * Returns the elements in the input, which must be either an array or a
-	 * <code>Collection</code>. 
+	 * <code>Collection</code>.
 	 */
 	public Object[] getElements(Object inputElement) {
-		if (inputElement instanceof Object[])
-			return (Object[]) inputElement;
-		if (inputElement instanceof Collection)
-			return ((Collection) inputElement).toArray();
+		if (inputElement instanceof Object[]) {
+            return (Object[]) inputElement;
+        }
+		if (inputElement instanceof Collection) {
+            return ((Collection) inputElement).toArray();
+        }
 		return new Object[0];
 	}
-	
+
 	/**
 	 * This implementation does nothing.
 	 */
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+        // empty default implementation
 	}
 
 	/**
 	 * This implementation does nothing.
 	 */
 	public void dispose() {
+        // empty default implementation
 	}
 }

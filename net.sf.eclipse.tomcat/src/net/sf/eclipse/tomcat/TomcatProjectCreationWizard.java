@@ -75,7 +75,7 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
         fMainPage.setDescription(WIZARD_PROJECT_MAINPAGE_DESCRIPTION);
         addPage(fMainPage);
 
-        fTomcatPage = new NewTomcatProjectWizardPage(this, "NewTomcatProjectPage");
+        fTomcatPage = new NewTomcatProjectWizardPage("NewTomcatProjectPage");
         fTomcatPage.setTitle(WIZARD_PROJECT_TOMCATPAGE_TITLE);
         fTomcatPage.setDescription(WIZARD_PROJECT_TOMCATPAGE_DESCRIPTION);
         addPage(fTomcatPage);

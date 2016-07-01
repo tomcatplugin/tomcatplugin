@@ -9,9 +9,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import net.sf.eclipse.tomcat.editors.TomcatDirectoryFieldEditor;
-import net.sf.eclipse.tomcat.editors.TomcatFileFieldEditor;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -36,6 +33,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.google.common.base.Joiner;
+
+import net.sf.eclipse.tomcat.editors.TomcatDirectoryFieldEditor;
+import net.sf.eclipse.tomcat.editors.TomcatFileFieldEditor;
 
 
 public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPreferencePage, TomcatPluginResources {
@@ -154,7 +154,7 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
             public void propertyChange(PropertyChangeEvent event) {
                 if(event.getProperty().equals(FieldEditor.VALUE)) {
                     String value = (String)event.getNewValue();
-                    versionChanged(composite, value);
+                    versionChanged(value);
                 }
             }
         });
@@ -188,6 +188,7 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
      * @see IWorkbenchPreferencePage#init(IWorkbench)
      */
     public void init(IWorkbench workbench) {
+        // empty implementation
     }
 
 
@@ -281,18 +282,9 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
         contextsDir.valueChanged();
     }
 
-    private void versionChanged(final Composite composite, String value) {
+    private void versionChanged(String value) {
         selectedVersion = value;
         computeContextsDir();
-    }
-
-    private void initLayoutAndData(Composite aGroup, int spanH, int spanV, int numColumns) {
-        GridLayout gl = new GridLayout(numColumns, false);
-        aGroup.setLayout(gl);
-        GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-        gd.horizontalSpan = spanH;
-        gd.verticalSpan = spanV;
-        aGroup.setLayoutData(gd);
     }
 
     private void initLayoutAndData(Composite aGroup, int numColumns) {

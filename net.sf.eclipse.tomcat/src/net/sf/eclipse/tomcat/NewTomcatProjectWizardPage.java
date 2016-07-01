@@ -17,11 +17,10 @@ import org.eclipse.swt.widgets.Text;
 
 public class NewTomcatProjectWizardPage extends WizardPage implements TomcatPluginResources {
 
-	private Button updateXmlCheck;	
+	private Button updateXmlCheck;
 	private Text webpathText;
 	private Text rootDirText;
-	private TomcatProjectCreationWizard wizard;
-	
+
 	// See TomcatProjectCreationWizard.getNextPage
 	private boolean displayedOnce = false;
 
@@ -32,10 +31,9 @@ public class NewTomcatProjectWizardPage extends WizardPage implements TomcatPlug
 	 *
 	 * @param pageName the name of this page
 	 */
-	public NewTomcatProjectWizardPage(TomcatProjectCreationWizard wizard, String pageName) {
+	public NewTomcatProjectWizardPage(String pageName) {
 		super(pageName);
 		setPageComplete(true);
-		this.wizard = wizard;
 	}
 
 	/*
@@ -43,10 +41,10 @@ public class NewTomcatProjectWizardPage extends WizardPage implements TomcatPlug
 	 */
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NULL);
-	
+
 		composite.setLayout(new GridLayout());
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
+
 		createWebpathGroup(composite);
 //		new Label(composite, SWT.NULL);
 		createUpdateXmlGroup(composite);
@@ -56,7 +54,7 @@ public class NewTomcatProjectWizardPage extends WizardPage implements TomcatPlug
 
 		setErrorMessage(null);
 		setMessage(null);
-		setControl(composite);	
+		setControl(composite);
 	}
 
 
@@ -80,7 +78,7 @@ public class NewTomcatProjectWizardPage extends WizardPage implements TomcatPlug
 		webpathText.setText(""); // see TomcatProjectCreationWizard.nextPage
 		webpathText.setEnabled(true);
 	}
-	
+
 
 	public void createUpdateXmlGroup(Composite parent) {
 		Composite updateXmlGroup = new Composite(parent,SWT.NONE);
@@ -116,27 +114,28 @@ public class NewTomcatProjectWizardPage extends WizardPage implements TomcatPlug
 		rootDirText.setText("/"); // see TomcatProjectCreationWizard.nextPage
 		rootDirText.setEnabled(true);
 	}
-		
+
 	public String getWebpath() {
-		return webpathText.getText();	
+		return webpathText.getText();
 	}
 
 	public String getRootDir() {
-		return rootDirText.getText();	
+		return rootDirText.getText();
 	}
-		
+
 	public boolean getUpdateXml() {
-		return updateXmlCheck.getSelection();	
+		return updateXmlCheck.getSelection();
 	}
 
 	public void setWebpath(String path) {
-		webpathText.setText(path);	
+		webpathText.setText(path);
 	}
-	
+
 	/*
 	 * @see IWizardPage#canFlipToNextPage()
 	 */
-	public boolean canFlipToNextPage() {
+	@Override
+    public boolean canFlipToNextPage() {
 		displayedOnce = true;
 		return super.canFlipToNextPage();
 	}
@@ -150,5 +149,5 @@ public class NewTomcatProjectWizardPage extends WizardPage implements TomcatPlug
 		return displayedOnce;
 	}
 
-	
+
 }
