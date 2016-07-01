@@ -1,9 +1,23 @@
-package net.sf.eclipse.tomcat;
-
-/*
- * (c) Copyright Sysdeo SA 2001, 2002.
- * All Rights Reserved.
+/* The MIT License
+ * (c) Copyright Sysdeo SA 2001-2002
+ * (c) Copyright Eclipse Tomcat Plugin 2014-2016
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or 
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package net.sf.eclipse.tomcat;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -40,18 +54,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * The main plugin class to be used in the desktop.
@@ -429,26 +431,6 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
                         alreadyAdded.add(project);
                     }
 
-
-                    //					String[] reqProjects = javaProject.getRequiredProjectNames();
-                    //
-                    //					for (int j = 0; j < allProjects.length; j++)
-                    //					{
-                    //						for (int k = 0; k < reqProjects.length; k++)
-                    //						{
-                    //							if(allProjects[j].getName().equals(reqProjects[k]))
-                    //							{
-                    //								if((allProjects[j].isOpen()) && allProjects[j].hasNature(JavaCore.NATURE_ID)) {
-                    //									if(!alreadyAdded.contains(allProjects[j]))
-                    //									{
-                    //										tempList.add(new ProjectListElement(allProjects[j].getNature(JavaCore.NATURE_ID).getProject()));
-                    //										alreadyAdded.add(allProjects[j]);
-                    //									}
-                    //								}
-                    //							}
-                    //						}
-                    //					}
-
                 }
             } catch (CoreException e) {
                 TomcatLauncherPlugin.log(e);
@@ -457,23 +439,6 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
         return tempList;
 
     }
-
-    //	private void initProjectsInSourcePath() {
-    //		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-    //		IProject[] allProjects = root.getProjects();
-    //
-    //		ArrayList tempList = new ArrayList(allProjects.length);
-    //		for (int i = 0; i < allProjects.length; i++) {
-    //			try {
-    //				if((allProjects[i].isOpen()) && allProjects[i].hasNature(JavaCore.NATURE_ID)) {
-    //					tempList.add(new ProjectListElement(allProjects[i].getNature(JavaCore.NATURE_ID).getProject()));
-    //				}
-    //			} catch (CoreException e) {
-    //				TomcatLauncherPlugin.getDefault().log(e);
-    //			}
-    //		}
-    //		this.setProjectsInSourcePath(tempList);
-    //	}
 
     static void saveProjectsToPreferenceStore(List projectList, String keyInPreferenceStore) {
         IPreferenceStore pref =	TomcatLauncherPlugin.getDefault().getPreferenceStore();
@@ -520,15 +485,6 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
         super.startup();
         this.fixTomcatHomeBug();
     }
-
-    // Replaced by PreferenceInitializer
-    //	/* (non-Javadoc)
-    //	 * @see org.eclipse.core.runtime.Plugin#initializeDefaultPluginPreferences()
-    //	 */
-    //	protected void initializeDefaultPluginPreferences() {
-    //		getPreferenceStore().setDefault(TomcatLauncherPlugin.TOMCAT_PREF_CONFMODE_KEY, TomcatLauncherPlugin.SERVERXML_MODE);
-    //		super.initializeDefaultPluginPreferences();
-    //	}
 
 }
 

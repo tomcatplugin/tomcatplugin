@@ -138,17 +138,11 @@ public class ProjectListEditor implements TomcatPluginResources {
 	
 	private class MyLabelProvider extends LabelProvider {
 		
-		/*
-		 * @see ILabelProvider#getImage(Object)
-		 */
 		public Image getImage(Object element) {
 			IWorkbench workbench= JavaPlugin.getDefault().getWorkbench();
 			return workbench.getSharedImages().getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
 		}
 
-		/*
-		 * @see ILabelProvider#getText(Object)
-		 */
 		public String getText(Object element) {
 			return super.getText(element);
 		}
@@ -158,7 +152,6 @@ public class ProjectListEditor implements TomcatPluginResources {
 	/* Quick hack :
 	 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9
 	 */			
-	
 	private void invokeForCompatibility(String methodName, List projects) {
 		Class clazz = fProjectsList.getClass();
 		Class[] collectionParameter = {Collection.class};

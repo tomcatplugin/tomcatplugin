@@ -42,9 +42,6 @@ public class ProjectListElement {
 		return selectedProjects;
 	}
 	
-	/*
-	 * @see Object#equals(Object)
-	 */
 	public boolean equals(Object obj) {
 		if(obj instanceof ProjectListElement)
 			return this.getID().equals(((ProjectListElement)obj).getID());
@@ -52,15 +49,13 @@ public class ProjectListElement {
 		return false;
 	}
 
-	/*
-	 * @see Object#hashCode()
-	 */
 	public int hashCode() {
 		return this.getID().hashCode();
 	}
 
 	/**
 	 * Gets the project.
+	 *
 	 * @return Returns a IProject
 	 */
 	public IProject getProject() {

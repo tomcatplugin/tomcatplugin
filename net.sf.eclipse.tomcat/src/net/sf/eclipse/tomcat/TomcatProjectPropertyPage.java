@@ -1,9 +1,23 @@
-package net.sf.eclipse.tomcat;
-
-/*
- * (c) Copyright Martin Kahr, Sysdeo SA 2001, 2002.
- * All Rights Reserved.
+/* The MIT License
+ * (c) Copyright Martin Kahr, Sysdeo SA 2001-2002
+ * (c) Copyright Eclipse Tomcat Plugin 2014-2016
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+ * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or 
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
+ * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+package net.sf.eclipse.tomcat;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -34,14 +48,10 @@ public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenc
 	private TomcatProjectWebclasspathPropertyPage webClassPathPropertyPage;
 	private TomcatProjectWARPropertyPage warPropertyPage;
 
-	/**
-	 * @see PreferencePage#createContents(Composite)
-	 */
 	@Override
     protected Control createContents(Composite parent) {
 	    TabFolder folder = new TabFolder(parent, SWT.NONE);
 
-//		folder.setLayout(new TabFolderLayout());
 		folder.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// general property page
@@ -68,9 +78,6 @@ public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenc
 		return folder;
 	}
 
-	/**
-	 * @see IPreferencePage#performOk()
-	 */
 	@Override
     public boolean performOk() {
 		// delegate to property pages
@@ -90,9 +97,6 @@ public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenc
 		return true;
 	}
 
-	/**
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(IWorkbench)
-	 */
 	public void init(IWorkbench workbench) {
 	    // empty default implementation
 	}
