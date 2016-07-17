@@ -422,6 +422,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
             fileContent.append("    <updateXml>" + updateXml + "</updateXml>\n");
             fileContent.append("    <warLocation>" + warLocation + "</warLocation>\n");
             fileContent.append("    <extraInfo>" + URLEncoder.encode(extraInfo) + "</extraInfo>\n");
+      fileContent.append("    <mavenClasspath>" + mavenClasspath + "</mavenClasspath>\n");
             fileContent.append("    <webPath>" + webPath + "</webPath>\n");
             if (webClassPathEntries != null) {
                 fileContent.append(webClassPathEntries.xmlMarshal(4));
