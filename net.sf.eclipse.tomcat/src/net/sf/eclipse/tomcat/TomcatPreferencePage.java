@@ -92,28 +92,11 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
 
 
         Group homeGroup = new Group(composite,SWT.NONE);
+        homeGroup.setToolTipText("You can use ${workspace_loc} for a workspace relative path.");
         home = new VariableAwareDirectoryFieldEditor(
                                                      TomcatLauncherPlugin.TOMCAT_PREF_HOME_KEY,
                                                      PREF_PAGE_HOME_LABEL,
                                                      homeGroup);
-
-
-        IStringVariableManager variableManager = VariablesPlugin.getDefault().getStringVariableManager();
-        IStringVariable[] variables = variableManager.getVariables();
-        Collection<String> variablesToDisplay = new ArrayList<String>();
-        for (IStringVariable variable : variables) {
-            String variableName = variable.getName();
-            // use a heuristic to pick interesting variables
-            if (variableName.contains("_loc") || variableName.contains("_path") || variableName.contains("_location")) {
-                variablesToDisplay.add(variableName + " - " + variable.getDescription());
-            }
-        }
-
-        Group listOfVariablesGroup = new Group(composite, SWT.NONE);
-        listOfVariablesGroup.setText("Variables to use for 'Tomcat Home'");
-        Label listLabel = new Label(listOfVariablesGroup, SWT.NULL);
-        listLabel.setText(Joiner.on("\n").join(variablesToDisplay));
-        listLabel.setToolTipText("List of available variables (Usage: ${VARIABLE_NAME})");
 
         Group modeGroup = new Group(composite,SWT.NONE);
         modeGroup.setLayout(new GridLayout(1, false));
@@ -156,7 +139,6 @@ public class TomcatPreferencePage extends PreferencePage implements IWorkbenchPr
 
         initLayoutAndData(homeGroup, 3);
         initLayoutAndData(modeGroup, 1);
-        initLayoutAndData(listOfVariablesGroup, 1);
         initLayoutAndData(configLocationGroup, 3);
 
         this.initField(version);
