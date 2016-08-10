@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -43,32 +43,34 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 
 /**
  * This class adds a selection list to the tomcat plugin project configuration.
- * 
+ *
  * the selection is read and written to the file ".webclasspath" in the
  * root of the project.
- * 
- * A special WebAppClassLoader implementation for tomcat 4.x loads the 
+ *
+ * A special WebAppClassLoader implementation for tomcat 4.x loads the
  * generated file during startup of the webapplication.
- * 
+ *
  * @version 	1.0
  * @author		Martin Kahr (martin.kahr@brainment.com)
  */
 public class TomcatProjectWebclasspathPropertyPage {
 	private static final String WEBAPP_CLASSPATH_FILENAME = ".webclasspath";
 	private CheckedListDialogField cpList;
+	private Button mavenClassPathCheck;
 	private Button webClassPathCheck;
 	private WebClassPathEntries entries;
 	private ArrayList visitedProjects = new ArrayList();
-	
+
 	private TomcatProjectPropertyPage page;
 
 	public TomcatProjectWebclasspathPropertyPage(TomcatProjectPropertyPage page) {
 		this.page = page;
 	}
-	
+
 	public IJavaProject getJavaProject() {
 		try {
 			return page.getJavaProject();
@@ -77,40 +79,51 @@ public class TomcatProjectWebclasspathPropertyPage {
 			return null;
 		}
 	}
-	
+
 	/** okay has been pressed */
 	public boolean performOk() {
 		List newSelection = cpList.getCheckedElements();
-		
+
 		try {
+      if (mavenClassPathCheck.getSelection() == true) {
+        page.getTomcatProject().setMavenClasspath(true);
+      }
 			if (webClassPathCheck.getSelection()) {
 				page.getTomcatProject().setWebClassPathEntries(new WebClassPathEntries(newSelection));
 			} else {
 				page.getTomcatProject().setWebClassPathEntries(null);
 			}
-			page.getTomcatProject().saveProperties();		
+			page.getTomcatProject().saveProperties();
 		} catch(Exception ex) {
 			TomcatLauncherPlugin.log(ex);
 			return false;
 		}
 
 		return true;
-	}	
+	}
 
 	public Control getControl(Composite ctrl) {
-		boolean activated = isActive();
-		
+    boolean activated = isWebClasspathActive();
+
 		Composite group   = new Composite(ctrl, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		group.setLayout(layout);
-				
+
+    mavenClassPathCheck = new Button(group, SWT.CHECK | SWT.LEFT);
+    mavenClassPathCheck.setText(TomcatPluginResources.PROPERTIES_PAGE_PROJECT_ACTIVATE_MAVENCLASSPATH_LABEL);
+    mavenClassPathCheck.setEnabled(true);
+    mavenClassPathCheck.setSelection(isMavenClasspathActive());
+
+    new Label(group, SWT.RIGHT).setText(" ");
+
 		webClassPathCheck = new Button(group, SWT.CHECK | SWT.LEFT);
 		webClassPathCheck.setText(TomcatPluginResources.PROPERTIES_PAGE_PROJECT_ACTIVATE_DEVLOADER_LABEL);
 		webClassPathCheck.setEnabled(true);
 		webClassPathCheck.setSelection(activated);
 		webClassPathCheck.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent ev) {
+			@Override
+      public void widgetSelected(SelectionEvent ev) {
 				if (webClassPathCheck.getSelection()) {
 					entries = new WebClassPathEntries();
 					cpList.setEnabled(true);
@@ -120,40 +133,40 @@ public class TomcatProjectWebclasspathPropertyPage {
 				}
 			}
 		});
-		
+
 		cpList = new CheckedListDialogField(null, new String[]{"Check All", "Uncheck All"},new LabelProvider(){});
 		cpList.setEnabled(activated);
 		cpList.setCheckAllButtonIndex(0);
 		cpList.setUncheckAllButtonIndex(1);
 		ArrayList classPathEntries = new ArrayList();
 		getClassPathEntries(getJavaProject(), classPathEntries);
-		
+
 		List selected = null;
-		if (entries != null) 
+		if (entries != null)
 		{
 			selected = entries.getList();
 			// check for entries which are still in the list but no more in classpath entries list and remove them
 			for (Iterator it = selected.iterator(); it.hasNext();) {
 				String sel = (String) it.next();
 				if (!classPathEntries.contains(sel))
-				{ 
+				{
 					it.remove();
 				}
 			}
 		}
 
-	
+
 		// sort the entries
 		Collections.sort(classPathEntries);
-		
+
 		/* Quick hack :
-		 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9				
-		 *	
+		 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9
+		 *
 		 * Old code :
 		 * 	cpList.setElements(classPathEntries);
 		 * 	if (entries != null) {
 		 *		cpList.setCheckedElements(entries.getList());
-		 * 	} 
+		 * 	}
 		 */
 		this.invokeForCompatibility("setElements", classPathEntries);
 		if (entries != null) {
@@ -165,9 +178,9 @@ public class TomcatProjectWebclasspathPropertyPage {
 		return group;
 	}
 
-	
+
 	public void getClassPathEntries(IJavaProject prj, ArrayList data) {
-		
+
 		IClasspathEntry[] myEntries = null;
 		IPath outputPath = null;
 		try {
@@ -179,18 +192,18 @@ public class TomcatProjectWebclasspathPropertyPage {
 		}
 		if (myEntries != null) {
 			getClassPathEntries(myEntries, prj, data, outputPath);
-		}		
+		}
 	}
-	
-	
-	private void getClassPathEntries(IClasspathEntry[] entries, IJavaProject prj, ArrayList data, IPath outputPath) {		
+
+
+	private void getClassPathEntries(IClasspathEntry[] entries, IJavaProject prj, ArrayList data, IPath outputPath) {
 		for (int i = 0; i < entries.length; i++) {
 			IClasspathEntry entry = entries[i];
 			if (entry.getEntryKind() == IClasspathEntry.CPE_PROJECT) {
 				String prjName = entry.getPath().lastSegment();
 				if(!visitedProjects.contains(prjName)) {
 					visitedProjects.add(prjName);
-					getClassPathEntries(getJavaProject().getJavaModel().getJavaProject(prjName), data);				
+					getClassPathEntries(getJavaProject().getJavaModel().getJavaProject(prjName), data);
 				}
 			} else if (entry.getEntryKind() == IClasspathEntry.CPE_LIBRARY) {
 					add(data, entry.getPath());
@@ -207,7 +220,7 @@ public class TomcatProjectWebclasspathPropertyPage {
 					// Basically, users will be able to choose b/w the whole container
 					// or some artifacts enclosed by it
 					add(data, entry.getPath());
-					
+
 					// Expand container and add its content as individual
 					// elements
 					IClasspathContainer container;
@@ -221,17 +234,17 @@ public class TomcatProjectWebclasspathPropertyPage {
 						TomcatLauncherPlugin.log(e);
 						container = null;
 					}
-				
+
 					if (container != null) {
 						getClassPathEntries(container.getClasspathEntries(), prj, data, outputPath);
 					}
-				}				
+				}
 			} else {
 				add(data, entry.getPath());
-			} 			
-		}		
+			}
+		}
 	}
-	
+
 	private void add(ArrayList data, IPath entry) {
 		String path = entry.toFile().toString().replace('\\','/');
 		// ignore tomcat's own libs and the JRE paths..
@@ -241,17 +254,32 @@ public class TomcatProjectWebclasspathPropertyPage {
 		}
 	}
 
-	private boolean isActive() {
-		entries = null;		
+  private boolean isMavenClasspathActive() {
+    //		entries = null;
 		try {
 			TomcatProject project = page.getTomcatProject();
-			if (project == null) return false;
-			entries = project.getWebClassPathEntries();
+      if (project != null) {
+        return project.getMavenClasspath();
+      }
 		} catch(CoreException coreEx) {
         	// ignore exception
 		}
-		return (entries != null);
+    return false;
 	}
+
+  private boolean isWebClasspathActive() {
+    entries = null;
+    try {
+      TomcatProject project = page.getTomcatProject();
+      if (project == null) {
+        return false;
+      }
+      entries = project.getWebClassPathEntries();
+    } catch (CoreException coreEx) {
+      // ignore exception
+    }
+    return (entries != null);
+  }
 
 	/* Quick hack :
 	 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9
@@ -268,11 +296,11 @@ public class TomcatProjectWebclasspathPropertyPage {
 			try {
 				Method method = clazz.getMethod(methodName, listParameter);
 				Object[] args = {projects};
-				method.invoke(cpList, args);				
+				method.invoke(cpList, args);
 			} catch (Exception ex) {
 				TomcatLauncherPlugin.log(ex);
 			}
 		}
-			
+
 	}
 }

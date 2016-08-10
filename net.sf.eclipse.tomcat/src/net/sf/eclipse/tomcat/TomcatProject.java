@@ -1,18 +1,17 @@
-/* The MIT License
- * (c) Copyright Sysdeo SA 2001-2002
- * (c) Copyright Eclipse Tomcat Plugin 2014-2016
+/*
+ * The MIT License (c) Copyright Sysdeo SA 2001-2002 (c) Copyright Eclipse Tomcat Plugin 2014-2016
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software
- * and associated documentation files (the "Software"), to deal in the Software without restriction,
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge, publish, distribute,
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
- * BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+ * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
  * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
@@ -64,6 +63,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     private static final String KEY_ROOTDIR = "rootDir";
     private static final String KEY_WORKDIR = "workDir";
     private static final String KEY_EXTRAINFO = "extraInfo";
+    private static final String KEY_SMARTMAVENCLASSPATH = "mavenClasspath";
     private static final String extraBeginTag = "<!-- Extra info begin -->";
     private static final String extraEndTag = "<!-- Extra info end -->";
 
@@ -83,6 +83,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     protected boolean exportSource;
     protected boolean reloadable = true;
     protected boolean redirectLogger = false;
+    protected boolean mavenClasspath = false;
     protected WebClassPathEntries webClassPathEntries;
 
     protected IFolder rootDirFolder;
@@ -377,6 +378,14 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         this.extraInfo = extra;
     }
 
+    public boolean getMavenClasspath() {
+      return new Boolean(this.readProperty(KEY_SMARTMAVENCLASSPATH)).booleanValue();
+    }
+
+    public void setMavenClasspath(boolean mavenClasspath) {
+      this.mavenClasspath = mavenClasspath;
+    }
+
     /**
      * set the classpath entries which shall be loaded by the webclassloader
      *
@@ -413,6 +422,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
             fileContent.append("    <updateXml>" + updateXml + "</updateXml>\n");
             fileContent.append("    <warLocation>" + warLocation + "</warLocation>\n");
             fileContent.append("    <extraInfo>" + URLEncoder.encode(extraInfo) + "</extraInfo>\n");
+      fileContent.append("    <mavenClasspath>" + mavenClasspath + "</mavenClasspath>\n");
             fileContent.append("    <webPath>" + webPath + "</webPath>\n");
             if (webClassPathEntries != null) {
                 fileContent.append(webClassPathEntries.xmlMarshal(4));
@@ -850,7 +860,8 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         contextBuffer.append(" />\n");
 
         String context = contextBuffer.toString();
-        if (getWebClassPathEntries() != null) {
+        if (getWebClassPathEntries() != null || getMavenClasspath()) {
+
             context = this.addLoaderToContext(context);
         }
         if(getRedirectLogger()) {
@@ -893,13 +904,13 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
         // if loader not set
         int loaderIndex = ctx.indexOf("<Loader");
-        if((loaderIndex == -1) && (getWebClassPathEntries() != null)) {
+        if ((loaderIndex == -1) && (getWebClassPathEntries() != null) || getMavenClasspath()) {
             ctx = this.addLoaderToContext(ctx);
         }
-        if((loaderIndex != -1) && (getWebClassPathEntries() == null)) {
+        if ((loaderIndex != -1) && (getWebClassPathEntries() == null) && !getMavenClasspath()) {
             ctx = this.removeLoaderInContext(ctx);
         }
-        if((loaderIndex != -1) && (getWebClassPathEntries() != null)) {
+        if ((loaderIndex != -1) && (getWebClassPathEntries() != null) || getMavenClasspath()) {
             ctx = this.updateLoaderInContext(ctx);
         }
 
