@@ -23,13 +23,18 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
+import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
@@ -42,6 +47,7 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ui.actions.WorkspaceModifyDelegatingOperation;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
+import org.osgi.framework.Bundle;
 
 public class TomcatProjectCreationWizard extends NewElementWizard implements IExecutableExtension, TomcatPluginResources {
 
@@ -69,8 +75,9 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
 
     private ImageDescriptor getBannerImg() {
         try {
-            URL prefix = new URL(TomcatLauncherPlugin.getDefault().getDescriptor().getInstallURL(), "icons/");
-            return ImageDescriptor.createFromURL(new URL(prefix, "newjprj_wiz.gif"));
+			Bundle bundle = Platform.getBundle(TomcatLauncherPlugin.PLUGIN_ID);
+			URL icons = FileLocator.find(bundle, new Path("icons/"), new HashMap<String, String>());
+            return ImageDescriptor.createFromURL(new URL(icons, "newjprj_wiz.gif"));
         } catch (MalformedURLException e) {
             return null;
         }
