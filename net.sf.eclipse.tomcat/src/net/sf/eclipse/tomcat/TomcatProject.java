@@ -379,7 +379,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     }
 
     public boolean getMavenClasspath() {
-      return new Boolean(this.readProperty(KEY_SMARTMAVENCLASSPATH)).booleanValue();
+      return Boolean.valueOf(this.readProperty(KEY_SMARTMAVENCLASSPATH)).booleanValue();
     }
 
     public void setMavenClasspath(boolean mavenClasspath) {
