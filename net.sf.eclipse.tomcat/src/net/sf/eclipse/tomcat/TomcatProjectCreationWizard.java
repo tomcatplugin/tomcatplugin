@@ -45,8 +45,6 @@ import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 
 public class TomcatProjectCreationWizard extends NewElementWizard implements IExecutableExtension, TomcatPluginResources {
 
-    public static final String NEW_PROJECT_WIZARD_ID = "org.eclipse.jdt.ui.wizards.NewProjectCreationWizard"; //$NON-NLS-1$
-
     private NewTomcatProjectWizardPage fTomcatPage;
     private NewJavaProjectWizardPage fJavaPage;
     private WizardNewProjectCreationPage fMainPage;
