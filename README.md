@@ -31,7 +31,9 @@ Start, stop and restart Tomcat quickly from the toolbar.
 
 Recent changes
 -----
-
+- Version 9.1.0
+  - Bugfix: fix Eclipse Neon compatibility issue
+  - Feature: Support for Maven classpath management added
 - Version 9.0.1
   - Bugfix: fix compatibility issue with Eclipse Neon
 - Version 9.0.0

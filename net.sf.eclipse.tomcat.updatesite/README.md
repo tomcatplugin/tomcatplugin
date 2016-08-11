@@ -3,6 +3,10 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 9.1.0##
+* Bugfix: fix compatibility issue with Neo [#14]
+* Feature: Add support for Maven classpath management
+
 ##Version 9.0.1##
 * Bugfix: fix compatibility issue with Neo [#11]
 
