@@ -6,7 +6,7 @@
    <feature url="features/net.sf.eclipse.tomcat.feature_9.0.0.jar" id="net.sf.eclipse.tomcat.feature" version="9.0.0">
       <category name="net.sf.eclipse.tomcat"/>
    </feature>
-   <feature url="features/net.sf.eclipse.tomcat.feature_9.0.1.jar" id="net.sf.eclipse.tomcat.feature" version="9.0.1">
+   <feature url="features/net.sf.eclipse.tomcat.feature_9.1.0.jar" id="net.sf.eclipse.tomcat.feature" version="9.1.0">
       <category name="net.sf.eclipse.tomcat"/>
    </feature>
    <category-def name="net.sf.eclipse.tomcat" label="Tomcat Plugin"/>
