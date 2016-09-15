@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -27,6 +27,10 @@ import java.util.ArrayList;
  */
 public class Tomcat7Bootstrap extends Tomcat6Bootstrap {
 
+	public Tomcat7Bootstrap(String label) {
+		super(label);
+	}
+
     @Override
     public String[] getClasspath() {
         ArrayList<String> classpath = new ArrayList<String>();
@@ -39,10 +43,5 @@ public class Tomcat7Bootstrap extends Tomcat6Bootstrap {
             classpath.add(toolsJarLocation);
         }
         return (classpath.toArray(new String[0]));
-    }
-
-    @Override
-    public String getLabel() {
-        return "Tomcat 7.x";
     }
 }

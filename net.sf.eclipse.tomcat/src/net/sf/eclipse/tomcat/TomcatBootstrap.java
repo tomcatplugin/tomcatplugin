@@ -52,6 +52,8 @@ public abstract class TomcatBootstrap {
   private static final int LOG = 2;
   private static final int ADD_LAUNCH = 3;
 
+  private final String label;
+
   public abstract String[] getClasspath();
 
   public abstract String[] getVmArgs();
@@ -64,8 +66,6 @@ public abstract class TomcatBootstrap {
 
   public abstract String getMainClass();
 
-  abstract public String getLabel();
-
   abstract public String getContextWorkDir(String workFolder);
 
   abstract public IPath getServletJarPath();
@@ -73,6 +73,10 @@ public abstract class TomcatBootstrap {
   abstract public IPath getJasperJarPath();
 
   abstract public IPath getJSPJarPath();
+
+  TomcatBootstrap(String label) {
+	  this.label = label;
+  }
 
   public Collection<IClasspathEntry> getTomcatJars() {
     IPath tomcatHomePath = TomcatLauncherPlugin.getDefault().getTomcatIPath();
@@ -475,6 +479,10 @@ public abstract class TomcatBootstrap {
   private String[] addPreferenceJvmToBootClasspath(String[] previous) {
     String[] prefBootClasspath = StringUtil.cutString(TomcatLauncherPlugin.getDefault().getJvmBootClasspath(), TomcatPluginResources.PREF_PAGE_LIST_SEPARATOR);
     return StringUtil.concatUniq(previous, prefBootClasspath);
+  }
+
+  public final String getLabel() {
+    return this.label;
   }
 
 }

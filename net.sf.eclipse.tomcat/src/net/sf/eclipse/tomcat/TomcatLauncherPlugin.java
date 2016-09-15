@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -95,7 +95,7 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
     static final String TOMCAT_PREF_CONTEXTSDIR_KEY = "contextsDir";
 
     private static final String TOMCAT_HOME_CLASSPATH_VARIABLE = "TOMCAT_HOME";
-    
+
 
     //The shared instance.
     private static TomcatLauncherPlugin plugin;
@@ -283,28 +283,28 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
         TomcatBootstrap tomcatBootstrap = null;
 
         if(getTomcatVersion().equals(TOMCAT_VERSION3)) {
-            tomcatBootstrap = new Tomcat3Bootstrap();
+            tomcatBootstrap = new Tomcat3Bootstrap("Tomcat 3.x");
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION4)) {
-            tomcatBootstrap = new Tomcat4Bootstrap();
+            tomcatBootstrap = new Tomcat4Bootstrap("Tomcat 4.x");
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION41)) {
-            tomcatBootstrap = new Tomcat41Bootstrap();
+            tomcatBootstrap = new Tomcat41Bootstrap("Tomcat 4.1.x");
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION5)) {
-            tomcatBootstrap = new Tomcat5Bootstrap();
+            tomcatBootstrap = new Tomcat5Bootstrap("Tomcat 5.x");
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION6)) {
-            tomcatBootstrap = new Tomcat6Bootstrap();
+            tomcatBootstrap = new Tomcat6Bootstrap("Tomcat 6.x");
         }
         if(getTomcatVersion().equals(TOMCAT_VERSION7)) {
-            tomcatBootstrap = new Tomcat7Bootstrap();
+            tomcatBootstrap = new Tomcat7Bootstrap("Tomcat 7.x");
         }
         if (getTomcatVersion().equals(TOMCAT_VERSION8)) {
-            tomcatBootstrap = new Tomcat7Bootstrap();
+            tomcatBootstrap = new Tomcat7Bootstrap("Tomcat 8.x");
         }
         if (getTomcatVersion().equals(TOMCAT_VERSION9)) {
-        	tomcatBootstrap = new Tomcat7Bootstrap();
+        	tomcatBootstrap = new Tomcat7Bootstrap("Tomcat 9.x");
         }
 
         return tomcatBootstrap;

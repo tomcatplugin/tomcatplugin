@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -35,7 +35,11 @@ import org.eclipse.jdt.core.JavaCore;
  */
 public class Tomcat6Bootstrap extends TomcatBootstrap {
 
-    @Override
+    Tomcat6Bootstrap(String label) {
+		super(label);
+	}
+
+	@Override
     public String[] getClasspath() {
         ArrayList<String> classpath = new ArrayList<String>();
         classpath.add(getTomcatDir() + File.separator + "bin" + File.separator + "bootstrap.jar");
@@ -140,11 +144,6 @@ public class Tomcat6Bootstrap extends TomcatBootstrap {
         jars.add(JavaCore.newVariableEntry(tomcatHomePath.append(this.getElJarPath()), null, null));
         jars.add(JavaCore.newVariableEntry(tomcatHomePath.append(this.getAnnotationsJarPath()), null, null));
         return jars;
-    }
-
-    @Override
-    public String getLabel() {
-        return "Tomcat 6.x";
     }
 
     @Override

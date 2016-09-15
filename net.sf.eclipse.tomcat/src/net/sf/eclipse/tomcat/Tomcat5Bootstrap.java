@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -34,6 +34,10 @@ import org.eclipse.core.runtime.Path;
  * See %TOMCAT5_HOME%/bin/catalina.bat
  */
 public class Tomcat5Bootstrap extends TomcatBootstrap {
+
+	Tomcat5Bootstrap(String label) {
+		super(label);
+	}
 
 	@Override
     public String[] getClasspath() {
@@ -121,11 +125,6 @@ public class Tomcat5Bootstrap extends TomcatBootstrap {
     @Override
     public IPath getJSPJarPath() {
         return new Path("common").append("lib").append("jsp-api.jar");
-    }
-
-    @Override
-    public String getLabel() {
-        return "Tomcat 5.x";
     }
 
     @Override

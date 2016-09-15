@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -31,6 +31,10 @@ import org.eclipse.core.runtime.Path;
  * See %TOMCAT4_HOME%/bin/catalina.bat
  */
 public class Tomcat4Bootstrap extends TomcatBootstrap {
+
+	Tomcat4Bootstrap(String label) {
+		super(label);
+	}
 
 	@Override
     public String[] getClasspath() {
@@ -116,12 +120,6 @@ public class Tomcat4Bootstrap extends TomcatBootstrap {
     public IPath getJSPJarPath() {
         return null;
     }
-
-    @Override
-    public String getLabel() {
-        return "Tomcat 4.0.x";
-    }
-
 
     @Override
     public String getContextWorkDir(String workFolder) {

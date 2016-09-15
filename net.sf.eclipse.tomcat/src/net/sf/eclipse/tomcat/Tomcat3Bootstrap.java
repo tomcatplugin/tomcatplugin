@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -33,7 +33,9 @@ import org.eclipse.core.runtime.Path;
  */
 public class Tomcat3Bootstrap extends TomcatBootstrap {
 
-    static private String DEBUG_VIEW_LABEL = "Tomcat 3.3";
+    Tomcat3Bootstrap(String label) {
+		super(label);
+	}
 
     @Override
     public String[] getClasspath() {
@@ -134,11 +136,6 @@ public class Tomcat3Bootstrap extends TomcatBootstrap {
     @Override
     public IPath getJasperJarPath() {
         return new Path("lib").append("common").append("jasper-runtime.jar");
-    }
-
-    @Override
-    public String getLabel() {
-        return DEBUG_VIEW_LABEL;
     }
 
     @Override
