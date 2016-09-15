@@ -23,19 +23,19 @@ import org.apache.catalina.util.ServerInfo;
  *
  */
 public class DevLoader extends WebappLoader {
-	
-	private static final String info =  "org.apache.catalina.loader.DevLoader/1.0"; 
+
+	private static final String info =  "org.apache.catalina.loader.DevLoader/1.0";
 
 	private String webClassPathFile = ".#webclasspath";
 	private String tomcatPluginFile = ".tomcatplugin";
-	
+
 	public DevLoader() {
-		super();		
-	}		
+		super();
+	}
 	public DevLoader(ClassLoader parent) {
 		super(parent);
 	}
-	
+
 	/**
 	 * @see org.apache.catalina.Lifecycle#start()
 	 */
@@ -44,14 +44,14 @@ public class DevLoader extends WebappLoader {
 		log("Starting DevLoader modified by e.siffert (August 04 2014) for Tomcat 8: " + ServerInfo.getServerInfo());
 		//setLoaderClass(DevWebappClassLoader.class.getName());
 		super.startInternal();
-		
+
 		ClassLoader cl = super.getClassLoader();
-		if (!(cl instanceof WebappClassLoader)) {
-			logError("Unable to install WebappClassLoader, received ClassLoader was null !");
-			return;
-		}
-		WebappClassLoader devCl = (WebappClassLoader) cl;
-		
+	    if (!(cl instanceof WebappClassLoaderBase)) {
+	        logError("Unable to install WebappClassLoaderBase, received ClassLoader was " + cl.getClass() + "!");
+	        return;
+	    }
+	    WebappClassLoaderBase devCl = (WebappClassLoaderBase) cl;
+
 		List webClassPathEntries = readWebClassPathEntries();
 		StringBuilder classpath   = new StringBuilder();
 		for (Iterator it = webClassPathEntries.iterator(); it.hasNext();) {
@@ -81,7 +81,7 @@ public class DevLoader extends WebappLoader {
 		StringTokenizer tokenizer = new StringTokenizer(cp, File.pathSeparatorChar + "");
 		while(tokenizer.hasMoreTokens()) {
 			String token = tokenizer.nextToken();
-			// only on windows 
+			// only on windows
 			if (token.charAt(0)=='/' && token.charAt(2)==':') {
 				token = token.substring(1);
 			}
@@ -91,35 +91,35 @@ public class DevLoader extends WebappLoader {
 		getServletContext().setAttribute(Globals.CLASS_PATH_ATTR, classpath.toString());
 		log("class path for our application class loader = " + classpath);
 	}
-	
+
 	protected void log(String msg) {
 		System.out.println("[DevLoader] " + msg);
 	}
 	protected void logError(String msg) {
 		System.err.println("[DevLoader] Error: " + msg);
 	}
-	
+
 	protected List readWebClassPathEntries() {
 		List rc = null;
-				
+
 		File prjDir = getProjectRootDir();
 		if (prjDir == null) {
 			return new ArrayList();
 		}
 		log("projectdir=" + prjDir.getAbsolutePath());
-		
+
 		// try loading tomcat plugin file
 		// DON'T LOAD TOMCAT PLUGIN FILE (DOESN't HAVE FULL PATHS ANYMORE)
 		//rc = loadTomcatPluginFile(prjDir);
-		
+
 		if (rc ==null) {
 			rc = loadWebClassPathFile(prjDir);
 		}
-		
+
 		if (rc == null) rc = new ArrayList(); // should not happen !
 		return rc;
 	}
-	
+
 	protected File getProjectRootDir() {
 		File rootDir = getWebappDir();
 		FileFilter filter = new FileFilter() {
@@ -137,10 +137,10 @@ public class DevLoader extends WebappLoader {
 		}
 		return null;
 	}
-	
+
 	protected List loadWebClassPathFile(File prjDir) {
 		File cpFile = new File(prjDir, webClassPathFile);
-		if (cpFile.exists()) {			
+		if (cpFile.exists()) {
 			FileReader reader = null;
 			try {
 				List rc = new ArrayList();
@@ -156,20 +156,20 @@ public class DevLoader extends WebappLoader {
 			} catch(IOException ioEx) {
 				if (reader != null) try { reader.close(); } catch(Exception ignored) {}
 				return null;
-			}			
+			}
 		} else {
 			return null;
 		}
 	}
-	
+
 /*
 	protected List loadTomcatPluginFile(File prjDir) {
 		File cpFile = new File(prjDir, tomcatPluginFile);
-		if (cpFile.exists()) {			
+		if (cpFile.exists()) {
 			FileReader reader = null;
 			try {
 				StringBuffer buf = new StringBuffer();
-				
+
 				BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(cpFile)));
 				String inputLine;
 				while ((inputLine = in.readLine()) != null) {
@@ -184,19 +184,19 @@ public class DevLoader extends WebappLoader {
 				return entries.getList();
 			} catch(IOException ioEx) {
 				if (reader != null) try { reader.close(); } catch(Exception ignored) {}
-				return null;				
+				return null;
 			}
 		} else {
-			return null;			
+			return null;
 		}
 	}
-*/	
+*/
 	protected ServletContext getServletContext() {
 		//return ((Context) getContainer()).getServletContext();
 		return getContext().getServletContext();
 	}
-	
-	protected File getWebappDir() {		
+
+	protected File getWebappDir() {
 		File webAppDir = new File(getServletContext().getRealPath("/"));
 		return webAppDir;
 	}
