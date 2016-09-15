@@ -151,85 +151,89 @@ public abstract class TomcatBootstrap {
    * variable
    */
   private void runTomcatBootsrap(String tomcatBootOption, boolean showInDebugger, int action, boolean saveConfig) throws CoreException {
-    String[] prgArgs = this.getPrgArgs(tomcatBootOption);
+	  String[] prgArgs = this.getPrgArgs(tomcatBootOption);
 
-    IProject[] projects = TomcatLauncherPlugin.getWorkspace().getRoot().getProjects();
+	  IProject[] projects = TomcatLauncherPlugin.getWorkspace().getRoot().getProjects();
 
-    for (int i = 0; i < projects.length; i++) {
-      if (!projects[i].isOpen()) {
-        continue;
-      }
-      TomcatProject tomcatProject = (TomcatProject) projects[i].getNature(TomcatLauncherPlugin.NATURE_ID);
-      if (tomcatProject != null) {
-        ArrayList al = new ArrayList();
-        ArrayList visitedProjects = new ArrayList(); /*IMC*/
-        IJavaProject javaProject = (IJavaProject) projects[i].getNature(JavaCore.NATURE_ID);
-        WebClassPathEntries entries = tomcatProject.getWebClassPathEntries();
-        if (entries != null) {
-          getClassPathEntries(javaProject, al, entries.getList(), visitedProjects);
+	  for (int i = 0; i < projects.length; i++) {
+		  if (!projects[i].isOpen()) {
+			  continue;
+		  }
+		  TomcatProject tomcatProject = (TomcatProject) projects[i].getNature(TomcatLauncherPlugin.NATURE_ID);
+		  if (tomcatProject != null) {
+			  ArrayList webappClasspathFile = new ArrayList();
+			  ArrayList visitedProjects = new ArrayList(); /*IMC*/
+			  IJavaProject javaProject = (IJavaProject) projects[i].getNature(JavaCore.NATURE_ID);
+			  WebClassPathEntries entries = tomcatProject.getWebClassPathEntries();
 
-          if (tomcatProject.getMavenClasspath()) {
-            collectMavenDependencies(javaProject, al, new ArrayList());
-          }
-          if (!al.isEmpty()) {
+			  IFile file = null;
+			  if (tomcatProject.getRootDirFolder() == null) {
+				  file = projects[i].getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
+			  } else {
+				  file = tomcatProject.getRootDirFolder().getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
+			  }
 
-            IFile file = null;
-            if (tomcatProject.getRootDirFolder() == null) {
-              file = projects[i].getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
-            } else {
-              file = tomcatProject.getRootDirFolder().getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
-            }
+			  File cpFile = file.getLocation().makeAbsolute().toFile();
+			  if (cpFile.exists()) {
+				  cpFile.delete();
+			  }
 
-            File cpFile = file.getLocation().makeAbsolute().toFile();
-            if (cpFile.exists()) {
-              cpFile.delete();
-            }
-            try {
-              if (cpFile.createNewFile()) {
-                PrintWriter pw = new PrintWriter(new FileOutputStream(cpFile));
+			  if (entries != null) {
+				  getClassPathEntries(javaProject, webappClasspathFile, entries.getList(), visitedProjects);
 
-                for (int j = 0; j < al.size(); j++) {
-                  pw.println(al.get(j));
-                }
-                pw.close();
-              }
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-          }
-        }
-      }
-    }
+				  if (tomcatProject.getMavenClasspath()) {
+					  collectMavenDependencies(javaProject, webappClasspathFile, new ArrayList());
+				  }
 
-    String[] classpath = new String[0];
-    classpath = addPreferenceJvmToClasspath(classpath);
-    classpath = addPreferenceProjectListToClasspath(classpath);
-    classpath = StringUtil.concatUniq(classpath, this.getClasspath());
+				  if (!webappClasspathFile.isEmpty()) {
 
-    String[] vmArgs = this.getVmArgs();
-    vmArgs = addPreferenceParameters(vmArgs);
+					  try {
+						  if (cpFile.createNewFile()) {
+							  PrintWriter pw = new PrintWriter(new FileOutputStream(cpFile));
 
-    String[] bootClasspath = addPreferenceJvmToBootClasspath(new String[0]);
+							  for (int j = 0; j < webappClasspathFile.size(); j++) {
+								  //TODO
+								  pw.println(webappClasspathFile.get(j));
+							  }
+							  pw.close();
+						  }
+					  } catch (IOException e) {
+						  e.printStackTrace();
+					  }
+				  }
+			  }
+		  }
+	  }
 
-    StringBuffer programArguments = new StringBuffer();
-    for (String prgArg : prgArgs) {
-      programArguments.append(" " + prgArg);
-    }
+	  String[] classpath = new String[0];
+	  classpath = addPreferenceJvmToClasspath(classpath);
+	  classpath = addPreferenceProjectListToClasspath(classpath);
+	  classpath = StringUtil.concatUniq(classpath, this.getClasspath());
 
-    StringBuffer jvmArguments = new StringBuffer();
-    for (String vmArg : vmArgs) {
-      jvmArguments.append(" " + vmArg);
-    }
+	  String[] vmArgs = this.getVmArgs();
+	  vmArgs = addPreferenceParameters(vmArgs);
 
-    if (action == RUN) {
-      VMLauncherUtility.runVM(getLabel(), getMainClass(), classpath, bootClasspath, jvmArguments.toString(), programArguments.toString(), isDebugMode(), showInDebugger, saveConfig);
-    }
-    if (action == LOG) {
-      VMLauncherUtility.log(getLabel(), getMainClass(), classpath, bootClasspath, jvmArguments.toString(), programArguments.toString(), isDebugMode(), showInDebugger);
-    }
-    if (action == ADD_LAUNCH) {
-      VMLauncherUtility.createConfig(getLabel(), getMainClass(), classpath, bootClasspath, jvmArguments.toString(), programArguments.toString(), isDebugMode(), showInDebugger, true);
-    }
+	  String[] bootClasspath = addPreferenceJvmToBootClasspath(new String[0]);
+
+	  StringBuffer programArguments = new StringBuffer();
+	  for (String prgArg : prgArgs) {
+		  programArguments.append(" " + prgArg);
+	  }
+
+	  StringBuffer jvmArguments = new StringBuffer();
+	  for (String vmArg : vmArgs) {
+		  jvmArguments.append(" " + vmArg);
+	  }
+
+	  if (action == RUN) {
+		  VMLauncherUtility.runVM(getLabel(), getMainClass(), classpath, bootClasspath, jvmArguments.toString(), programArguments.toString(), isDebugMode(), showInDebugger, saveConfig);
+	  }
+	  if (action == LOG) {
+		  VMLauncherUtility.log(getLabel(), getMainClass(), classpath, bootClasspath, jvmArguments.toString(), programArguments.toString(), isDebugMode(), showInDebugger);
+	  }
+	  if (action == ADD_LAUNCH) {
+		  VMLauncherUtility.createConfig(getLabel(), getMainClass(), classpath, bootClasspath, jvmArguments.toString(), programArguments.toString(), isDebugMode(), showInDebugger, true);
+	  }
 
   }
 

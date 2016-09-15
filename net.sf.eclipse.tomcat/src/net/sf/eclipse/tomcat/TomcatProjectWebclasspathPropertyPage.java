@@ -85,9 +85,9 @@ public class TomcatProjectWebclasspathPropertyPage {
 		List newSelection = cpList.getCheckedElements();
 
 		try {
-      if (mavenClassPathCheck.getSelection()) {
-        page.getTomcatProject().setMavenClasspath(true);
-      }
+			if (mavenClassPathCheck.getSelection()) {
+				page.getTomcatProject().setMavenClasspath(true);
+			}
 			if (webClassPathCheck.getSelection()) {
 				page.getTomcatProject().setWebClassPathEntries(new WebClassPathEntries(newSelection));
 			} else {
