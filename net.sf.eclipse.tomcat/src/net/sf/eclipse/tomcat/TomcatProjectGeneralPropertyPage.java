@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -62,7 +62,8 @@ public class TomcatProjectGeneralPropertyPage implements TomcatPluginResources {
         group.setLayout(new GridLayout());
         createWebpathGroup(group);
         createExtraInformationGroup(group);
-        Label lab = new Label(group, SWT.NULL); //blank
+        @SuppressWarnings("unused") //only a blank label without any use.
+		Label lab = new Label(group, SWT.NULL); //blank
         createRootDirGroup(group);
         createWorkDirGroup(group);
 
@@ -231,7 +232,10 @@ public class TomcatProjectGeneralPropertyPage implements TomcatPluginResources {
         try {
             TomcatProject prj = page.getTomcatProject();
             if (prj != null) {
-                result = prj.getWorkDir();
+                String workDir = prj.getWorkDir();
+                if (workDir != null && !workDir.isEmpty()) {
+                	result = workDir;
+                }
             }
         } catch (CoreException ex) {
             // result = "";
@@ -306,8 +310,8 @@ public class TomcatProjectGeneralPropertyPage implements TomcatPluginResources {
                 prj.setReloadable(reloadableCheck.getSelection());
                 prj.setRedirectLogger(redirectLoggerCheck.getSelection());
                 prj.setExtraInfo(extraInfoText.getText());
-                prj.setRootDir(rootDirText.getText());
-                prj.setWorkDir(workDirText.getText());
+                prj.setRootDir(getRootDir());
+                prj.setWorkDir(getWorkDir());
                 prj.saveProperties();
             } else {
                 page.getTomcatProject().removeContext();
