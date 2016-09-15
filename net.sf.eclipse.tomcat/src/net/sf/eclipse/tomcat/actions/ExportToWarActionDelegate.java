@@ -24,6 +24,7 @@ import net.sf.eclipse.tomcat.TomcatProject;
 
 public class ExportToWarActionDelegate extends TomcatProjectAbstractActionDelegate {
 	
+	@Override
 	public void doActionOn(TomcatProject prj) throws Exception {
 		if(!prj.getWarLocation().equals("")) {
 			prj.exportToWar();

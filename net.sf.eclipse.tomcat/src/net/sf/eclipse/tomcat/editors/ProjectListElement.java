@@ -16,6 +16,7 @@ public class ProjectListElement {
 		this.project = project;	
 	}
 
+	@Override
 	public String toString() {
 		return getID(project);	
 	}
@@ -42,6 +43,7 @@ public class ProjectListElement {
 		return selectedProjects;
 	}
 	
+	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof ProjectListElement)
 			return this.getID().equals(((ProjectListElement)obj).getID());
@@ -49,6 +51,7 @@ public class ProjectListElement {
 		return false;
 	}
 
+	@Override
 	public int hashCode() {
 		return this.getID().hashCode();
 	}

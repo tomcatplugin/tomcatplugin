@@ -24,6 +24,7 @@ import net.sf.eclipse.tomcat.TomcatProject;
 
 public class RemoveTomcatContextActionDelegate extends TomcatProjectAbstractActionDelegate {
 	
+	@Override
 	public void doActionOn(TomcatProject prj) throws Exception{
 		if(prj.getUpdateXml()) {
 			prj.removeContext();

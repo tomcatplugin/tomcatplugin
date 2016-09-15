@@ -24,6 +24,7 @@ import net.sf.eclipse.tomcat.TomcatProject;
 
 public class UpdateTomcatContextActionDelegate extends TomcatProjectAbstractActionDelegate {
 	
+	@Override
 	public void doActionOn(TomcatProject prj) throws Exception {
 		if(prj.getUpdateXml()) {
 			prj.updateContext();

@@ -99,6 +99,7 @@ public class ClasspathFieldEditor extends ListFieldEditor implements TomcatPlugi
 		return dir;
 	}
 
+	@Override
 	protected void createButtons(Composite buttonBox) {
 		addJarZipButton = createPushButton(buttonBox, PREF_PAGE_ADDJARZIPBUTTON_LABEL);//$NON-NLS-1$
 		addDirButton = createPushButton(buttonBox, PREF_PAGE_ADDDIRBUTTON_LABEL);//$NON-NLS-1$
@@ -110,8 +111,10 @@ public class ClasspathFieldEditor extends ListFieldEditor implements TomcatPlugi
 	/**
 	 * Creates a selection listener.
 	 */
+	@Override
 	public void createSelectionListener() {
 		selectionListener = new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				Widget widget = event.widget;
 				if (widget == addJarZipButton) {

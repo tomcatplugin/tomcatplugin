@@ -23,6 +23,7 @@ import net.sf.eclipse.tomcat.TomcatProject;
 
 public class AddTomcatJarActionDelegate extends TomcatProjectAbstractActionDelegate {
 	
+	@Override
 	public void doActionOn(TomcatProject prj) throws Exception {
 		prj.addTomcatJarToProjectClasspath();
 	}

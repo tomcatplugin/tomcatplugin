@@ -33,6 +33,7 @@ public class TomcatFileFieldEditor extends FileFieldEditor {
 		super(name, labelText, parent);
 	}
 
+	@Override
 	protected boolean doCheckState() {
 		if(enabledField) {
 			return super.doCheckState();
@@ -41,11 +42,13 @@ public class TomcatFileFieldEditor extends FileFieldEditor {
 	}
 
 
+	@Override
 	public void setEnabled(boolean enabled, Composite parent) {
 		this.enabledField = enabled;
 		super.setEnabled(enabled, parent);
 	}
 
+	@Override
 	public void valueChanged() {
 		super.valueChanged();
 	}

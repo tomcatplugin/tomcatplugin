@@ -29,6 +29,7 @@ import net.sf.eclipse.tomcat.TomcatProject;
 
 public class RestartContextActionDelegate extends TomcatProjectAbstractActionDelegate {
 	
+	@Override
 	public void doActionOn(TomcatProject prj) throws Exception {
 		String path = TomcatLauncherPlugin.getDefault().getManagerAppUrl();
 
@@ -36,6 +37,7 @@ public class RestartContextActionDelegate extends TomcatProjectAbstractActionDel
 			path += "/reload?path=" + prj.getWebPath();
 			URL url = new URL(path);
 			Authenticator.setDefault(new Authenticator() {
+				@Override
 				protected PasswordAuthentication getPasswordAuthentication() {
 					String user = TomcatLauncherPlugin.getDefault().getManagerAppUser();
 					String password = TomcatLauncherPlugin.getDefault().getManagerAppPassword();				

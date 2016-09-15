@@ -8,7 +8,7 @@
  * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or 
+ * The above copyright notice and this permission notice shall be included in all copies or
  * substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING
@@ -25,7 +25,7 @@ import java.util.StringTokenizer;
 public class TomcatProjectZipper extends Zipper {
 
 	private boolean acceptSource = false;
-	
+
 	/**
 	 * Constructor for TomcatProjectZipper.
 	 *
@@ -39,6 +39,7 @@ public class TomcatProjectZipper extends Zipper {
 			this.acceptSource = acceptSource;
 	}
 
+	@Override
 	protected boolean acceptDir(File dir) {
 
 		if (dir.getName().equals("jsp")) {
@@ -49,33 +50,34 @@ public class TomcatProjectZipper extends Zipper {
 			}
 		}
 
-		
+
 		String excludeString = TomcatPluginResources.PROJECT_WAREXPORT_EXCLUDE_DIRECTORIES;
 		StringTokenizer tokenizer = new StringTokenizer(excludeString, ";");
 		while (tokenizer.hasMoreTokens()) {
 			String eachDir = tokenizer.nextToken();
 			if (dir.getName().equals(eachDir)) {
-				return false;	
+				return false;
 			}
 		}
-			
+
 		return true;
 	}
 
+	@Override
 	protected boolean acceptFile(File file) {
-				
+
 		if (file.getName().endsWith(".java")) {
-			return acceptSource;	
+			return acceptSource;
 		}
-		
+
 		String excludeString = TomcatPluginResources.PROJECT_WAREXPORT_EXCLUDE_FILES;
 		StringTokenizer tokenizer = new StringTokenizer(excludeString, ";");
 		while (tokenizer.hasMoreTokens()) {
 			if (file.getName().equals(tokenizer.nextToken())) {
-				return false;	
+				return false;
 			}
 		}
-						
+
 		return true;
 	}
 

@@ -138,11 +138,13 @@ public class ProjectListEditor implements TomcatPluginResources {
 	
 	private class MyLabelProvider extends LabelProvider {
 		
+		@Override
 		public Image getImage(Object element) {
 			IWorkbench workbench= JavaPlugin.getDefault().getWorkbench();
 			return workbench.getSharedImages().getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
 		}
 
+		@Override
 		public String getText(Object element) {
 			return super.getText(element);
 		}

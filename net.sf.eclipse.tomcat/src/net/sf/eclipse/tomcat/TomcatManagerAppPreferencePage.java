@@ -50,6 +50,7 @@ public class TomcatManagerAppPreferencePage
 			TomcatLauncherPlugin.getDefault().getPreferenceStore());
 	}
 
+	@Override
 	protected void createFieldEditors() {
 		Group box = new Group(this.getFieldEditorParent(), SWT.NULL);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -87,6 +88,7 @@ public class TomcatManagerAppPreferencePage
 		Button addUserBt = new Button(getFieldEditorParent(), SWT.PUSH);
 		addUserBt.setText(PREF_PAGE_MANAGER_ADDUSER);
 		addUserBt.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 			 	addUserToTomcatUsers(); 	
 			}
