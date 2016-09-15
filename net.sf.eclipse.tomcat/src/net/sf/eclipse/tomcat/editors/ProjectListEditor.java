@@ -26,47 +26,46 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.ide.IDE;
 
 public class ProjectListEditor implements TomcatPluginResources {
-			
+
 	private CheckedListDialogField fProjectsList;
 	private String[] fExcludedNatures;
-	
+
 	public ProjectListEditor() {
 		this(new String[0]);
 	}
-	
+
 	public ProjectListEditor(String[] excludedNatures) {
 		this.fExcludedNatures = excludedNatures;
 		String[] buttonLabels= new String[] {
-			PREF_PAGE_SELECTALL_LABEL, 
+			PREF_PAGE_SELECTALL_LABEL,
 			PREF_PAGE_UNSELECTALL_LABEL
 		};
-		
+
 		fProjectsList= new CheckedListDialogField(null, buttonLabels, new MyLabelProvider());
 		fProjectsList.setCheckAllButtonIndex(0);
 		fProjectsList.setUncheckAllButtonIndex(1);
-		updateProjectsList();		
-//		fProjectsList.setViewerSorter(new CPListElementSorter());
+		updateProjectsList();
 	}
-	
+
 	public void setEnabled(boolean enabled) {
 		fProjectsList.setEnabled(enabled);
 	}
-	
-	public void init(IJavaProject jproject) {
+
+	public void init() {
 		updateProjectsList();
 	}
-	
+
 	public void setLabel(String label) {
-		fProjectsList.setLabelText(label);			
+		fProjectsList.setLabelText(label);
 	}
-	
+
 	private void updateProjectsList() {
 		try {
 			IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 			IProject[] projects = root.getProjects();
-			
+
 			List projectsList = new ArrayList(projects.length);
-		
+
 			for (int i= 0; i < projects.length; i++) {
 				IProject proj = projects[i];
 				if(projects[i].isOpen()) {
@@ -76,11 +75,11 @@ public class ProjectListEditor implements TomcatPluginResources {
 					}
 					if(accept) {
 						projectsList.add(new ProjectListElement(proj));
-					} 
+					}
 				}
-			}	
-			
-			
+			}
+
+
 			// Remove Tomcat project for preference Store (for compatibility between tomcat plugin versions V2.x and V3)
 			List oldProjectsInCP = TomcatLauncherPlugin.getDefault().getProjectsInCP();
 			List newProjectsInCP = new ArrayList();
@@ -92,19 +91,19 @@ public class ProjectListEditor implements TomcatPluginResources {
 				}
 				if(accept) {
 					newProjectsInCP.add(element);
-				} 
-			}			
-			
+				}
+			}
+
 			/* Quick hack :
-			 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9				
-			 *	
+			 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9
+			 *
 			 * Old code :
 			 * 		fProjectsList.setElements(projectsList);
 			 *		fProjectsList.setCheckedElements(TomcatLauncherPlugin.getDefault().getProjectsInCP());
 			 */
 			this.invokeForCompatibility("setElements", projectsList);
 			this.invokeForCompatibility("setCheckedElements", newProjectsInCP);
-			 	
+
 		} catch (Exception e) {
 			/* Old code :
 			 * 		fProjectsList.setElements(new ArrayList(5));
@@ -112,32 +111,32 @@ public class ProjectListEditor implements TomcatPluginResources {
 			this.invokeForCompatibility("setElements", new ArrayList(5));
 		}
 
-	}		
-		
+	}
+
 	// -------- UI creation ---------
-		
+
 	public Control getControl(Composite parent) {
 		Composite composite= new Composite(parent, SWT.NONE);
 
-//		fProjectsList.doFillIntoGrid(composite,3);			
+//		fProjectsList.doFillIntoGrid(composite,3);
 		LayoutUtil.doDefaultLayout(composite, new DialogField[] { fProjectsList }, true, 0, 0);
-				
+
 		return composite;
 	}
-		
+
 	public List getCheckedElements() {
 		return fProjectsList.getCheckedElements();
 	}
-	
+
 	public void setCheckedElements(List projects) {
 		/* Old code :
 		 * 		fProjectsList.setCheckedElements(projects);
 		 */
 		this.invokeForCompatibility("setCheckedElements", projects);
-	}	  
-	
+	}
+
 	private class MyLabelProvider extends LabelProvider {
-		
+
 		@Override
 		public Image getImage(Object element) {
 			IWorkbench workbench= JavaPlugin.getDefault().getWorkbench();
@@ -153,7 +152,7 @@ public class ProjectListEditor implements TomcatPluginResources {
 
 	/* Quick hack :
 	 * Using reflection for compatability with Eclipse 2.1 and 3.0	M9
-	 */			
+	 */
 	private void invokeForCompatibility(String methodName, List projects) {
 		Class clazz = fProjectsList.getClass();
 		Class[] collectionParameter = {Collection.class};
@@ -166,12 +165,12 @@ public class ProjectListEditor implements TomcatPluginResources {
 			try {
 				Method method = clazz.getMethod(methodName, listParameter);
 				Object[] args = {projects};
-				method.invoke(fProjectsList, args);				
+				method.invoke(fProjectsList, args);
 			} catch (Exception ex) {
 				TomcatLauncherPlugin.log(ex);
 			}
 		}
-			
+
 	}
 
 }
