@@ -3,6 +3,12 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 9.1.1##
+* Bugfix: [#16] Debug View shows "Tomcat 7.x" for Tomcat 8.x and 9.x
+* Bugfix: [#17] DevLoader does not work on Tomcat 8.5.4
+* Bugfix: [#18] Update Context fails with error if optional work dir is not specified
+* Minor changes: Remove some minor compiler warnings
+
 ##Version 9.1.0##
 * Bugfix: fix compatibility issue with Neo [#14]
 * Feature: Add support for Maven classpath management
