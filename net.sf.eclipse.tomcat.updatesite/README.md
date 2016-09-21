@@ -3,6 +3,9 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 9.1.2##
+* Bugfix: Github issue https://github.com/his-eg/tomcatplugin/issues/5
+
 ##Version 9.1.1##
 * Bugfix: [#16] Debug View shows "Tomcat 7.x" for Tomcat 8.x and 9.x
 * Bugfix: [#17] DevLoader does not work on Tomcat 8.5.4

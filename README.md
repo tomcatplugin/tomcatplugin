@@ -31,6 +31,8 @@ Start, stop and restart Tomcat quickly from the toolbar.
 
 Recent changes
 -----
+- Version 9.1.2
+  - Bugfix: webClassPathEntries can't be cleared
 - Version 9.1.1
   - Bugfix: Debug View shows "Tomcat 7.x" for Tomcat 8.x and 9.x
   - Bugfix: DevLoader does not work on Tomcat 8.5.4
