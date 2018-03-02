@@ -25,6 +25,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -464,13 +465,33 @@ public abstract class TomcatBootstrap {
   private String[] addProjectToClasspath(String[] previouscp, IJavaProject project) throws CoreException {
     if ((project != null) && (project.exists() && project.isOpen())) {
       String[] projectcp = JavaRuntime.computeDefaultRuntimeClassPath(project);
-      return StringUtil.concatUniq(projectcp, previouscp);
+      String[] filteredProjectCp = removedTomcatJars(projectcp);
+      return StringUtil.concatUniq(filteredProjectCp, previouscp);
     } else {
       return previouscp;
     }
   }
 
-  private String[] addPreferenceParameters(String[] previous) {
+  /**
+   * removes jar files that are part of tomcat from the project classpath list.
+   * The project may contain an older version of servlet-api in order to be compatible with older versions of Tomcat.
+   * But adding an incompatible version to the classpath of Tomcat will prevent server start.
+   *
+   * @param projectcp project classpath
+   * @return filtered classpath
+   */
+  private String[] removedTomcatJars(String[] projectcp) {
+	List<String> res = new LinkedList<String>();
+	for (int i = 0; i < projectcp.length; i++) {
+		String entry = projectcp[i];
+		if (!entry.contains("servlet-api") && !entry.contains("el-api") && !entry.contains("jasper-el")) {
+			res.add(entry);
+		}
+	}
+	return res.toArray(new String[res.size()]);
+}
+
+private String[] addPreferenceParameters(String[] previous) {
     String[] prefParams = StringUtil.cutString(TomcatLauncherPlugin.getDefault().getJvmParamaters(), TomcatPluginResources.PREF_PAGE_LIST_SEPARATOR);
     return StringUtil.concat(previous, prefParams);
   }
