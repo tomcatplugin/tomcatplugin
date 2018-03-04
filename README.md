@@ -17,7 +17,7 @@ Installation
 
 This plugin is available at the [Eclipse Marketplace](https://marketplace.eclipse.org/content/eclipse-tomcat-plugin)
 
-Alternatively you can use the update site at http://tomcatplugin.sf.net/update.
+Alternatively you can use the update site at https://devtools.his.de/tomcatplugin/updatesite
 
 After the plugin was installed, please go to Window | Preferences | Tomcat and configure the path of your Tomcat installation.
 
