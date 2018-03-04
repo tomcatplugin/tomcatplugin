@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -48,6 +50,7 @@ import org.eclipse.jdt.internal.launching.JavaSourceLookupDirector;
 import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 import org.eclipse.jdt.launching.IRuntimeClasspathEntry;
 import org.eclipse.jdt.launching.IVMInstall;
+import org.eclipse.jdt.launching.IVMInstall2;
 import org.eclipse.jdt.launching.IVMInstallType;
 import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jdt.launching.sourcelookup.containers.JavaProjectSourceContainer;
@@ -78,6 +81,33 @@ public class VMLauncherUtility {
 		return JavaRuntime.getDefaultVMInstall();
 	}
 
+	/** @return {@code true} if java version is 1.8 or less */
+	static public boolean isJavaVersion18OrLess() {
+		Integer javaMajorVersion = getJavaMajorVersion();
+		return javaMajorVersion != null && javaMajorVersion.intValue() == 1;
+	}
+
+	/** @return {@code true} if java version is 9 or greater */
+	static public boolean isJavaVersion9OrGreater() {
+		Integer javaMajorVersion = getJavaMajorVersion();
+		return javaMajorVersion != null && javaMajorVersion.intValue() >= 9;
+	}
+
+	static private final Pattern JAVA_MAJOR_VERSION_PATTERN = Pattern.compile("([1-9][0-9]*).*"); 
+	static private Integer getJavaMajorVersion() {
+		IVMInstall vmInstall = VMLauncherUtility.getVMInstall();
+		if (vmInstall instanceof IVMInstall2) {
+			IVMInstall2 vmInstall2 = (IVMInstall2)vmInstall;
+			String javaVersion = vmInstall2.getJavaVersion();
+			if (javaVersion != null) {
+				Matcher matcher = JAVA_MAJOR_VERSION_PATTERN.matcher(javaVersion);
+				if (matcher.matches()) {
+					return Integer.valueOf(matcher.group(1));
+				}
+			}
+		}
+		return null;
+	}
 
 	static public void runVM(String label, String classToLaunch, String[] classpath, String[] bootClasspath, String vmArgs, String prgArgs, boolean debug, boolean showInDebugger, boolean saveConfig)
 		throws CoreException {

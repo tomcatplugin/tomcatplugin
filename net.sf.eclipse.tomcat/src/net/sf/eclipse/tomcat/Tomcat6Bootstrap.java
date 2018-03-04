@@ -88,8 +88,15 @@ public class Tomcat6Bootstrap extends TomcatBootstrap {
         ArrayList<String> vmArgs = new ArrayList<String>();
         vmArgs.add("-Dcatalina.home=\"" + getTomcatDir() + "\"");
 
-        String endorsedDir = getTomcatDir() + File.separator + "endorsed";
-        vmArgs.add("-Djava.endorsed.dirs=\"" + endorsedDir + "\"");
+        if (VMLauncherUtility.isJavaVersion18OrLess()) {
+	        String endorsedDir = getTomcatDir() + File.separator + "endorsed";
+	        vmArgs.add("-Djava.endorsed.dirs=\"" + endorsedDir + "\"");
+        }
+        if (VMLauncherUtility.isJavaVersion9OrGreater()) {
+        	// see tomcat 8.5 file catalina.bat
+	        vmArgs.add("--add-opens=java.base/java.lang=ALL-UNNAMED");
+	        vmArgs.add("--add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED");
+        }
 
         String catalinaBase = getTomcatBase();
         if(catalinaBase.length() == 0) {
