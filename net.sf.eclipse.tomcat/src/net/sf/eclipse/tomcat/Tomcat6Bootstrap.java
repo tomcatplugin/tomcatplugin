@@ -88,8 +88,9 @@ public class Tomcat6Bootstrap extends TomcatBootstrap {
         ArrayList<String> vmArgs = new ArrayList<String>();
         vmArgs.add("-Dcatalina.home=\"" + getTomcatDir() + "\"");
 
-        String endorsedDir = getTomcatDir() + File.separator + "endorsed";
-        vmArgs.add("-Djava.endorsed.dirs=\"" + endorsedDir + "\"");
+//        Java 9 does not support endorsed dirs
+//        String endorsedDir = getTomcatDir() + File.separator + "endorsed";
+//        vmArgs.add("-Djava.endorsed.dirs=\"" + endorsedDir + "\"");
 
         String catalinaBase = getTomcatBase();
         if(catalinaBase.length() == 0) {
