@@ -1,6 +1,12 @@
 <?xml version='1.0'?>
 <project name="tomcatplugin" default="sign" basedir=".">
 	
+	<!-- jar signing needs a file build.ant-private.properties that defines the following properties:
+	     keystore = <path to java keystore file>
+		 keystore.password = <keystore password>
+		 key.alias = <alias of the private key used for signing>
+		 key.password = <password for the private key used for signing>
+	-->
 	<property file="build.ant-private.properties"/>
 	
 	<property name="templates" value="../h1modules.utilities/src/de/his/cs/sys/extensions/wizards/utils/templates"/>
@@ -20,8 +26,8 @@
 	</path>
 	
 	<target name="sign">
-		<signjar alias="${keystore.alias}" keystore="${keystore}" 
-			storepass="${keystore.password}" lazy="true" tsaurl="http://time.certum.pl/">
+		<signjar keystore="${keystore}" storepass="${keystore.password}" alias="${key.alias}" sigfile="HIS_EG"
+			keypass="${key.password}" lazy="true" tsaurl="http://tsa.starfieldtech.com">
 			<path>
 				<path refid="plugins"/>
 				<path refid="features"/>
