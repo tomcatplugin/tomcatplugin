@@ -20,9 +20,11 @@ package net.sf.eclipse.tomcat;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -107,14 +109,14 @@ public abstract class TomcatBootstrap {
    * See %TOMCAT_HOME%/bin/startup.bat
    */
   public void start() throws CoreException {
-    this.runTomcatBootsrap(getStartCommand(), true, RUN, false);
+    this.runTomcatBootstrap(getStartCommand(), true, RUN, false);
   }
 
   /**
    * See %TOMCAT_HOME%/bin/shutdown.bat
    */
   public void stop() throws CoreException {
-    this.runTomcatBootsrap(getStopCommand(), false, RUN, false);
+    this.runTomcatBootstrap(getStopCommand(), false, RUN, false);
   }
 
   /**
@@ -137,21 +139,21 @@ public abstract class TomcatBootstrap {
    * Write tomcat launch configuration to .metadata/.log
    */
   public void logConfig() throws CoreException {
-    this.runTomcatBootsrap(getStartCommand(), true, LOG, false);
+    this.runTomcatBootstrap(getStartCommand(), true, LOG, false);
   }
 
   /**
    * Create an Eclipse launch configuration
    */
   public void addLaunch() throws CoreException {
-    this.runTomcatBootsrap(getStartCommand(), true, ADD_LAUNCH, true);
+    this.runTomcatBootstrap(getStartCommand(), true, ADD_LAUNCH, true);
   }
 
   /**
    * Launch a new JVM running Tomcat Main class Set classpath, bootclasspath and environment
    * variable
    */
-  private void runTomcatBootsrap(String tomcatBootOption, boolean showInDebugger, int action, boolean saveConfig) throws CoreException {
+  private void runTomcatBootstrap(String tomcatBootOption, boolean showInDebugger, int action, boolean saveConfig) throws CoreException {
 	  String[] prgArgs = this.getPrgArgs(tomcatBootOption);
 
 	  IProject[] projects = TomcatLauncherPlugin.getWorkspace().getRoot().getProjects();
@@ -446,32 +448,40 @@ public abstract class TomcatBootstrap {
 
   private String[] addPreferenceProjectListToClasspath(String[] previouscp) {
     List projectsList = TomcatLauncherPlugin.getDefault().getProjectsInCP();
-    String[] result = previouscp;
+    String[] result = previouscp; // default in case there are no projects to add or an error occurs
     Iterator it = projectsList.iterator();
     while (it.hasNext()) {
+   	  ProjectListElement ple = null;
       try {
-        ProjectListElement ple = (ProjectListElement) it.next();
+    	// Add project libraries to Tomcats system classpath, filter jars also contained in tomcats lib folder
+        ple = (ProjectListElement) it.next();
         IJavaProject jproject = JavaCore.create(ple.getProject());
-        result = this.addProjectToClasspath(result, jproject);
+        String[] cp2 = this.addProjectToClasspath(previouscp, jproject);
+
+        // Add Tomcat libs to Tomcats system classpath. This is required because some of the project libraries may need
+        // them, but won't be able to see the common classpath anymore, where the Tomcat libs are normally placed.
+        File libFolder = new File(getTomcatBase() + File.separator + "lib");
+        result = addJarsOfDirectory(cp2, libFolder);
       } catch (Exception e) {
+        TomcatLauncherPlugin.log("Adding project " + ple + " to runtime classpath failed: " + e);
         // nothing will be added to classpath
       }
     }
+    TomcatLauncherPlugin.log("Runtime classpath after adding projects: " + Arrays.toString(result));
 
     return result;
-
   }
 
   private String[] addProjectToClasspath(String[] previouscp, IJavaProject project) throws CoreException {
     if ((project != null) && (project.exists() && project.isOpen())) {
       String[] projectcp = JavaRuntime.computeDefaultRuntimeClassPath(project);
-      String[] filteredProjectCp = removedTomcatJars(projectcp);
+      String[] filteredProjectCp = removeTomcatJars(projectcp);
       return StringUtil.concatUniq(filteredProjectCp, previouscp);
     } else {
       return previouscp;
     }
   }
-
+  
   /**
    * removes jar files that are part of tomcat from the project classpath list.
    * The project may contain an older version of servlet-api in order to be compatible with older versions of Tomcat.
@@ -480,16 +490,42 @@ public abstract class TomcatBootstrap {
    * @param projectcp project classpath
    * @return filtered classpath
    */
-  private String[] removedTomcatJars(String[] projectcp) {
+  private String[] removeTomcatJars(String[] projectcp) {
 	List<String> res = new LinkedList<String>();
 	for (int i = 0; i < projectcp.length; i++) {
 		String entry = projectcp[i];
-		if (!entry.contains("servlet-api") && !entry.contains("el-api") && !entry.contains("jasper-el")) {
+		if (!entry.contains("servlet-api") && !entry.contains("el-api") && !entry.contains("jasper-el") && !entry.contains("jsp-api")) {
 			res.add(entry);
 		}
 	}
 	return res.toArray(new String[res.size()]);
 }
+
+  /**
+   * Add all jar files of directory dir to previous array
+   */
+  protected String[] addJarsOfDirectory(String[] previous, File dir) {
+      if((dir != null) && (dir.isDirectory())) {
+          // Filter for .jar files
+          FilenameFilter filter = new FilenameFilter() {
+              public boolean accept(File directory, String filename) {
+                  return filename.endsWith(".jar");
+              }
+          };
+
+          String[] jars = null;
+
+          File[] files = dir.listFiles(filter);
+          jars = new String[files.length];
+          for(int i=0; i<files.length; i++) {
+              jars[i] = files[i].getAbsolutePath();
+          }
+
+          return StringUtil.concat(previous, jars);
+      } else {
+          return previous;
+      }
+  }
 
 private String[] addPreferenceParameters(String[] previous) {
     String[] prefParams = StringUtil.cutString(TomcatLauncherPlugin.getDefault().getJvmParamaters(), TomcatPluginResources.PREF_PAGE_LIST_SEPARATOR);

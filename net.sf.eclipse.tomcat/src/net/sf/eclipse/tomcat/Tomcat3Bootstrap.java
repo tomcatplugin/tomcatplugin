@@ -97,32 +97,6 @@ public class Tomcat3Bootstrap extends TomcatBootstrap {
         return vmArgs;
     }
 
-    /**
-     * Add all jar files of directory dir to previous array
-     */
-    protected String[] addJarsOfDirectory(String[] previous, File dir) {
-        if((dir != null) && (dir.isDirectory())) {
-            // Filter for .jar files
-            FilenameFilter filter = new FilenameFilter() {
-                public boolean accept(File directory, String filename) {
-                    return filename.endsWith(".jar");
-                }
-            };
-
-            String[] jars = null;
-
-            File[] files = dir.listFiles(filter);
-            jars = new String[files.length];
-            for(int i=0; i<files.length; i++) {
-                jars[i] = files[i].getAbsolutePath();
-            }
-
-            return StringUtil.concat(previous, jars);
-        } else {
-            return previous;
-        }
-    }
-
     @Override
     public String getXMLTagAfterContextDefinition() {
         return "</ContextManager>";

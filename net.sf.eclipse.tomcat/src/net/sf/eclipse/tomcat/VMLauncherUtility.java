@@ -109,6 +109,22 @@ public class VMLauncherUtility {
 		return null;
 	}
 
+	/**
+	 * Start Tomcat.
+	 * @param label something like "Tomcat 8.x"
+	 * @param classToLaunch Tomcat's Bootstrap class
+	 * @param classpath What will become Tomcat's system class path
+	 * @param bootClasspath What will become Tomcat's bootstrap class path
+	 * @param vmArgs
+	 * @param prgArgs
+	 * @param debug
+	 * @param showInDebugger
+	 * @param saveConfig
+	 * @throws CoreException
+	 * 
+	 * @see "https://tomcat.apache.org/tomcat-8.0-doc/class-loader-howto.html"
+	 * @see "https://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.jdt.doc.isv%2Freference%2Fapi%2Forg%2Feclipse%2Fjdt%2Flaunching%2FJavaRuntime.html"
+	 */
 	static public void runVM(String label, String classToLaunch, String[] classpath, String[] bootClasspath, String vmArgs, String prgArgs, boolean debug, boolean showInDebugger, boolean saveConfig)
 		throws CoreException {
 
