@@ -83,7 +83,8 @@ public class TomcatProjectGeneralPropertyPage implements TomcatPluginResources {
         try {
             isTomcatProjectCheck.setSelection(page.getJavaProject().getProject().hasNature(TomcatLauncherPlugin.NATURE_ID));
         } catch (CoreException ex) {
-            TomcatLauncherPlugin.log(ex.getMessage());
+            TomcatLauncherPlugin.log("Error setting Tomcat nature: " + ex);
+            ex.printStackTrace();
         }
     }
 
@@ -314,11 +315,18 @@ public class TomcatProjectGeneralPropertyPage implements TomcatPluginResources {
                 prj.setWorkDir(workDirText.getText().isEmpty() ? "/work" : workDirText.getText());
                 prj.saveProperties();
             } else {
-                page.getTomcatProject().removeContext();
-                TomcatProject.removeTomcatNature(page.getJavaProject());
+            	TomcatProject prj = page.getTomcatProject();
+                if (prj != null) {
+                	// The project had TomcatNature so far -> remove it
+                	prj.removeContext();
+                    TomcatProject.removeTomcatNature(page.getJavaProject());
+                }
+                
+                // TODO we are losing changed properties here because they can only get saved for projects with Tomcat nature
             }
         } catch (Exception ex) {
-            TomcatLauncherPlugin.log(ex.getMessage());
+            TomcatLauncherPlugin.log("Error applying Tomcat main preferences: " + ex);
+            ex.printStackTrace();
         }
 
         return true;
