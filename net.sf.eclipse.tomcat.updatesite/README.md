@@ -3,6 +3,14 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+
+##Version 9.1.4##
+* Bugfix: Persisting root and work directory works now for "Tomcat projects"
+* Bugfix: When a project is added to Tomcat's system classpath, add Tomcat's libraries to the system classpath, too.
+
+##Version 9.1.3##
+* Signed jars
+
 ##Version 9.1.2##
 * Bugfix: Github issue https://github.com/his-eg/tomcatplugin/issues/5
 
