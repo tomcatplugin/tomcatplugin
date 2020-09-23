@@ -31,6 +31,8 @@ Start, stop and restart Tomcat quickly from the toolbar.
 
 Recent changes
 -----
+- Version 9.1.5
+  - Bugfix: Unable to open "JVM Settings" in Preferences in Eclipse 2020-09
 - Version 9.1.4
   - Bugfix: Persisting root and work directory works now for "Tomcat projects"
   - Bugfix: When a project is added to Tomcat's system classpath, add Tomcat's libraries to the system classpath, too.
