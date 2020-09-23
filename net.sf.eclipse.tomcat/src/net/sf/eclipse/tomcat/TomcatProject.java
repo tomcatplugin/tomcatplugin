@@ -786,7 +786,7 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
         if(!getServerXML().exists()) {
             String msg = "Tomcat server.xml file is not found in " + getServerXML().getAbsolutePath();
-            Status status = new Status(IStatus.ERROR, TomcatLauncherPlugin.getDefault().getDescriptor().getUniqueIdentifier(), IStatus.ERROR, msg, null);
+            Status status = new Status(IStatus.ERROR, TomcatLauncherPlugin.getDefault().toString(), IStatus.ERROR, msg, null);
             throw new CoreException(status);
         }
 
