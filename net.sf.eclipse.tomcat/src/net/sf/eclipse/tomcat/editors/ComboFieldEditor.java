@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
 import org.eclipse.jface.preference.FieldEditor;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 
 /**
  * A field editor for a combo box that allows the drop-down selection of one of a list of items.
