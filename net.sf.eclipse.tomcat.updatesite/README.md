@@ -3,6 +3,8 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 9.1.5##
+* Support for Eclipse 2020-09
 
 ##Version 9.1.4##
 * Bugfix: Persisting root and work directory works now for "Tomcat projects"

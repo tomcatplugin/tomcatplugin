@@ -234,5 +234,14 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
       </key>
    </extension>
+   <extension
+         point="org.eclipse.wst.xml.core.catalogContributions">
+       <catalogContribution id="Tomcat_schema">
+           <public id="webxml_3.1_schema"
+                   publicId="http://xmlns.jcp.org/xml/ns/javaee"
+                   uri="platform:net.sf.eclipse.tomcat/net/sf/eclipse/tomcat/schemas/"
+                   webURL="http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"/>
+       </catalogContribution>
+   </extension>
 
 </plugin>
