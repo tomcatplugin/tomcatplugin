@@ -16,7 +16,7 @@
          </menu>
          <action
                label="%menu.restart.label"
-               icon="icons/restart.gif"
+               icon="icons/restart.png"
                tooltip="%menu.restart.label"
                class="net.sf.eclipse.tomcat.actions.RestartActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.menu/group"
@@ -25,7 +25,7 @@
          </action>
          <action
                label="%menu.stop.label"
-               icon="icons/stop.gif"
+               icon="icons/stop.png"
                tooltip="%menu.stop.label"
                class="net.sf.eclipse.tomcat.actions.StopActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.menu/group"
@@ -34,7 +34,7 @@
          </action>
          <action
                label="%menu.start.label"
-               icon="icons/start.gif"
+               icon="icons/start.png"
                tooltip="%menu.start.label"
                class="net.sf.eclipse.tomcat.actions.StartActionDelegate"
                menubarPath="com.sysdeo.eclipse.tomcat.menu/group"
