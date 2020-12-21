@@ -76,7 +76,7 @@ public class TomcatProjectCreationWizard extends NewElementWizard implements IEx
         try {
 			Bundle bundle = Platform.getBundle(TomcatLauncherPlugin.PLUGIN_ID);
 			URL icons = FileLocator.find(bundle, new Path("icons/"), new HashMap<String, String>());
-            return ImageDescriptor.createFromURL(new URL(icons, "newjprj_wiz.gif"));
+            return ImageDescriptor.createFromURL(new URL(icons, "newjprj_wiz.png"));
         } catch (MalformedURLException e) {
             return null;
         }
