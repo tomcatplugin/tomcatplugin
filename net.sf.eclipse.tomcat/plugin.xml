@@ -91,7 +91,7 @@
          point="org.eclipse.ui.newWizards">
       <wizard
             name="%wizard.newTomcatProject.label"
-            icon="icons/newwar_wiz.gif"
+            icon="icons/newwar_wiz.png"
             category="org.eclipse.jdt.ui.java"
             class="net.sf.eclipse.tomcat.TomcatProjectCreationWizard"
             project="true"
