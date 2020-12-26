@@ -29,7 +29,7 @@ public class ProjectListElement {
 		return project.getName();
 	}
 	
-	static public List stringsToProjectsList(List projectIdList) {
+	static public List<IProject> stringsToProjectsList(List projectIdList) {
 		IWorkspaceRoot root= ResourcesPlugin.getWorkspace().getRoot();
 		IProject[] projects = root.getProjects();
  		

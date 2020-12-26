@@ -473,7 +473,7 @@ public abstract class TomcatBootstrap {
   }
 
   private String[] addProjectToClasspath(String[] previouscp, IJavaProject project) throws CoreException {
-    if ((project != null) && (project.exists() && project.isOpen())) {
+    if ((project != null) && project.exists() && project.isOpen()) {
       String[] projectcp = JavaRuntime.computeDefaultRuntimeClassPath(project);
       String[] filteredProjectCp = removeTomcatJars(projectcp);
       return StringUtil.concatUniq(filteredProjectCp, previouscp);

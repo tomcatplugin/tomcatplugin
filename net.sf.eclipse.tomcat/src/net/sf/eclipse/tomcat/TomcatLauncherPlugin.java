@@ -452,16 +452,9 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
         pref.setValue(keyInPreferenceStore, buf.toString());
     }
 
-    static List readProjectsFromPreferenceStore(String keyInPreferenceStore) {
+    static List<IProject> readProjectsFromPreferenceStore(String keyInPreferenceStore) {
         IPreferenceStore pref =	TomcatLauncherPlugin.getDefault().getPreferenceStore();
-        String stringList =  pref.getString(keyInPreferenceStore);
-
-        List projectsIdList = new ArrayList();
-        StringTokenizer tokenizer = new StringTokenizer(stringList, ";");
-        while (tokenizer.hasMoreElements()) {
-            projectsIdList.add(tokenizer.nextToken());
-        }
-
+        List<String> projectsIdList = Arrays.asList(StringUtil.cutString(pref.getString(keyInPreferenceStore), TomcatPluginResources.PREF_PAGE_LIST_SEPARATOR));
         return ProjectListElement.stringsToProjectsList(projectsIdList);
 
     }
