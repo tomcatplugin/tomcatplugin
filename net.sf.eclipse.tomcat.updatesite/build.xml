@@ -27,7 +27,7 @@
 	
 	<target name="sign">
 		<signjar keystore="${keystore}" storepass="${keystore.password}" alias="${key.alias}" sigfile="HIS_EG"
-			keypass="${key.password}" lazy="true" tsaurl="http://tsa.starfieldtech.com">
+			keypass="${key.password}" lazy="true" tsaurl="http://zeitstempel.dfn.de">
 			<path>
 				<path refid="plugins"/>
 				<path refid="features"/>
