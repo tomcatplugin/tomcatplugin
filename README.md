@@ -31,6 +31,8 @@ Start, stop and restart Tomcat quickly from the toolbar.
 
 Recent changes
 -----
+- Version 9.1.6
+  - Feature: New icons
 - Version 9.1.5
   - Bugfix: Unable to open "JVM Settings" in Preferences in Eclipse 2020-09
 - Version 9.1.4
