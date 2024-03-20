@@ -3,7 +3,7 @@
    <description name="Eclipse Tomcat Plugin Update Site" url="http://tomcatplugin.sf.net/update">
       On this page you find all ecl1 plugins that support the development of HISinOne extensions.
    </description>
-   <feature url="features/net.sf.eclipse.tomcat.feature_9.1.6.jar" id="net.sf.eclipse.tomcat.feature" version="9.1.6">
+   <feature url="features/net.sf.eclipse.tomcat.feature_9.1.7.jar" id="net.sf.eclipse.tomcat.feature" version="9.1.7">
       <category name="net.sf.eclipse.tomcat"/>
    </feature>
    <category-def name="net.sf.eclipse.tomcat" label="Tomcat Plugin"/>

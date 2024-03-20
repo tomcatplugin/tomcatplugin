@@ -3,6 +3,9 @@
 * Release Notes starting with version 3.3.2
 * This project is a fork of the Tomcat-Plugin from Eclipse Totale
 
+##Version 9.1.7##
+* Bugfix: Fix startup with Eclipse 2024-03 [#42]
+
 ##Version 9.1.6##
 * Usability: New icons
 
