@@ -424,7 +424,7 @@ public class TomcatLauncherPlugin extends AbstractUIPlugin {
             IProject project = allProject;
             try {
                 if((project.isOpen()) && project.hasNature(JavaCore.NATURE_ID)) {
-                    IJavaProject javaProject = (IJavaProject) project.getNature(JavaCore.NATURE_ID);
+                	IJavaProject javaProject = JavaCore.create(project);
                     if(!alreadyAdded.contains(project))
                     {
                         tempList.add(new ProjectListElement(javaProject.getProject()));

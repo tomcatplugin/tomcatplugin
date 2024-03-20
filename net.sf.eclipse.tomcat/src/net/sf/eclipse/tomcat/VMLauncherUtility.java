@@ -238,7 +238,8 @@ public class VMLauncherUtility {
 			IProject project = ((ProjectListElement) iter.next()).getProject();
 			traceBuffer.append("Project " + project.getName());
 			if ((project.isOpen()) && project.hasNature(JavaCore.NATURE_ID)) {
-				tempList.add(project.getNature(JavaCore.NATURE_ID));
+				IJavaProject javaProject = JavaCore.create(project);
+				tempList.add(javaProject);
 				traceBuffer.append(" added to tempList\n");
 			}
 		}

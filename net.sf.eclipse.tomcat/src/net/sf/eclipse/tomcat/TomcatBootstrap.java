@@ -166,42 +166,45 @@ public abstract class TomcatBootstrap {
 		  if (tomcatProject != null) {
 			  ArrayList webappClasspathFile = new ArrayList();
 			  ArrayList visitedProjects = new ArrayList(); /*IMC*/
-			  IJavaProject javaProject = (IJavaProject) projects[i].getNature(JavaCore.NATURE_ID);
-			  WebClassPathEntries entries = tomcatProject.getWebClassPathEntries();
-
-			  IFile file = null;
-			  if (tomcatProject.getRootDirFolder() == null) {
-				  file = projects[i].getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
-			  } else {
-				  file = tomcatProject.getRootDirFolder().getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
-			  }
-
-			  File cpFile = file.getLocation().makeAbsolute().toFile();
-			  if (cpFile.exists()) {
-				  cpFile.delete();
-			  }
-
-			  if (entries != null) {
-				  getClassPathEntries(javaProject, webappClasspathFile, entries.getList(), visitedProjects);
-
-				  if (tomcatProject.getMavenClasspath()) {
-					  collectMavenDependencies(javaProject, webappClasspathFile, new ArrayList());
+			  			  
+  			  if (projects[i].hasNature(JavaCore.NATURE_ID)) {
+  				  IJavaProject javaProject = JavaCore.create(projects[i]);
+  				  WebClassPathEntries entries = tomcatProject.getWebClassPathEntries();
+  	
+  				  IFile file = null;
+  				  if (tomcatProject.getRootDirFolder() == null) {
+  					  file = projects[i].getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
+  				  } else {
+  					  file = tomcatProject.getRootDirFolder().getFile(new Path(WEBAPP_CLASSPATH_FILENAME));
 				  }
 
-				  if (!webappClasspathFile.isEmpty()) {
-
-					  try {
-						  if (cpFile.createNewFile()) {
-							  PrintWriter pw = new PrintWriter(new FileOutputStream(cpFile));
-
-							  for (int j = 0; j < webappClasspathFile.size(); j++) {
-								  //TODO
-								  pw.println(webappClasspathFile.get(j));
-							  }
-							  pw.close();
+  				  File cpFile = file.getLocation().makeAbsolute().toFile();
+  				  if (cpFile.exists()) {
+  					  cpFile.delete();
+  				  }
+  				  
+  				  if (entries != null) {
+  					  getClassPathEntries(javaProject, webappClasspathFile, entries.getList(), visitedProjects);
+  					  
+  					  if (tomcatProject.getMavenClasspath()) {
+  						  collectMavenDependencies(javaProject, webappClasspathFile, new ArrayList());
+  					  }
+  					  
+  					  if (!webappClasspathFile.isEmpty()) {
+  						  
+  						  try {
+  							  if (cpFile.createNewFile()) {
+  								  PrintWriter pw = new PrintWriter(new FileOutputStream(cpFile));
+  								  
+  								  for (int j = 0; j < webappClasspathFile.size(); j++) {
+  									  //TODO
+  									  pw.println(webappClasspathFile.get(j));
+  								  }
+  								  pw.close();
+  							  }
+  						  } catch (IOException e) {
+  							  e.printStackTrace();
 						  }
-					  } catch (IOException e) {
-						  e.printStackTrace();
 					  }
 				  }
 			  }
