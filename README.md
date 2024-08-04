@@ -28,6 +28,7 @@ Setup a development environment
 - Define the classpath variable **TOMCAT_HOME** in your Eclipse workspace settings (Java -> Build Path -> Classpath Variables)
 - Clone the git repository
 - Import the Eclipse projects from the git clone into your Eclipse workspace
+- Create an Eclipse Application run configuration to run the Tomcatplugin (hint: the default settings activate all plugins in the workspace in the running Eclipse Application)
 
 Screenshots
 -----
