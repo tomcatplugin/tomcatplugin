@@ -21,6 +21,13 @@ Alternatively you can use the update site at https://devtools.his.de/tomcatplugi
 
 After the plugin was installed, please go to Window | Preferences | Tomcat and configure the path of your Tomcat installation.
 
+Setup a development environment
+-----
+
+- Have a Tomcat distribution on your local machine
+- Define the classpath variable **TOMCAT_HOME** in your Eclipse workspace settings (Java -> Build Path -> Classpath Variables)
+- Clone the git repository
+- Import the Eclipse projects from the git clone into your Eclipse workspace
 
 Screenshots
 -----
