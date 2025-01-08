@@ -20,6 +20,7 @@
 package net.sf.eclipse.tomcat;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
@@ -103,8 +104,12 @@ public class TomcatProjectPropertyPage extends PropertyPage implements IWorkbenc
 
 	/* helper methods */
 	protected IJavaProject getJavaProject() throws CoreException {
-		IProject project = (this.getElement().getAdapter(IProject.class));
-		return (IJavaProject) (project.getNature(JavaCore.NATURE_ID));
+		IProject       project       = (this.getElement().getAdapter(IProject.class));
+		IProjectNature projectNature = project.getNature(JavaCore.NATURE_ID);
+		if (projectNature instanceof IJavaProject) {
+			return (IJavaProject) projectNature; // legacy implementation
+		}
+		return JavaCore.create(project); // new implementation; needed since Eclipse 4.31
 	}
 	protected TomcatProject getTomcatProject() throws CoreException {
 		return TomcatProject.create(getJavaProject());
