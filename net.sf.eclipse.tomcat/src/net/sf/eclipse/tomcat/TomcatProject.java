@@ -819,17 +819,30 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
     private int getContextTagIndex(String xml) {
         int pathIndex = xml.indexOf(getContextPath());
 
-        if(pathIndex == -1) {
-            return -1;
+        if(pathIndex != -1) {
+            int tagIndex = (xml.substring(0, pathIndex)).lastIndexOf('<');
+            String tag = xml.substring(tagIndex, tagIndex + 8);
+            if(tag.equalsIgnoreCase(getContextStartTag())) {
+                return tagIndex;
+            }
         }
 
-        int tagIndex = (xml.substring(0, pathIndex)).lastIndexOf('<');
-        String tag = xml.substring(tagIndex, tagIndex + 8);
-        if(!tag.equalsIgnoreCase(getContextStartTag())) {
-            return -1;
+        // Context XML files may omit the path attribute (Tomcat >= 5); see #35
+        if(!TomcatLauncherPlugin.SERVERXML_MODE.equals(TomcatLauncherPlugin.getDefault().getConfigMode())) {
+            int tagIndex = xml.indexOf(getContextStartTag());
+            if(tagIndex != -1) {
+                int afterTag = tagIndex + getContextStartTag().length();
+                if(afterTag >= xml.length()) {
+                    return tagIndex;
+                }
+                char next = xml.charAt(afterTag);
+                if(next == ' ' || next == '>' || next == '/' || next == '\t' || next == '\n' || next == '\r') {
+                    return tagIndex;
+                }
+            }
         }
 
-        return tagIndex;
+        return -1;
     }
 
     private void addContextToServerXML() throws IOException {
@@ -850,8 +863,11 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
         StringBuffer contextBuffer = new StringBuffer();
         contextBuffer.append(getContextStartTag());
         contextBuffer.append(' ');
-        contextBuffer.append(getContextPath());
-        contextBuffer.append(' ');
+        // Tomcat >= 5 ignores path in context XML files (context path comes from the file name)
+        if(!shouldOmitContextPathAttribute()) {
+            contextBuffer.append(getContextPath());
+            contextBuffer.append(' ');
+        }
         contextBuffer.append(getContextReloadable());
         contextBuffer.append(' ');
         contextBuffer.append(getContextDocBase());
@@ -877,6 +893,11 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     private String updateContextDefinition(String context) {
     	String ctx = context;
+
+        // Remove ignored path attribute from context XML files (Tomcat >= 5); see #35
+        if(shouldOmitContextPathAttribute()) {
+            ctx = this.removePathFromContext(ctx);
+        }
 
         // if reloadable param not set
         int reloadableIndex = ctx.indexOf("reloadable");
@@ -994,6 +1015,19 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     private String addReloadableToContext(String context) {
         int pathIndex = context.indexOf(getContextPath());
+        if(pathIndex == -1) {
+            // No path attribute (context XML files on Tomcat >= 5): insert after <Context
+            int insertAfter = context.indexOf(getContextStartTag());
+            if(insertAfter == -1) {
+                return context;
+            }
+            insertAfter += getContextStartTag().length();
+            StringBuffer out = new StringBuffer(context.substring(0, insertAfter));
+            out.append(' ');
+            out.append(getContextReloadable());
+            out.append(context.substring(insertAfter, context.length()));
+            return out.toString();
+        }
         int firstDoubleQuoteIndex = context.indexOf('"', pathIndex) + 1;
         int reloadableIndex = context.indexOf('"',firstDoubleQuoteIndex) + 1;
 
@@ -1218,6 +1252,48 @@ public class TomcatProject extends PlatformObject implements IProjectNature  {
 
     private String getContextPath() {
         return ("path=" + '"' + getWebPath() + '"');
+    }
+
+    /**
+     * Tomcat &gt;= 5 derives the context path from the context XML file name and
+     * ignores the path attribute (logging a warning). Keep the attribute for
+     * server.xml mode and for Tomcat &lt; 5 where it is still required.
+     * See https://github.com/tomcatplugin/tomcatplugin/issues/35
+     */
+    private boolean shouldOmitContextPathAttribute() {
+        if(!TomcatLauncherPlugin.CONTEXTFILES_MODE.equals(TomcatLauncherPlugin.getDefault().getConfigMode())) {
+            return false;
+        }
+        String version = TomcatLauncherPlugin.getDefault().getTomcatVersion();
+        return TomcatLauncherPlugin.TOMCAT_VERSION5.equals(version)
+                        || TomcatLauncherPlugin.TOMCAT_VERSION6.equals(version)
+                        || TomcatLauncherPlugin.TOMCAT_VERSION7.equals(version)
+                        || TomcatLauncherPlugin.TOMCAT_VERSION8.equals(version)
+                        || TomcatLauncherPlugin.TOMCAT_VERSION9.equals(version);
+    }
+
+    private String removePathFromContext(String context) {
+        int endStartTag = context.indexOf('>');
+        if(endStartTag == -1) {
+            return context;
+        }
+        String startTag = context.substring(0, endStartTag);
+        int pathIndex = startTag.indexOf("path=\"");
+        if(pathIndex == -1) {
+            return context;
+        }
+        int endQuote = startTag.indexOf('"', pathIndex + "path=\"".length());
+        if(endQuote == -1) {
+            return context;
+        }
+        int start = pathIndex;
+        int end = endQuote + 1;
+        if(start > 0 && startTag.charAt(start - 1) == ' ') {
+            start--;
+        } else if(end < startTag.length() && startTag.charAt(end) == ' ') {
+            end++;
+        }
+        return context.substring(0, start) + context.substring(end);
     }
 
     private String getContextDocBase() {
