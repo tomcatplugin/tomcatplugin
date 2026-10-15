@@ -33,15 +33,19 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.launching.JavaRuntime;
+import org.eclipse.swt.widgets.Display;
 
 import net.sf.eclipse.tomcat.editors.ProjectListElement;
 
@@ -54,6 +58,7 @@ public abstract class TomcatBootstrap {
   private static final int RUN = 1;
   private static final int LOG = 2;
   private static final int ADD_LAUNCH = 3;
+  private boolean waitingForBuild = false;
 
   private final String label;
 
@@ -109,6 +114,13 @@ public abstract class TomcatBootstrap {
    * See %TOMCAT_HOME%/bin/startup.bat
    */
   public void start() throws CoreException {
+    if (!waitForBuild()) {
+      return;
+    }
+    this.startNoWait();
+  }
+
+  private void startNoWait() throws CoreException {
     this.runTomcatBootstrap(getStartCommand(), true, RUN, false);
   }
 
@@ -123,6 +135,10 @@ public abstract class TomcatBootstrap {
    * Simply stop and start
    */
   public void restart() throws CoreException {
+    // Wait before stopping, so the running Tomcat is not killed for nothing
+    if (!waitForBuild()) {
+      return;
+    }
     this.stop();
 
     // Hack, need more testings
@@ -132,7 +148,41 @@ public abstract class TomcatBootstrap {
       // ignore exception
     }
 
-    this.start();
+    this.startNoWait();
+  }
+
+  /**
+   * Wait until the workspace builds (auto and manual) are finished.
+   * In the UI thread, events are still dispatched while waiting, so Eclipse stays responsive.
+   *
+   * @return false if a start/restart is already waiting for the build (this request is ignored)
+   */
+  private boolean waitForBuild() {
+    if (waitingForBuild) {
+      return false;
+    }
+    waitingForBuild = true;
+    try {
+      IJobManager jobManager = Job.getJobManager();
+      Display display = Display.getCurrent();
+      if (display == null) {
+        jobManager.join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+        jobManager.join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null);
+      } else {
+        while (jobManager.find(ResourcesPlugin.FAMILY_AUTO_BUILD).length > 0
+            || jobManager.find(ResourcesPlugin.FAMILY_MANUAL_BUILD).length > 0) {
+          while (display.readAndDispatch()) {
+            // process pending UI events
+          }
+          Thread.sleep(100);
+        }
+      }
+    } catch (InterruptedException ex) {
+      // ignore exception, go on with the launch
+    } finally {
+      waitingForBuild = false;
+    }
+    return true;
   }
 
   /**
